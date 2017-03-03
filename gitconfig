@@ -1,0 +1,75 @@
+; [url "https://"]
+;     insteadOf = git://
+    
+[credential]
+    helper = manager
+
+[mergetool]
+    prompt = false
+    keepBackup = false
+    keepTemporaries = false
+
+[user]
+    name = Justin Morgan
+;    email = <enter email here>
+
+[push]
+    default = simple
+    
+; [mergetool "sublime"]
+;     cmd = subl -n $MERGED
+;     trustExitCode = false
+
+; [merge]
+;     tool = sublime
+
+[alias]
+    # Plain aliases
+    new = checkout -b
+    go = checkout
+    st = status
+    sh = show --oneline --decorate=short -s
+    lg = log --oneline --decorate=short
+    pl = pull
+    plr = pull --rebase --prune
+    reb = rebase
+    branch-name = rev-parse --abbrev-ref HEAD
+    br = branch
+    mrg = merge
+    reword = commit --amend -m
+
+    # Echoing commands
+    mrgv = !echo git merge $@ && git merge
+    commitv = !echo git commit $@ && git commit
+    plv = !echo git pull $@ && git pull
+    brv = !echo git branch $@ && git branch
+    adv = !echo git add $@ && git add
+    resetv = !echo git reset $@ && git reset
+
+    # Macros    
+    plff = !git plv --ff-only
+    mnf = !git mrgv --no-ff
+    mrgff = !git mrgv --ff-only
+    ss = !git st && git sh
+    uncommit = !git ss && git resetv --soft HEAD^ && git ss
+    upd = !git save && git go develop && git plff && git go -
+    amend = !git adv --all && git commitv --amend --no-edit && git ss
+
+    # Simple functions
+    #-- amend = "!f() { git adv --all && git commitv --amend --no-edit && git ss; }; f"
+    comq = "!f() { msg=$1; git add --all && git commit -m \"$msg\"; }; f"
+    com = "!f() { msg=$1; git sh && git comq \"$msg\"; git ss; }; f"
+    comv = "!f() { msg=$1; git sh && git adv --all && git commitv -m \"$msg\"; git ss; }; f"
+    save = "!f() { msg=${1-Interstitial}; git comv \"Save point - $msg\"; }; f"
+    undo = "!f() { git save \"Unstage last commit\" && git resetv --hard HEAD~1 && git ss; }; f"
+
+    # Complex functions
+    mrgd = "!f() {             \
+        bn=$(git branch-name); \
+        git go develop         \
+            && git mrgv $bn $@  \
+            && git brv -d $bn;  \
+        git ss;                \
+    }; f"
+
+    finish = !git upd && git reb develop && git mrgd --no-ff
