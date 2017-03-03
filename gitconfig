@@ -9,9 +9,9 @@
     keepBackup = false
     keepTemporaries = false
 
-[user]
-    name = Justin Morgan
-;    email = <enter email here>
+; [user]
+;     name = <enter name here>
+;     email = <enter email here>
 
 [push]
     default = simple
