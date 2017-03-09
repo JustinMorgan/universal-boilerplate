@@ -1,75 +1,110 @@
-; [url "https://"]
-;     insteadOf = git://
-    
-[credential]
-    helper = manager
+####################################
+# Personal info and preferences
+####################################
 
-[mergetool]
-    prompt = false
-    keepBackup = false
-    keepTemporaries = false
-
+# Fill in your info so your commits will be tagged correctly
 ; [user]
 ;     name = <enter name here>
 ;     email = <enter email here>
 
+# Merging preferences (optional)
+[mergetool]
+    prompt = false
+    keepBackup = false
+    keepTemporaries = false
+    
+## Git behavior (optional)
 [push]
     default = simple
-    
+
+####################################
+# Environment and editor settings
+####################################
+
+# If you're using Cloud 9 IDE
+[core]
+    editor = nano
+    whitespace = off
+    excludesfile = ~/.gitignore
+[advice]
+    statusuoption = false
+[color]
+    ui = true
+[push]
+    default = current
+
+# If you like Sublime Text for merging (otherwise, set up your favorite: https://git-scm.com/docs/git-mergetool)
 ; [mergetool "sublime"]
 ;     cmd = subl -n $MERGED
 ;     trustExitCode = false
-
 ; [merge]
 ;     tool = sublime
 
-[alias]
-    # Plain aliases
-    new = checkout -b
-    go = checkout
-    st = status
-    sh = show --oneline --decorate=short -s
-    lg = log --oneline --decorate=short
-    pl = pull
-    plr = pull --rebase --prune
-    reb = rebase
-    branch-name = rev-parse --abbrev-ref HEAD
-    br = branch
-    mrg = merge
-    reword = commit --amend -m
+# If you always want Git to use HTTPS instead of SSH
+; [url "https://"]
+;     insteadOf = git://
 
-    # Echoing commands
+####################################
+# Shortcuts and convenience macros
+####################################
+
+# Usage: git <alias> [param1] ["param 2"] --flag
+# Note: My most commonly used aliases are: new, go, pl, ss, mnf, com, save, reword, amend, uncommit, undo
+[alias]
+    # Plain aliases for standard commands
+    go = checkout  #$> git go my_feature_branch      # Switch to branch                  
+    pl = pull      #$> git pl                        # Pull latest from origin
+    st = status    #$> git st                        # See current (uncommitted) changes
+    mrg = merge    #$> git mrg --no-ff other_branch  # Merge a branch into this one
+    br = branch    #$> git br -d branch_to_delete    # Go to or manipulate a branch
+    reb = rebase   #$> git reb -i master             # See https://git-scm.com/docs/git-rebase
+    
+    # Convenience shortcuts
+    new = checkout -b                           #$> git new my_feature_branch            # Create a new branch
+    sh = show --oneline --decorate=short -s     #$> git sh                               # Peek at where you are in the tree 
+    lg = log --oneline --decorate=short         #$> git lg                               # Show simple commit history        
+    reword = commit --amend -m                  #$> git reword "What I should have said" # Re-enter last commit message (DO NOT USE IF YOU ALREADY PUSHED THE COMMIT)
+    plr = pull --rebase --prune                 #$> git plr                              # Experimental; see https://adamcod.es/2014/12/10/git-pull-correct-workflow.html
+    branch-name = rev-parse --abbrev-ref HEAD   #$> git branch-name                      # Get current branch name (used by other macros)
+
+    # Echoing convenience shortcuts: Show Git commands and all parameters/flags in the console so you know what's happening
+    plff = !git plv --ff-only                   #$> git plff                # Pull if the tree can be fast-forwarded, otherwise fail (and require manual merging)
+    mnf = !git mrgv --no-ff                     #$> git mnf other_branch    # Merge a branch into this one, but always create a merge commit even if fast-forwarding is possible
+    mrgff = !git mrgv --ff-only                 #$> git mrgff other_branch  # Merge if the tree can be fast-forwarded, otherwise fail (and require manual merging)
+
+    # Echoing commands: Show the command and all parameters/flags in the console (used by other macros to show you what they're doing)
     mrgv = !echo git merge $@ && git merge
     commitv = !echo git commit $@ && git commit
     plv = !echo git pull $@ && git pull
     brv = !echo git branch $@ && git branch
     adv = !echo git add $@ && git add
     resetv = !echo git reset $@ && git reset
+    
+    # Macros: Combinations of other shortcuts
+    ss = !git st && git sh                                             #$> git ss        # See current uncommitted changes as well as where you are in the tree (good way to get your bearings)
+    uncommit = !git ss && git resetv --soft HEAD^ && git ss            #$> git uncommit  # Reopen the last commit, but keep the changes. Basically, it will be as though you haven't committed yet.
+    upd = !git save && git go master && git plff && git go -           #$> git upd       # Auto-save current changes (see "save"), go to master and pull latest, then return to this branch
+    amend = !git adv --all && git commitv --amend --no-edit && git ss  #$> git amend     # Add all untracked files, then add current changes to most recent commit
 
-    # Macros    
-    plff = !git plv --ff-only
-    mnf = !git mrgv --no-ff
-    mrgff = !git mrgv --ff-only
-    ss = !git st && git sh
-    uncommit = !git ss && git resetv --soft HEAD^ && git ss
-    upd = !git save && git go develop && git plff && git go -
-    amend = !git adv --all && git commitv --amend --no-edit && git ss
-
-    # Simple functions
-    #-- amend = "!f() { git adv --all && git commitv --amend --no-edit && git ss; }; f"
-    comq = "!f() { msg=$1; git add --all && git commit -m \"$msg\"; }; f"
-    com = "!f() { msg=$1; git sh && git comq \"$msg\"; git ss; }; f"
-    comv = "!f() { msg=$1; git sh && git adv --all && git commitv -m \"$msg\"; git ss; }; f"
-    save = "!f() { msg=${1-Interstitial}; git comv \"Save point - $msg\"; }; f"
-    undo = "!f() { git save \"Unstage last commit\" && git resetv --hard HEAD~1 && git ss; }; f"
+    # One-liner functions
+    com = "!f() { msg=$1; git sh && git comq \"$msg\"; git ss; }; f"                              #$> git com "I did a thing"   # Add all untracked files, commit everything with the given message (echoing mode)
+    comq = "!f() { msg=$1; git add --all && git commit -m \"$msg\"; }; f"                         #$> git comq "I did a thing"  # Same as above, but do not echo Git commands to console
+    comv = "!f() { msg=$1; git sh && git adv --all && git commitv -m \"$msg\"; git ss; }; f"      #$> git comv "I did a thig"   # Verbose mode: Show status info before and after the commit
+    
+    save = "!f() { msg=${1-Interstitial}; git comv \"Save point - $msg\"; }; f"                   #$> git save                  # Quicksave: Create a commit with a default message that can be amended later.
+                                                                                                                                # NOTE: Save can be used in place of "git stash", with the advantage of preserving a trail in the history.
+                                                                                                                                
+    undo = "!f() { git save \"Unstage last commit\" && git resetv --hard HEAD~1 && git ss; }; f"  #$> git undo                  # Dump all changes and go back to previous commit. If there are no changes, undo the last commit.
+                                                                                                                                # NOTE: Undo creates a quicksave commit, so you can always get your changes back. The commit won't show up
+                                                                                                                                #       in the tree, but you can reach them directly via the hash or by examining the git log.
 
     # Complex functions
-    mrgd = "!f() {             \
-        bn=$(git branch-name); \
-        git go develop         \
+    mrgd = "!f() {              \
+        bn=$(git branch-name);  \
+        git go master           \
             && git mrgv $bn $@  \
             && git brv -d $bn;  \
-        git ss;                \
-    }; f"
-
-    finish = !git upd && git reb develop && git mrgd --no-ff
+        git ss;                 \
+    }; f"                                                     #> git mrgd --no-ff  # Go back to master, get latest from origin, merge this branch in, then delete this branch. Stops executing if any command fails.
+    
+    finish = !git upd && git reb master && git mrgd --no-ff   #> git finish        # Quicksave if there are changes, update master and rebase this branch onto it, merge this branch into master, and delete this branch.
