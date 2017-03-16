@@ -1,11 +1,19 @@
-# universal-boilerplate
-Some basic necessities for any project, including my favorite .gitconfig and a collection of .gitignore files for various platforms.
+# Universal Boilerplate
+Some basic necessities for any project, including my preferred .gitconfig and a collection of .gitignore files for various platforms.
 
-## Setup
+## Quick setup
 
-1. Copy `./gitconfig/Default.gitconfig` into your home folder (`~` on Unix, `%homepath%` on Windows) and rename it `.gitconfig`. 
-2. Find the appropriate file for your development platform in the `./gitignore/` folder. Copy it into the project's root (or your 
-   home folder if you want it to be global) and rename it `.gitignore`.
+1. Find the `.gitconfig` file in the root of this project. If you're on Linux/UNIX, you'll have to show hidden files to find it.
+2. Find the appropriate `.gitignore` file for your platform and/or IDE. The one for Node.js (with Cloud9 IDE) is already in the 
+project root. If that's not what you need, look in the `gitignore/` and `gitignore/global/` folders for many others. Replace the 
+default `.gitignore` with the one for your environment.
+3. Copy `.gitconfig` and `.gitignore` into the root of your development project. Alternatively, copy them into your home folder to 
+affect your global Git settings.
+
+## Even quicker setup (Node.js only)
+
+Simply clone this repo, delete the `.git/` folder and everything but `.gitconfig` and `.gitignore`, and use it as the root of your 
+new development project.
 
 ## Usage
 
