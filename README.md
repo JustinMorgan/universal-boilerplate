@@ -42,9 +42,10 @@ your `saved` changes back by directly targeting their hash label (there are ways
     
 Both `uncommit` and `undo` automatically create a quicksave with the `save` macro, so it's safe to make mistakes with them.
 
-### Amending un-pushed commits
+### Amending un-pushed commits (potentially risky, see below)
 
-    #$> git reword "New message"  # Re-enter last commit message
-    #$> git amend                 # Add all untracked files, then add current changes to last commit
+    #$> git reword "New message"  # Enter a new commit message for the most recent commit
+    #$> git amend                 # Add all changes (including untracked files), then add current changes to last commit
     
-NOTE: Do **NOT** amend (or reword) commits you've already pushed to origin.
+NOTE: Both of these macros use the `git commit --amend` command to alter an existing commit. Do **NOT** `amend` or `reword` commits you've 
+already pushed to a remote! This will cause your Git histories to diverge, which will inevitably lead to problems.
