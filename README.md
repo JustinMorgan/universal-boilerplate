@@ -1,5 +1,5 @@
 # universal-boilerplate
-An empty project template including useful gitconfig and gitignore files for various platforms.
+Some basic necessities for any project, including my favorite .gitconfig and a collection of .gitignore files for various platforms.
 
 ## Setup
 
