@@ -49,11 +49,12 @@
 ####################################
 
 # Usage: git <alias> [param1] ["param 2"] --flag
-# Note: My most commonly used aliases are: new, go, pl, ss, mnf, com, save, reword, amend, uncommit, undo
+# Note: My most commonly used aliases are: new, go, pl, ps, ss, mnf, com, save, reword, amend, uncommit, undo
 [alias]
     # Plain aliases for standard commands
     go = checkout  #$> git go my_feature_branch      # Switch to branch                  
-    pl = pull      #$> git pl                        # Pull latest from origin
+    pl = pull      #$> git pl                        # Pull latest from origin       
+    ps = push      #$> git ps                        # Push changes to origin
     st = status    #$> git st                        # See current (uncommitted) changes
     mrg = merge    #$> git mrg --no-ff other_branch  # Merge a branch into this one
     br = branch    #$> git br -d branch_to_delete    # Go to or manipulate a branch
