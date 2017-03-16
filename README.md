@@ -1,5 +1,7 @@
 # Universal Boilerplate
-Some basic necessities for any project, including my preferred .gitconfig and a collection of .gitignore files for various platforms.
+Some basic necessities for any project, including my go-to .gitconfig and a collection of .gitignore files for various platforms. 
+
+# Setup
 
 ## Quick setup
 
@@ -15,9 +17,12 @@ affect your global Git settings.
 Simply clone this repo, delete the `.git/` folder and everything but `.gitconfig` and `.gitignore`, and use it as the root of your 
 new development project.
 
-## Usage
+# Usage
 
-The most useful part of this file is the collection of Git macros in the `[alias]` section. The ones you'll probably use most are:
+The most important part of this repo is the `.gitconfig`, file which contains a bunch of macros to make Git more convenient and safer. 
+Apart from being shorter to type, they're designed to encapsulate parts of your workflow so you don't have to worry about forgetting a 
+step or breaking a team convention. All are documented in the `[alias]` section of the `.gitconfig` file, but here are the most common 
+and useful ones:
 
 ### Status checks
 
@@ -40,15 +45,22 @@ The most useful part of this file is the collection of Git macros in the `[alias
     #$> git save                 # Quicksave: Create a commit with a default message (you can also specify one)
                                     
 Both `com` and `save` automatically run `git add --all`, so you don't have to worry about forgetting to add your changes. `save` can be used 
-in place of `git stash`, but it has the advantage of preserving a trail in the history. Even if you've done a hard `reset`, you can still get 
-your `saved` changes back by directly targeting their hash label (there are ways of finding this).
+in place of `git stash`, but it has the advantage of preserving a trail in the Git log. This is especially useful for the `uncommit` and 
+`undo` macros below.
     
 ### Turning back the clock
 
-    #$> git uncommit  # Reopen the last commit, but keep and stage the changes
-    #$> git undo      # Dump all changes and go back to previous commit. If there are no changes, undo the last commit.
+    #$> git uncommit  # Reopen the last commit, but don't undo the changes
     
-Both `uncommit` and `undo` automatically create a quicksave with the `save` macro, so it's safe to make mistakes with them.
+This won't erase any of your file changes, but it will make it as though you never committed them. You can rewrite the commit message, add
+changes, or move to a different branch and redo the commit.
+
+    #$> git undo      # If there are uncommitted changes: Dump all uncommitted changes.
+                      # If there are no uncommitted changes: Dump the last commit and roll back to the previous one.
+    
+Both `uncommit` and `undo` automatically create a quicksave with the `save` macro, so it's safe to make mistakes with them. Even though it 
+looks like you threw away all uncommitted changes or erased the last commit, they're still reachable as a "detached" commit. If you change 
+your mind, all you have to do is find the hash of the quicksave commit (there are ways of doing this).
 
 ### Amending un-pushed commits (potentially risky, see below)
 
@@ -57,3 +69,4 @@ Both `uncommit` and `undo` automatically create a quicksave with the `save` macr
     
 NOTE: Both of these macros use the `git commit --amend` command to alter an existing commit. Do **NOT** `amend` or `reword` commits you've 
 already pushed to a remote! This will cause your Git histories to diverge, which will inevitably lead to problems.
+
