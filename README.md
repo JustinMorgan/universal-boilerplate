@@ -6,11 +6,14 @@ Some basic necessities for any project, including my go-to .gitconfig and a coll
 ## Quick setup
 
 1. Find the `.gitconfig` file in the root of this project. If you're on Linux/UNIX, you'll have to show hidden files to find it.
-2. Find the appropriate `.gitignore` file for your platform and/or IDE. The one for Node.js (with Cloud9 IDE) is already in the 
-project root. If that's not what you need, look in the `gitignore/` and `gitignore/global/` folders for many others. Replace the 
-default `.gitignore` with the one for your environment.
-3. Copy `.gitconfig` and `.gitignore` into the root of your development project. Alternatively, copy them into your home folder to 
-affect your global Git settings.
+2. Find the appropriate `.gitignore` file for your platform and/or IDE. 
+    * **If you're using Node.js:** You're all set, the one for Node.js (with Cloud9 IDE) is already in the project root. 
+    * **If you're using something else:** Look in the `gitignore/` and `gitignore/global/` folders for the `.gitignore` for your environment. Rename it `.gitignore` and replace the one in the root of this project.
+3. Copy `.gitconfig` and `.gitignore` into the appropriate folder. 
+    * **If you want the settings to apply to one project:** Copy the files into the root of your development project (the folder that has the `.git/` subfolder in it).
+    * **If you want to change your global Git settings:** Copy them into your home directory (this is `~` on Linux/Unix or `%HOMEPATH%` on Windows).
+    
+Note: I typically put `.gitconfig` in my home folder and `.gitignore` in one project root at a time. That way I can have project-specific gitignore settings while using the same command shortcuts everywhere.
 
 ## Even quicker setup (Node.js only)
 
