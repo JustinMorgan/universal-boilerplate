@@ -3,7 +3,12 @@ Some basic necessities for any project, including my go-to .gitconfig and a coll
 
 # Setup
 
-## Quick setup
+## Quick setup (Node.js only)
+
+Simply clone this repo, delete the `.git/` folder and everything but `.gitconfig` and `.gitignore`, and use it as the root of your 
+new development project.
+
+## Manual setup (but still very quick)
 
 1. Find the `.gitconfig` file in the root of this project. If you're on Linux/UNIX, you'll have to view hidden files to find it.
 2. Find the appropriate `.gitignore` file for your platform and/or IDE. 
@@ -14,11 +19,6 @@ Some basic necessities for any project, including my go-to .gitconfig and a coll
     * **If you want to change your global Git settings:** Copy them into your home directory (this is `~` on Linux or `%HOMEPATH%` on Windows).
     
 Note: I typically put `.gitconfig` in my home folder and `.gitignore` in one project root at a time. That way I can have project-specific gitignore settings while using the same command shortcuts everywhere.
-
-## Even quicker setup (Node.js only)
-
-Simply clone this repo, delete the `.git/` folder and everything but `.gitconfig` and `.gitignore`, and use it as the root of your 
-new development project.
 
 # Usage
 
