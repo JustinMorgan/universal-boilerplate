@@ -5,8 +5,7 @@ Some basic necessities for any project, including my go-to .gitconfig and a coll
 
 ## Quick setup (Node.js only)
 
-Simply clone this repo, delete the `.git/` folder and everything but `.gitconfig` and `.gitignore`, and use it as the root of your 
-new development project.
+Simply clone this repo, delete the `.git/` folder and everything but `.gitconfig` and `.gitignore`, and use that folder as the root of your new development project.
 
 ## Manual setup (but still very quick)
 
