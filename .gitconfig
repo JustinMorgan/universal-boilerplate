@@ -190,7 +190,7 @@
   mrgd = "!f() {              \
       bn=$(git branch-name);  \
       git go master           \
-          && git mrgv $bn $@  \
+          && git mff - $@     \
           && git brv -d $bn;  \
       git ss;                 \
   }; f"
