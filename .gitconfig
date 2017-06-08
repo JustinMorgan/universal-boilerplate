@@ -22,16 +22,16 @@
 ####################################
 
 # If you're using Cloud 9 IDE
-[core]
-    editor = nano
-    whitespace = off
-    excludesfile = ~/.gitignore
-[advice]
-    statusuoption = false
-[color]
-    ui = true
-[push]
-    default = current
+; [core]
+;     editor = nano
+;     whitespace = off
+;     excludesfile = ~/.gitignore
+; [advice]
+;     statusuoption = false
+; [color]
+;     ui = true
+; [push]
+;     default = current
 
 # If you like Sublime Text for merging (otherwise, set up your favorite: https://git-scm.com/docs/git-mergetool)
 ; [mergetool "sublime"]
