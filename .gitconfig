@@ -47,65 +47,155 @@
 ####################################
 # Shortcuts and convenience macros
 ####################################
-
-# Usage: git <alias> [param1] ["param 2"] --flag
-# Note: My most commonly used aliases are: new, go, pl, ps, ss, mnf, com, save, reword, amend, uncommit, undo
+# Most of these can be used with parameters and flags as normal
+# My most commonly used shortcuts are: new, go, pl, ps, ss, mnf, com, save, reword, amend, uncommit, undo
 [alias]
-    # Plain aliases for standard commands
-    go = checkout  #$> git go my_feature_branch      # Switch to branch                  
-    pl = pull      #$> git pl                        # Pull latest from origin       
-    ps = push      #$> git ps                        # Push changes to origin
-    st = status    #$> git st                        # See current (uncommitted) changes
-    mrg = merge    #$> git mrg --no-ff other_branch  # Merge a branch into this one
-    br = branch    #$> git br -d branch_to_delete    # Go to or manipulate a branch
-    reb = rebase   #$> git reb -i master             # See https://git-scm.com/docs/git-rebase
-    
-    # Convenience shortcuts
-    new = checkout -b                           #$> git new my_feature_branch            # Create a new branch
-    sh = show --oneline --decorate=short -s     #$> git sh                               # Peek at where you are in the tree 
-    lg = log --oneline --decorate=short         #$> git lg                               # Show simple commit history        
-    reword = commit --amend -m                  #$> git reword "What I should have said" # Re-enter last commit message (DO NOT USE IF YOU ALREADY PUSHED THE COMMIT)
-    plr = pull --rebase --prune                 #$> git plr                              # Experimental; see https://adamcod.es/2014/12/10/git-pull-correct-workflow.html
-    branch-name = rev-parse --abbrev-ref HEAD   #$> git branch-name                      # Get current branch name (used by other macros)
+  ####################### Plain aliases for standard commands ########################
+  # Switch to branch
+  #$> git go my_feature_branch
+  go = checkout
 
-    # Echoing convenience shortcuts: Show Git commands and all parameters/flags in the console so you know what's happening
-    plff = !git plv --ff-only                   #$> git plff                # Pull if the tree can be fast-forwarded, otherwise fail (and require manual merging)
-    mnf = !git mrgv --no-ff                     #$> git mnf other_branch    # Merge a branch into this one, but always create a merge commit even if fast-forwarding is possible
-    mrgff = !git mrgv --ff-only                 #$> git mrgff other_branch  # Merge if the tree can be fast-forwarded, otherwise fail (and require manual merging)
+  # Pull latest from origin
+  #$> git pl
+  pl = pull
 
-    # Echoing commands: Show the command and all parameters/flags in the console (used by other macros to show you what they're doing)
-    mrgv = !echo git merge $@ && git merge
-    commitv = !echo git commit $@ && git commit
-    plv = !echo git pull $@ && git pull
-    brv = !echo git branch $@ && git branch
-    adv = !echo git add $@ && git add
-    resetv = !echo git reset $@ && git reset
-    
-    # Macros: Combinations of other shortcuts
-    ss = !git st && git sh                                             #$> git ss        # See current uncommitted changes as well as where you are in the tree (good way to get your bearings)
-    uncommit = !git ss && git resetv --soft HEAD^ && git ss            #$> git uncommit  # Reopen the last commit, but keep the changes. Basically, it will be as though you haven't committed yet.
-    upd = !git save && git go master && git plff && git go -           #$> git upd       # Auto-save current changes (see "save"), go to master and pull latest, then return to this branch
-    amend = !git adv --all && git commitv --amend --no-edit && git ss  #$> git amend     # Add all untracked files, then add current changes to most recent commit
+  # Push changes to origin
+  #$> git ps
+  ps = push
 
-    # One-liner functions
-    com = "!f() { msg=$1; git sh && git comq \"$msg\"; git ss; }; f"                              #$> git com "I did a thing"   # Add all untracked files, commit everything with the given message (echoing mode)
-    comq = "!f() { msg=$1; git add --all && git commit -m \"$msg\"; }; f"                         #$> git comq "I did a thing"  # Same as above, but do not echo Git commands to console
-    comv = "!f() { msg=$1; git sh && git adv --all && git commitv -m \"$msg\"; git ss; }; f"      #$> git comv "I did a thig"   # Verbose mode: Show status info before and after the commit
-    
-    save = "!f() { msg=${1-Interstitial}; git comv \"Save point - $msg\"; }; f"                   #$> git save                  # Quicksave: Create a commit with a default message that can be amended later.
-                                                                                                                                # NOTE: Save can be used in place of "git stash", with the advantage of preserving a trail in the history.
-                                                                                                                                
-    undo = "!f() { git save \"Unstage last commit\" && git resetv --hard HEAD~1 && git ss; }; f"  #$> git undo                  # Dump all changes and go back to previous commit. If there are no changes, undo the last commit.
-                                                                                                                                # NOTE: Undo creates a quicksave commit, so you can always get your changes back. The commit won't show up
-                                                                                                                                #       in the tree, but you can reach them directly via the hash or by examining the git log.
+  # See current (uncommitted) changes
+  #$> git st
+  st = status
 
-    # Complex functions
-    mrgd = "!f() {              \
-        bn=$(git branch-name);  \
-        git go master           \
-            && git mrgv $bn $@  \
-            && git brv -d $bn;  \
-        git ss;                 \
-    }; f"                                                     #> git mrgd --no-ff  # Go back to master, get latest from origin, merge this branch in, then delete this branch. Stops executing if any command fails.
-    
-    finish = !git upd && git reb master && git mrgd --no-ff   #> git finish        # Quicksave if there are changes, update master and rebase this branch onto it, merge this branch into master, and delete this branch.
+  # Merge a branch into this one
+  #$> git mrg --no-ff other_branch
+  mrg = merge
+
+  # Go to or manipulate a branch
+  #$> git br -d branch_to_delete
+  br = branch
+
+  # Rebase: See https://git-scm.com/docs/git-rebase
+  #$> git reb -i master
+  reb = rebase
+
+
+  ########### Convenience shortcuts: Common command/parameter combinations ###########
+  ########### for a typical workflow. Designed to encourage consistency    ###########
+  ########### and reduce the need to memorize a ton of Git flags.          ###########
+  # Create a new branch
+  #$> git new my_feature_branch
+  new = checkout -b
+
+  # Peek at where you are in the tree
+  #$> git sh
+  sh = show --oneline --decorate=short -s
+
+  # Show simple commit history
+  #$> git lg
+  lg = log --oneline --decorate=short
+
+  # Re-enter last commit message (DO NOT USE IF YOU ALREADY PUSHED THE COMMIT)
+  #$> git reword "What I should have said"
+  reword = commit --amend -m
+
+  # Experimental: See https://adamcod.es/2014/12/10/git-pull-correct-workflow.html
+  #$> git plr
+  plr = pull --rebase --prune
+
+  # Get current branch name (used by other macros)
+  #$> git branch-name
+  branch-name = rev-parse --abbrev-ref HEAD
+
+
+  ######## Simple echoing commands: Show the command and all parameters/flags   ########
+  ######## in the console (used by other macros to show you what they're doing) ########
+  mrgv = !echo git merge $@ && git merge
+  commitv = !echo git commit $@ && git commit
+  plv = !echo git pull $@ && git pull
+  brv = !echo git branch $@ && git branch
+  adv = !echo git add $@ && git add
+  resetv = !echo git reset $@ && git reset
+
+
+  ######## Echoing convenience shortcuts: Command/parameter shortcuts combined ########
+  ######## with echoing macros so you can see what your shortcuts are doing    ########
+  # Pull if the tree can be fast-forwarded, otherwise fail (and require manual merging)
+  #$> git plff
+  plff = !git plv --ff-only
+
+  # Merge a branch into this one, but always create a merge commit even if fast-forwarding is possible
+  #$> git mnf other_branch
+  mnf = !git mrgv --no-ff
+
+  # Merge if the tree can be fast-forwarded, otherwise fail (and require manual merging)
+  #$> git mff other_branch
+  mff = !git mrgv --ff-only
+
+
+  ###################### Macros: Combinations of other shortcuts #####################
+  # See current uncommitted changes as well as where you are in the tree (good way to get your bearings)
+  #$> git ss
+  ss = !git st && git sh
+
+  # Reopen the last commit, but keep the changes. Basically, it will be as though you haven't committed yet.
+  #$> git uncommit
+  uncommit = !git ss && git resetv --soft HEAD^ && git ss
+
+  # Auto-save current changes (see "save"), go to master and pull latest, then return to this branch
+  #$> git upd
+  upd = !git save && git go master && git plff && git go -
+
+  # Add all untracked files, then add current changes to most recent commit
+  #$> git amend
+  amend = !git adv --all && git commitv --amend --no-edit && git ss
+
+
+  ############################### One-liner functions ################################
+  # Add all untracked files and commit everything with the given message
+  # Displays status, branch, and latest commit before and after committing
+  #$> git com "I did a thing"
+  com = "!f() { msg=$1; git sh && git st && git comq \"$msg\"; git ss; }; f"
+
+  # Quiet mode: Same as "com", but do not show before/after state
+  #$> git comq "I did a thing"
+  comq = "!f() { msg=$1; git add --all && git commit -m \"$msg\"; }; f"
+
+  # Verbose mode: Same as "com", but echo add & commit commands to the console
+  #$> git comv "I did a thig"
+  comv = "!f() { msg=$1; git sh && git st && git adv --all && git commitv -m \"$msg\"; git ss; }; f"
+
+  # Quicksave: Quick-commit your current changes with a default message.
+  # NOTE: "git save" can be used in place of "git stash", with the advantage of
+  # preserving a trail in the history. Since it's a normal commit, you can find
+  # your saves easily and have as many as you want at a time. If you don't want
+  # to push the quicksave as-is, you can use the other macros here (see "amend",
+  # "reword", and "uncommit") to change it later.
+  #$> git save
+  save = "!f() { msg=${1-Interstitial}; git comv \"Save point - $msg\"; }; f"
+
+  # Dump all changes and go back to previous commit. If there are no changes,
+  # undo the last commit.
+  # NOTE: "git undo" automatically creates a quicksave (see the "save" macro),
+  # so you can always get your changes back. The save won't show up in the main
+  # tree, but you can reach it directly via the hash or by examining the reflog.
+  #$> git undo
+  undo = "!f() { git save \"Unstage last commit\" && git resetv --hard HEAD~1 && git ss; }; f"
+
+
+  ######################## Complex functions (experimental) ##########################
+  # Go back to master, get latest from origin, merge this branch in, then delete
+  # this branch. Stops executing if any command fails.
+  #$> git mrgd --no-ff
+  mrgd = "!f() {              \
+      bn=$(git branch-name);  \
+      git go master           \
+          && git mrgv $bn $@  \
+          && git brv -d $bn;  \
+      git ss;                 \
+  }; f"
+
+  # Quicksave if there are changes, update master and rebase this branch onto
+  # it, merge this branch into master, and delete this branch.
+  #$> git finish
+  finish = !git upd && git reb master && git mrgd --no-ff
