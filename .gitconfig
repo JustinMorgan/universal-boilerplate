@@ -199,3 +199,11 @@
   # it, merge this branch into master, and delete this branch.
   #$> git finish
   finish = !git upd && git reb master && git mrgd --no-ff
+
+  # Push local branch to origin, but put it in the remote "justin" folder
+  #$> git psu
+  psu = "!f() {bn=$(git branch-name); git ps --set-upstream origin $bn:justin/$bn;git ss;}; f"
+  
+  # Delete branch locally and remotely
+  #$> git del my_branch
+  del = "!f() {bn=$1; git push origin --delete $bn && git br -d $bn;}; f"
