@@ -1,0 +1,25 @@
+{
+  "name": "universal-boilerplate",
+  "version": "1.0.0",
+  "description": "Some basic necessities for any Git project, including a .gitconfig with useful macros and .gitignore files for various platforms.",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JustinMorgan/universal-boilerplate.git"
+  },
+  "keywords": [
+    "git",
+    "boilerplate",
+    "gitignore",
+    "gitconfig"
+  ],
+  "author": "Justin Morgan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JustinMorgan/universal-boilerplate/issues"
+  },
+  "homepage": "https://github.com/JustinMorgan/universal-boilerplate#readme"
+}
