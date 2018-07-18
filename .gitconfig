@@ -181,6 +181,10 @@
   # tree, but you can reach it directly via the hash or by examining the reflog.
   #$> git undo
   undo = "!f() { git save \"Unstage last commit\" && git resetv --hard HEAD~1 && git ss; }; f"
+  
+  # Delete branch locally and remotely
+  #$> git killbranch my_branch
+  killbranch = "!f() {bn=$1; git push origin --delete $bn && git br -d $bn;}; f"
 
 
   ######################## Complex functions (experimental) ##########################
@@ -199,11 +203,11 @@
   # it, merge this branch into master, and delete this branch.
   #$> git finish
   finish = !git upd && git reb master && git mrgd --no-ff
-
-  # Push local branch to origin, but put it in the remote "justin" folder
-  #$> git psu
-  psu = "!f() {bn=$(git branch-name); git ps --set-upstream origin $bn:justin/$bn;git ss;}; f"
   
-  # Delete branch locally and remotely
-  #$> git del my_branch
-  del = "!f() {bn=$1; git push origin --delete $bn && git br -d $bn;}; f"
+  # Push local branch to origin and set upstream to the same branch on origin
+  #$> git psu
+  psu = "!f() {bn=${1-$(git branch-name)}; git ps --set-upstream-to origin $bn;git ss;}; f"
+
+  # Push local branch and set upstream, but put the remote branch in the "my_branches" folder
+  #$> git psu
+  psu = "!f() {bn=${1-$(git branch-name)}; git ps --set-upstream-to origin $bn:my_branches/$bn;git ss;}; f"
