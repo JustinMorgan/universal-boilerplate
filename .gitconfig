@@ -210,4 +210,4 @@
 
   # Push local branch and set upstream, but put the remote branch in the "my_branches" folder
   #$> git psu
-  psu = "!f() {bn=${1-$(git branch-name)}; git ps --set-upstream-to origin $bn:my_branches/$bn;git ss;}; f"
+  psuf = "!f() {bn=${1-$(git branch-name)}; git ps --set-upstream-to origin $bn:my_branches/$bn;git ss;}; f"
