@@ -184,7 +184,7 @@
   
   # Delete branch locally and remotely
   #$> git killbranch my_branch
-  killbranch = "!f() {bn=$1; git push origin --delete $bn && git br -d $bn;}; f"
+  killbranch = "!f() { bn=$1; git push origin --delete $bn && git br -d $bn; }; f"
 
 
   ######################## Complex functions (experimental) ##########################
