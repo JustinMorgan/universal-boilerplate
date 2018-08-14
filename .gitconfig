@@ -143,6 +143,7 @@
   uncommit = !git ss && git resetv --soft HEAD^ && git ss
 
   # Auto-save current changes (see "save"), go to master and pull latest, then return to this branch
+  # Useful when you're preparing to merge the latest from master into this branch
   #$> git upd
   upd = !git save && git go master && git plff && git go -
 
@@ -206,9 +207,8 @@
   
   # Push local branch to origin and set upstream to the same branch on origin
   #$> git psu
-  psu = "!f() { bn=${1-$(git branch-name)}; git ps --set-upstream origin $bn; git ss;}; f"
-
+  psu = "!f() { bn=${1-$(git branch-name)}; git ps --set-upstream origin $bn; git ss; }; f"
 
   # Push local branch and set upstream, but put the remote branch in the "my_branches" folder
   #$> git psu
-  psuf = "!f() { bn=${1-$(git branch-name)}; git ps --set-upstream-to origin $bn:my_branches/$bn;git ss;}; f"
+  psuf = "!f() { bn=${1-$(git branch-name)}; git ps --set-upstream origin $bn:my_branches/$bn; git ss; }; f"
