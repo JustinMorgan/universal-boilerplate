@@ -233,8 +233,3 @@
   # to the starting branch. The changes themselves won't be lost.
   #$> git backup
   backup = !git save && git new backup/$(git branch-name)-$(date +%s) && git go - && git uncomr
-
-#   test = !git diff-index --quiet HEAD -- && echo no changes || echo changes present
-#   test = "!f() { ch=$(git diff-index --quiet HEAD --); echo no changes || echo changes present"
-#   test = !ch=$(git diff-index --quiet HEAD --) && git save && git new backup/$(git branch-name)-$(date +%s) && git go - && (ch || $(git uncomr))
-  test = !ch=$(git diff-index --quiet HEAD --) && echo doing stuff && ($ch || $(echo uncomr))
