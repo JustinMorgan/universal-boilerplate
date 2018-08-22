@@ -12,8 +12,8 @@
     prompt = false
     keepBackup = false
     keepTemporaries = false
-    
-## Git behavior (optional)
+
+# Git behavior (optional)
 [push]
     default = simple
 
@@ -87,9 +87,14 @@
   #$> git new my_feature_branch
   new = checkout -b
 
-  # Peek at where you are in the tree
+  # Peek at where you are in the tree. Shows last commit hash, current head/ref location,
+  # and last commit message.
   #$> git sh
   sh = show --oneline --decorate=short -s
+
+  # As "sh", but show only current head/ref location
+  #$> git sr
+  sr = show -s --format="%C(auto)%d"
 
   # Show simple commit history
   #$> git lg
@@ -106,7 +111,6 @@
   # Get current branch name (used by other macros)
   #$> git branch-name
   branch-name = rev-parse --abbrev-ref HEAD
-
 
   ######## Simple echoing commands: Show the command and all parameters/flags   ########
   ######## in the console (used by other macros to show you what they're doing) ########
@@ -134,13 +138,18 @@
 
 
   ###################### Macros: Combinations of other shortcuts #####################
-  # See current uncommitted changes as well as where you are in the tree (good way to get your bearings)
+  # See current uncommitted changes, current branch/head position, and the last commit before where you are.
+  # A good way to get your bearings.
   #$> git ss
-  ss = !git st && git sh
+  ss = !git sh && git st
 
   # Reopen the last commit, but keep the changes. Basically, it will be as though you haven't committed yet.
   #$> git uncommit
-  uncommit = !git ss && git resetv --soft HEAD^ && git ss
+  uncommit = !echo BEFORE && git ss && git resetv --soft HEAD^ && echo AFTER && git ss
+
+  # As uncommit, but including a soft reset. The changes will still be there, but none of them will be staged.
+  #$> git uncomr
+  uncomr = !echo BEFORE && git ss && git resetv --soft HEAD^ && git reset && echo AFTER && git ss
 
   # Auto-save current changes (see "save"), go to master and pull latest, then return to this branch
   # Useful when you're preparing to merge the latest from master into this branch
@@ -163,7 +172,7 @@
   comq = "!f() { msg=$1; git add --all && git commit -m \"$msg\"; }; f"
 
   # Verbose mode: Same as "com", but echo add & commit commands to the console
-  #$> git comv "I did a thig"
+  #$> git comv "I did a thing"
   comv = "!f() { msg=$1; git sh && git st && git adv --all && git commitv -m \"$msg\"; git ss; }; f"
 
   # Quicksave: Quick-commit your current changes with a default message.
@@ -182,11 +191,6 @@
   # tree, but you can reach it directly via the hash or by examining the reflog.
   #$> git undo
   undo = "!f() { git save \"Unstage last commit\" && git resetv --hard HEAD~1 && git ss; }; f"
-  
-  # Delete branch locally and remotely
-  #$> git killbranch my_branch
-  killbranch = "!f() { bn=$1; git push origin --delete $bn && git br -d $bn; }; f"
-
 
   ######################## Complex functions (experimental) ##########################
   # Go back to master, get latest from origin, merge this branch in, then delete
@@ -200,15 +204,37 @@
       git ss;                 \
   }; f"
 
-  # Quicksave if there are changes, update master and rebase this branch onto
-  # it, merge this branch into master, and delete this branch.
+  # Quicksave if there are changes, update master and rebase this branch onto it,
+  # merge this branch into master, and delete this branch.
   #$> git finish
   finish = !git upd && git reb master && git mrgd --no-ff
-  
-  # Push local branch to origin and set upstream to the same branch on origin
-  #$> git psu
-  psu = "!f() { bn=${1-$(git branch-name)}; git ps --set-upstream origin $bn; git ss; }; f"
 
-  # Push local branch and set upstream, but put the remote branch in the "my_branches" folder
+  # Delete a branch locally and remotely.
+  # Throws an exception if branch name is unspecified.
+  #$> git killall my_branch
+  killall = "!f() { if [ $# -lt 1 ]; then echo 'ERROR: Wrong number of arguments'; exit 1; fi; bn=$1 && git push origin --delete $bn && git br -d $bn; }; f"
+
+  # Push local branch to origin and set upstream to the same branch on origin.
+  #$> git psu
+  psu = !bn=${1-$(git branch-name)} && git ps --set-upstream origin $bn && git ss
+
+  # Push local branch and set upstream, but put the remote branch in the "my_branches" folder.
   #$> git psuf
-  psuf = "!f() { bn=${1-$(git branch-name)}; git ps --set-upstream origin $bn:my_branches/$bn; git ss; }; f"
+  psuf = !bn=${1-$(git branch-name)} && git ps --set-upstream origin $bn:my_branches/$bn && git ss
+
+  # Create a save point with all current changes, but instead of committing it to this branch,
+  # spin off a new branch in the "backup" folder. The new branch will have the same name as
+  # this one, plus a timestamp so you can backup as often as you want.
+  # Unlike simply creating a new branch and then committing your changes (or vice versa), any
+  # changes you're working on will end up uncommitted but intact in the starting branch.
+  # Useful if you've hit a dead end and want to back out changes without polluting the tree,
+  # but you aren't ready to burn bridges yet.
+  # NOTE: Since this finishes with a soft reset, everything will be unstaged when you get back
+  # to the starting branch. The changes themselves won't be lost.
+  #$> git backup
+  backup = !git save && git new backup/$(git branch-name)-$(date +%s) && git go - && git uncomr
+
+#   test = !git diff-index --quiet HEAD -- && echo no changes || echo changes present
+#   test = "!f() { ch=$(git diff-index --quiet HEAD --); echo no changes || echo changes present"
+#   test = !ch=$(git diff-index --quiet HEAD --) && git save && git new backup/$(git branch-name)-$(date +%s) && git go - && (ch || $(git uncomr))
+  test = !ch=$(git diff-index --quiet HEAD --) && echo doing stuff && ($ch || $(echo uncomr))
