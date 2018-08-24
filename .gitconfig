@@ -231,5 +231,10 @@
   # but you aren't ready to burn bridges yet.
   # NOTE: Since this finishes with a soft reset, everything will be unstaged when you get back
   # to the starting branch. The changes themselves won't be lost.
+  # How it works:
+  #   [[ -z $(git status -s) ]]; changes=$?          # Set variable $changes to 1 if there are uncommitted changes, else 0
+  #   [ $changes -eq 1 ] && git save                 # If there were uncommitted changes, create a save point
+  #   git new backup/$(git branch-name)-$(date +%s)  # Spin off a backup branch with a timestamp
+  #   [ $changes -eq 1 ] && git uncomr               # If we created a save point earlier, uncommit it
   #$> git backup
-  backup = !git save && git new backup/$(git branch-name)-$(date +%s) && git go - && git uncomr
+  backup = "!f() { [[ -z $(git status -s) ]]; changes=$?; [ $changes -eq 1 ] && git save; git new backup/$(git branch-name)-$(date +%s) && git go -; [ $changes -eq 1 ] && git uncomr; }; f"
