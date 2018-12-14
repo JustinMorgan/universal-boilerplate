@@ -51,6 +51,7 @@
 # My most commonly used shortcuts are: new, go, pl, ps, ss, mnf, com, save, reword, amend, uncommit, undo
 [alias]
   ####################### Plain aliases for standard commands ########################
+
   # Switch to branch
   #$> git go my_feature_branch
   go = checkout
@@ -80,9 +81,10 @@
   reb = rebase
 
 
-  ########### Convenience shortcuts: Common command/parameter combinations ###########
-  ########### for a typical workflow. Designed to encourage consistency    ###########
-  ########### and reduce the need to memorize a ton of Git flags.          ###########
+  ############################### Convenience shortcuts #################################
+  # These are git commands with common arguments already filled in. Designed to promote
+  # consistency and reduce the need to memorize a ton of Git flags.
+
   # Create a new branch
   #$> git new my_feature_branch
   new = checkout -b
@@ -104,7 +106,8 @@
   #$> git reword "What I should have said"
   reword = commit --amend -m
 
-  # Experimental: See https://adamcod.es/2014/12/10/git-pull-correct-workflow.html
+  # Pull with rebase and prune
+  # See https://adamcod.es/2014/12/10/git-pull-correct-workflow.html
   #$> git plr
   plr = pull --rebase --prune
 
@@ -112,8 +115,10 @@
   #$> git branch-name
   branch-name = rev-parse --abbrev-ref HEAD
 
-  ######## Simple echoing commands: Show the command and all parameters/flags   ########
-  ######## in the console (used by other macros to show you what they're doing) ########
+  ######### Simple echoing commands: Show commands in the console as they happen #########
+  # These show commands in the console as they run. Mostly used by other macros to provide
+  # verbose output.
+
   mrgv = !echo git merge $@ && git merge
   commitv = !echo git commit $@ && git commit
   plv = !echo git pull $@ && git pull
@@ -122,8 +127,10 @@
   resetv = !echo git reset $@ && git reset
 
 
-  ######## Echoing convenience shortcuts: Command/parameter shortcuts combined ########
-  ######## with echoing macros so you can see what your shortcuts are doing    ########
+  ###################### Echoing convenience shortcuts ######################
+  # Command/parameter shortcuts combined with echoing macros so you can see
+  # what your shortcuts are doing
+
   # Pull if the tree can be fast-forwarded, otherwise fail (and require manual merging)
   #$> git plff
   plff = !git plv --ff-only
@@ -138,6 +145,7 @@
 
 
   ###################### Macros: Combinations of other shortcuts #####################
+
   # See current uncommitted changes, current branch/head position, and the last commit before where you are.
   # A good way to get your bearings.
   #$> git ss
@@ -151,17 +159,22 @@
   #$> git uncomr
   uncomr = !echo BEFORE && git ss && git resetv --soft HEAD^ && git reset && echo AFTER && git ss
 
-  # Auto-save current changes (see "save"), go to master and pull latest, then return to this branch
-  # Useful when you're preparing to merge the latest from master into this branch
+  # Auto-save current changes (see "save"), go to master and pull latest, then return to this branch.
+  # Useful when you're preparing to merge the latest from master into this branch.
   #$> git upd
   upd = !git save && git go master && git plff && git go -
 
-  # Add all untracked files, then add current changes to most recent commit
+  # Add all untracked files, then add current changes to most recent commit.
   #$> git amend
   amend = !git adv --all && git commitv --amend --no-edit && git ss
 
+  # Push to origin while automatically setting the current branch's upstream to a remote branch with the same name.
+  #$> git psu
+  psu = !git ps --set-upstream origin $(git branch-name) && git ss
+
 
   ############################### One-liner functions ################################
+
   # Add all untracked files and commit everything with the given message
   # Displays status, branch, and latest commit before and after committing
   #$> git com "I did a thing"
@@ -192,43 +205,18 @@
   #$> git undo
   undo = "!f() { git save \"Unstage last commit\" && git resetv --hard HEAD~1 && git ss; }; f"
 
-  ######################## Complex functions (experimental) ##########################
-  # Go back to master, get latest from origin, merge this branch in, then delete
-  # this branch. Stops executing if any command fails.
-  #$> git mrgd --no-ff
-  mrgd = "!f() {              \
-      bn=$(git branch-name);  \
-      git go master           \
-          && git mrgv - $@    \
-          && git brv -d $bn;  \
-      git ss;                 \
-  }; f"
-
-  # Quicksave if there are changes, update master and rebase this branch onto it,
-  # merge this branch into master, and delete this branch.
-  #$> git finish
-  finish = !git upd && git reb master && git mrgd --no-ff
-
-  # Delete a branch locally and remotely.
-  # Throws an exception if branch name is unspecified.
-  #$> git killall my_branch
-  killall = "!f() { if [ $# -lt 1 ]; then echo 'ERROR: Wrong number of arguments'; exit 1; fi; bn=$1 && git push origin --delete $bn && git br -d $bn; }; f"
-
-  # Push local branch to origin and set upstream to the same branch on origin.
-  #$> git psu
-  psu = !bn=${1-$(git branch-name)} && git ps --set-upstream origin $bn && git ss
-
-  # Push local branch and set upstream, but put the remote branch in the "my_branches" folder.
-  #$> git psuf
-  psuf = !bn=${1-$(git branch-name)} && git ps --set-upstream origin $bn:my_branches/$bn && git ss
+  ######################## Complex functions (experimental) ############################
+  # NOTE: Everything in this section is experimental. Make sure you understand these
+  # before using them. The most dangerous/destructive ones are commented out by default.
 
   # Create a save point with all current changes, but instead of committing it to this branch,
   # spin off a new branch in the "backup" folder. The new branch will have the same name as
-  # this one, plus a timestamp so you can backup as often as you want.
+  # this one, plus a timestamp so you can backup as often as you want. Bear in mind that
+  # your local branch list will get messy if you don't come back and delete them.
   # Unlike simply creating a new branch and then committing your changes (or vice versa), any
   # changes you're working on will end up uncommitted but intact in the starting branch.
-  # Useful if you've hit a dead end and want to back out changes without polluting the tree,
-  # but you aren't ready to burn bridges yet.
+  # Useful as a quick & dirty snapshotter if you've hit a dead end and want to back out your
+  # changes, but you aren't ready to burn bridges yet.
   # NOTE: Since this finishes with a soft reset, everything will be unstaged when you get back
   # to the starting branch. The changes themselves won't be lost.
   # How it works:
@@ -237,4 +225,38 @@
   #   git new backup/$(git branch-name)-$(date +%s)  # Spin off a backup branch with a timestamp
   #   [ $changes -eq 1 ] && git uncomr               # If we created a save point earlier, uncommit it
   #$> git backup
-  backup = "!f() { [[ -z $(git status -s) ]]; changes=$?; [ $changes -eq 1 ] && git save; git new backup/$(git branch-name)-$(date +%s) && git go -; [ $changes -eq 1 ] && git uncomr; }; f"
+  backup = "!f() { \
+    [[ -z $(git status -s) ]]; changes=$?; \
+    [ $changes -eq 1 ] && git save; \
+    git new backup/$(git branch-name)-$(date +%s) && git go -; \
+    [ $changes -eq 1 ] && git uncomr; \
+  }; f"
+
+  # # Go back to master, get latest from origin, merge this branch in, then delete
+  # # this branch. Stops executing if any command fails.
+  # #$> git mrgd --no-ff
+  # mrgd = "!f() {              \
+  #   bn=$(git branch-name);  \
+  #   git go master           \
+  #       && git mrgv - $@    \
+  #       && git brv -d $bn;  \
+  #   git ss;                 \
+  # }; f"
+
+  # # Quicksave if there are changes, update master and rebase this branch onto it,
+  # # merge this branch into master, and delete this branch.
+  # #$> git finish
+  # finish = !git upd && git reb master && git mrgd --no-ff
+
+  # # Delete a branch locally and remotely.
+  # # Throws an exception if branch name is unspecified.
+  # #$> git killall my_branch
+  # killall = "!f() { \
+  #   if [ $# -lt 1 ]; then \
+  #     echo 'ERROR: Wrong number of arguments'; \
+  #     exit 1; \
+  #   fi; \
+  #   bn=$1 \
+  #     && git push origin --delete $bn \
+  #     && git br -d $bn; \
+  # }; f"
