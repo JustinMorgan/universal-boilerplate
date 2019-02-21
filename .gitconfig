@@ -195,7 +195,7 @@
   # to push the quicksave as-is, you can use the other macros here (see "amend",
   # "reword", and "uncommit") to change it later.
   #$> git save
-  save = "!f() { msg=${1-Interstitial}; git comv \"Save point - $msg\"; }; f"
+  save = "!f() { msg=${1}; git comv \"Save point $1\"; }; f"
 
   # Dump all changes and go back to previous commit. If there are no changes,
   # undo the last commit.
