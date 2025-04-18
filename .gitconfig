@@ -24,17 +24,17 @@
 # Include other config files
 ####################################
 
-# # Optional: This allows you to include an external configuration file (like this one).
-# # Typical use case is to pull in a shared/generic .gitconfig, while keeping personal 
-# # settings like username and email in a personal .gitconfig in your user folder.
+# Optional: This allows you to include an external configuration file (like this one).
+# Typical use case is to pull in a shared/generic .gitconfig, while keeping personal 
+# settings like username and email in a personal .gitconfig in your user folder.
 # [include]
-#   path = /c/code/universal-boilerplate/.gitconfig
+#   path = C:/code/universal-boilerplate/.gitconfig
 
 ####################################
 # Environment and editor settings
 ####################################
 
-# Set up your preferred merging tool (see https://git-scm.com/docs/git-mergetool)
+# Set up your preferred merging tool
 # [mergetool "vscode"]
 #   cmd = code --wait $MERGED
 # [merge]
