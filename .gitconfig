@@ -162,9 +162,10 @@
   #$> git ss
   ss = !git sh && git st
 
-  # Reopen the last commit, but keep the changes. Basically, it will be as though you haven't committed yet.
+  # Reopen the last commit, but keep the changes. You'll be more or less back to the moment before you committed.
+  # All changes will remain staged.
   #$> git uncommit
-  uncommit = !echo BEFORE && git ss && git resetv --soft HEAD^ && echo AFTER && git ss
+  uncommit = !echo BEFORE && git ss && git resetv --soft HEAD^ && echo AFTER && git ss; git st
 
   # As uncommit, but including a soft reset. The changes will still be there, but none of them will be staged.
   #$> git uncomr
@@ -196,11 +197,11 @@
   # Add all untracked files and commit everything with the given message.
   # Displays status, branch, and latest commit before and after committing.
   #$> git com "I did a thing"
-  com = "!f() { msg=$1; git sh && git add --all && git st && git commit -m \"$msg\"; git ss; }; f"
+  com = "!f() { msg=$1; git sh && git add --all && git st && git ci -m \"$msg\"; git ss; }; f"
 
   # Commit-quiet: Same as `com`, but do not show before/after state.
   #$> git comq "I did a thing"
-  comq = "!f() { msg=$1; git add --all && git commit -m \"$msg\"; }; f"
+  comq = "!f() { msg=$1; git add --all && git ci -m \"$msg\"; }; f"
 
   # Commit-verbose: Same as `com`, but echo add & commit commands to the console.
   #$> git comv "I did a thing"
@@ -280,7 +281,7 @@
       exit 1; \
     fi; \
     bn=$1 \
-      && git push origin --delete $bn \
+      && git ps origin --delete $bn \
       && git br -d $bn; \
   }; f"
 
@@ -288,4 +289,4 @@
   # Typically used when you've finished a feature, pushed the feature branch, and merged your pull 
   # request into the remote master branch.
   #$> git done
-  done = "!f() { br=$(git branch-name); git checkout - && git pull && git branch -d $br; }; f"
+  done = "!f() { br=$(git branch-name); git co - && git pl && git br -d $br; }; f"
