@@ -28,7 +28,7 @@
 # Typical use case is to pull in a shared/generic .gitconfig, while keeping personal 
 # settings like username and email in a personal .gitconfig in your user folder.
 # [include]
-#   path = C:/code/universal-boilerplate/.gitconfig
+#   path = "C:/code/universal-boilerplate/.gitconfig"
 
 ####################################
 # Environment and editor settings
