@@ -18,7 +18,7 @@
   default = simple
 
 [diff]
-	renamelimit = 5000
+  renamelimit = 5000
 
 ####################################
 # Include other config files
@@ -42,7 +42,7 @@
 
 # If you always want Git to use HTTPS instead of SSH
 # [url "https://"]
-#     insteadOf = git://
+#   insteadOf = git://
 
 ####################################
 # Shortcuts and convenience macros
@@ -258,7 +258,7 @@
   # # Go back to master, get latest from origin, merge this branch into master,
   # # then delete this branch. Stops executing if any command fails.
   # #$> git mrgd --no-ff
-  # mrgd = "!f() {              \
+  # mrgd = "!f() {            \
   #   bn=$(git branch-name);  \
   #   git co master           \
   #       && git mrgv - $@    \
