@@ -165,7 +165,7 @@
   # Reopen the last commit, but keep the changes. You'll be more or less back to the moment before you committed.
   # All changes will remain staged.
   #$> git uncommit
-  uncommit = !echo BEFORE && git ss && git resetv --soft HEAD^ && echo AFTER && git ss; git st
+  uncommit = !echo BEFORE && git ss && git resetv --soft HEAD^ && echo AFTER && git ss
 
   # As uncommit, but including a soft reset. The changes will still be there, but none of them will be staged.
   #$> git uncomr
