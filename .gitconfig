@@ -2,59 +2,65 @@
 # Personal info and preferences
 ####################################
 
-# Fill in your info so your commits will be tagged correctly
-; [user]
-;     name = <enter name here>
-;     email = <enter email here>
+# Fill in your info here so your commits will be tagged correctly
+# [user]
+#   name = <enter name here>
+#   email = <enter email here>
 
 # Merging preferences (optional)
 [mergetool]
-    prompt = false
-    keepBackup = false
-    keepTemporaries = false
+  prompt = false
+  keepBackup = false
+  keepTemporaries = false
 
 # Git behavior (optional)
 [push]
-    default = simple
+  default = simple
+
+[diff]
+	renamelimit = 5000
+
+####################################
+# Include other config files
+####################################
+
+# # Optional: This allows you to include an external configuration file (like this one).
+# # Typical use case is to pull in a shared/generic .gitconfig, while keeping personal 
+# # settings like username and email in a personal .gitconfig in your user folder.
+# [include]
+#   path = /c/code/universal-boilerplate/.gitconfig
 
 ####################################
 # Environment and editor settings
 ####################################
 
-# If you're using Cloud 9 IDE
-; [core]
-;     editor = nano
-;     whitespace = off
-;     excludesfile = ~/.gitignore
-; [advice]
-;     statusuoption = false
-; [color]
-;     ui = true
-; [push]
-;     default = current
-
-# If you like Sublime Text for merging (otherwise, set up your favorite: https://git-scm.com/docs/git-mergetool)
-; [mergetool "sublime"]
-;     cmd = subl -n $MERGED
-;     trustExitCode = false
-; [merge]
-;     tool = sublime
+# Set up your preferred merging tool (see https://git-scm.com/docs/git-mergetool)
+# [mergetool "vscode"]
+#   cmd = code --wait $MERGED
+# [merge]
+#   tool = vscode
 
 # If you always want Git to use HTTPS instead of SSH
-; [url "https://"]
-;     insteadOf = git://
+# [url "https://"]
+#     insteadOf = git://
 
 ####################################
 # Shortcuts and convenience macros
 ####################################
-# Most of these can be used with parameters and flags as normal
-# My most commonly used shortcuts are: new, go, pl, ps, ss, mnf, com, save, reword, amend, uncommit, undo
-[alias]
+# Most of these accept added parameters and flags just like the base commands.
+# My most commonly used shortcuts are: new, co, pl, ps, st, mrg, com, save, reword, amend, uncommit, undo
+
+[alias]  
+
   ####################### Plain aliases for standard commands ########################
 
+  # See current (uncommitted) changes
+  #$> git st
+  st = status
+
   # Switch to branch
-  #$> git go my_feature_branch
-  go = checkout
+  #$> git co some-branch-name
+  co = checkout
 
   # Pull latest from origin
   #$> git pl
@@ -64,21 +70,26 @@
   #$> git ps
   ps = push
 
-  # See current (uncommitted) changes
-  #$> git st
-  st = status
-
   # Merge a branch into this one
-  #$> git mrg --no-ff other_branch
+  #$> git mrg --no-ff incoming-branch-name
   mrg = merge
 
   # Go to or manipulate a branch
-  #$> git br -d branch_to_delete
+  #$> git br -d branch-to-delete
   br = branch
+
+  # Pull in a specific commit from another branch
+  #$> git cp 1a2b3c4d5
+  cp = cherry-pick
 
   # Rebase: See https://git-scm.com/docs/git-rebase
   #$> git reb -i master
   reb = rebase
+
+  # Create commit
+  # Note: For the typical commit workflow, use the `com` macro instead
+  #$> git ci -m "I did a thing"
+  ci = commit
 
 
   ############################### Convenience shortcuts #################################
@@ -86,11 +97,11 @@
   # consistency and reduce the need to memorize a ton of Git flags.
 
   # Create a new branch
-  #$> git new my_feature_branch
+  #$> git new new-feature-branch-name
   new = checkout -b
 
   # Peek at where you are in the tree. Shows last commit hash, current head/ref location,
-  # and last commit message.
+  # and last commit message..
   #$> git sh
   sh = show --oneline --decorate=short -s
 
@@ -98,12 +109,12 @@
   #$> git sr
   sr = show -s --format="%C(auto)%d"
 
-  # Show simple commit history
+  # Show simple commit history.
   #$> git lg
   lg = log --oneline --decorate=short
 
   # Re-enter last commit message (DO NOT USE IF YOU ALREADY PUSHED THE COMMIT)
-  #$> git reword "What I should have said"
+  #$> git reword "What I should've said"
   reword = commit --amend -m
 
   # Pull with rebase and prune
@@ -111,7 +122,7 @@
   #$> git plr
   plr = pull --rebase --prune
 
-  # Get current branch name (used by other macros)
+  # Get current branch name. This is primarily used by other macros below.
   #$> git branch-name
   branch-name = rev-parse --abbrev-ref HEAD
 
@@ -136,11 +147,11 @@
   plff = !git plv --ff-only
 
   # Merge a branch into this one, but always create a merge commit even if fast-forwarding is possible
-  #$> git mnf other_branch
+  #$> git mnf other-branch-name
   mnf = !git mrgv --no-ff
 
   # Merge if the tree can be fast-forwarded, otherwise fail (and require manual merging)
-  #$> git mff other_branch
+  #$> git mff other-branch-name
   mff = !git mrgv --ff-only
 
 
@@ -159,12 +170,13 @@
   #$> git uncomr
   uncomr = !echo BEFORE && git ss && git resetv --soft HEAD^ && git reset && echo AFTER && git ss
 
-  # Auto-save current changes (see "save"), go to master and pull latest, then return to this branch.
-  # Useful when you're preparing to merge the latest from master into this branch.
-  #$> git upd
-  upd = !git save && git go master && git plff && git go -
+  # # Auto-save current changes (see `save`), go to master and pull latest, then return to this branch.
+  # # Useful when you're preparing to merge the latest from master into this branch.
+  # #$> git upd
+  # upd = !git save && git co master && git plff && git co -
 
   # Add all untracked files, then add current changes to most recent commit.
+  # As with `reword`, DO NOT USE IF YOU ALREADY PUSHED THE COMMIT.
   #$> git amend
   amend = !git adv --all && git commitv --amend --no-edit && git ss
 
@@ -172,34 +184,40 @@
   #$> git psu
   psu = !git ps --set-upstream origin $(git branch-name) && git ss
 
+  # Go to the specified brach and pull latest, then return to this branch and merge 
+  # that branch into this one.
+  # Useful for merging the latest from the main branch into this branch.
+  #$> git upd master
+  upd = !git co $@ && git plff && git co - && git mrgv
+
 
   ############################### One-liner functions ################################
 
-  # Add all untracked files and commit everything with the given message
-  # Displays status, branch, and latest commit before and after committing
+  # Add all untracked files and commit everything with the given message.
+  # Displays status, branch, and latest commit before and after committing.
   #$> git com "I did a thing"
-  com = "!f() { msg=$1; git sh && git st && git comq \"$msg\"; git ss; }; f"
+  com = "!f() { msg=$1; git sh && git add --all && git st && git commit -m \"$msg\"; git ss; }; f"
 
-  # Quiet mode: Same as "com", but do not show before/after state
+  # Commit-quiet: Same as `com`, but do not show before/after state.
   #$> git comq "I did a thing"
   comq = "!f() { msg=$1; git add --all && git commit -m \"$msg\"; }; f"
 
-  # Verbose mode: Same as "com", but echo add & commit commands to the console
+  # Commit-verbose: Same as `com`, but echo add & commit commands to the console.
   #$> git comv "I did a thing"
-  comv = "!f() { msg=$1; git sh && git st && git adv --all && git commitv -m \"$msg\"; git ss; }; f"
+  comv = "!f() { msg=$1; git sh && git adv --all && git st && git commitv -m \"$msg\"; git ss; }; f"
 
   # Quicksave: Quick-commit your current changes with a default message.
-  # NOTE: "git save" can be used in place of "git stash", with the advantage of
+  # NOTE: `git save` can be used in place of `git stash`, with the advantage of
   # preserving a trail in the history. Since it's a normal commit, you can find
   # your saves easily and have as many as you want at a time. If you don't want
-  # to push the quicksave as-is, you can use the other macros here (see "amend",
-  # "reword", and "uncommit") to change it later.
+  # to push the quicksave as-is, you can use the other macros here to change it
+  # later (see `amend`, `reword`, and `uncommit`).
   #$> git save
   save = "!f() { msg=${1}; git comv \"Save point $1\"; }; f"
 
   # Dump all changes and go back to previous commit. If there are no changes,
   # undo the last commit.
-  # NOTE: "git undo" automatically creates a quicksave (see the "save" macro),
+  # NOTE: `git undo` automatically creates a quicksave (see the `save` macro),
   # so you can always get your changes back. The save won't show up in the main
   # tree, but you can reach it directly via the hash or by examining the reflog.
   #$> git undo
@@ -210,7 +228,7 @@
   # before using them. The most dangerous/destructive ones are commented out by default.
 
   # Create a save point with all current changes, but instead of committing it to this branch,
-  # spin off a new branch in the "backup" folder. The new branch will have the same name as
+  # spin off a new branch in the "backup/" folder. The new branch will have the same name as
   # this one, plus a timestamp so you can backup as often as you want. Bear in mind that
   # your local branch list will get messy if you don't come back and delete them.
   # Unlike simply creating a new branch and then committing your changes (or vice versa), any
@@ -219,25 +237,30 @@
   # changes, but you aren't ready to burn bridges yet.
   # NOTE: Since this finishes with a soft reset, everything will be unstaged when you get back
   # to the starting branch. The changes themselves won't be lost.
+  #
   # How it works:
   #   [[ -z $(git status -s) ]]; changes=$?          # Set variable $changes to 1 if there are uncommitted changes, else 0
   #   [ $changes -eq 1 ] && git save                 # If there were uncommitted changes, create a save point
   #   git new backup/$(git branch-name)-$(date +%s)  # Spin off a backup branch with a timestamp
   #   [ $changes -eq 1 ] && git uncomr               # If we created a save point earlier, uncommit it
+  #
+  # If you're still unclear what this does, just run it while you have uncommitted changes, then run
+  # `git br` and `git st`. You'll see a new branch called backup/your-branch-name-<timestamp> with a
+  # snapshot of your current uncommitted changes.
   #$> git backup
   backup = "!f() { \
     [[ -z $(git status -s) ]]; changes=$?; \
     [ $changes -eq 1 ] && git save; \
-    git new backup/$(git branch-name)-$(date +%s) && git go -; \
+    git new backup/$(git branch-name)-$(date +%s) && git co -; \
     [ $changes -eq 1 ] && git uncomr; \
   }; f"
 
-  # # Go back to master, get latest from origin, merge this branch in, then delete
-  # # this branch. Stops executing if any command fails.
+  # # Go back to master, get latest from origin, merge this branch into master,
+  # # then delete this branch. Stops executing if any command fails.
   # #$> git mrgd --no-ff
   # mrgd = "!f() {              \
   #   bn=$(git branch-name);  \
-  #   git go master           \
+  #   git co master           \
   #       && git mrgv - $@    \
   #       && git brv -d $bn;  \
   #   git ss;                 \
@@ -248,15 +271,21 @@
   # #$> git finish
   # finish = !git upd && git reb master && git mrgd --no-ff
 
-  # # Delete a branch locally and remotely.
-  # # Throws an exception if branch name is unspecified.
-  # #$> git killall my_branch
-  # killall = "!f() { \
-  #   if [ $# -lt 1 ]; then \
-  #     echo 'ERROR: Wrong number of arguments'; \
-  #     exit 1; \
-  #   fi; \
-  #   bn=$1 \
-  #     && git push origin --delete $bn \
-  #     && git br -d $bn; \
-  # }; f"
+  # Delete a branch locally and remotely.
+  # By design, throws an exception if you don't specify a branch name.
+  #$> git killall my-branch-name
+  killall = "!f() { \
+    if [ $# -lt 1 ]; then \
+      echo 'ERROR: Wrong number of arguments'; \
+      exit 1; \
+    fi; \
+    bn=$1 \
+      && git push origin --delete $bn \
+      && git br -d $bn; \
+  }; f"
+
+  # Switch to previous branch, pull latest, and delete the branch we started on.
+  # Typically used when you've finished a feature, pushed the feature branch, and merged your pull 
+  # request into the remote master branch.
+  #$> git done
+  done = "!f() { br=$(git branch-name); git checkout - && git pull && git branch -d $br; }; f"
