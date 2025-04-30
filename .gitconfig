@@ -7,42 +7,46 @@
 #   name = <enter name here>
 #   email = <enter email here>
 
-# Merging preferences (optional)
+####################################
+# Include other config files
+####################################
+
+# Optional: This allows you to include an external configuration file.
+# Typical use case is to pull in a shared/generic .gitconfig (like this one), 
+# while keeping personal settings like username and email in a personal
+# .gitconfig in your user folder.
+# [include]
+#   path = "C:/code/universal-boilerplate/.gitconfig"
+
+####################################
+# Git preferences
+####################################
+
+[push]
+  default = simple
+
+# If you always want Git to use HTTPS instead of SSH
+# [url "https://"]
+#   insteadOf = git://
+
+####################################
+# Editor preferences
+####################################
+
 [mergetool]
   prompt = false
   keepBackup = false
   keepTemporaries = false
 
-# Git behavior (optional)
-[push]
-  default = simple
-
 [diff]
   renamelimit = 5000
-
-####################################
-# Include other config files
-####################################
-
-# Optional: This allows you to include an external configuration file (like this one).
-# Typical use case is to pull in a shared/generic .gitconfig, while keeping personal 
-# settings like username and email in a personal .gitconfig in your user folder.
-# [include]
-#   path = "C:/code/universal-boilerplate/.gitconfig"
-
-####################################
-# Environment and editor settings
-####################################
 
 # Set up your preferred merging tool
 # [mergetool "vscode"]
 #   cmd = code --wait $MERGED
+#
 # [merge]
 #   tool = vscode
-
-# If you always want Git to use HTTPS instead of SSH
-# [url "https://"]
-#   insteadOf = git://
 
 ####################################
 # Shortcuts and convenience macros
