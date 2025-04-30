@@ -48,7 +48,7 @@
 # Shortcuts and convenience macros
 ####################################
 # Most of these accept added parameters and flags just like the base commands.
-# My most commonly used shortcuts are: new, co, pl, ps, st, mrg, com, save, reword, amend, uncommit, undo
+# My most commonly used shortcuts are: new, co, pl, ps, st, mrg, cm, save, reword, amend, uncommit, undo
 
 [alias]  
 
@@ -87,7 +87,7 @@
   reb = rebase
 
   # Create commit
-  # Note: For the typical commit workflow, use the `com` macro instead
+  # Note: For the typical commit workflow, use the `cm` macro instead
   #$> git ci -m "I did a thing"
   ci = commit
 
@@ -194,18 +194,18 @@
 
   ############################### One-liner functions ################################
 
-  # Add all untracked files and commit everything with the given message.
-  # Displays status, branch, and latest commit before and after committing.
-  #$> git com "I did a thing"
-  com = "!f() { msg=$1; git sh && git add --all && git st && git ci -m \"$msg\"; git ss; }; f"
+  # Standard commit workflow: Add all changes and commit everything with the given
+  # message. Displays status, branch, and latest commit before and after committing.
+  #$> git cm "I did a thing"
+  cm = "!f() { msg=$1; git sh && git add --all && git st && git ci -m \"$msg\"; git ss; }; f"
 
-  # Commit-quiet: Same as `com`, but do not show before/after state.
-  #$> git comq "I did a thing"
-  comq = "!f() { msg=$1; git add --all && git ci -m \"$msg\"; }; f"
+  # Commit-quiet: Same as `cm`, but do not show before/after state.
+  #$> git cmq "I did a thing"
+  cmq = "!f() { msg=$1; git add --all && git ci -m \"$msg\"; }; f"
 
-  # Commit-verbose: Same as `com`, but echo add & commit commands to the console.
-  #$> git comv "I did a thing"
-  comv = "!f() { msg=$1; git sh && git adv --all && git st && git commitv -m \"$msg\"; git ss; }; f"
+  # Commit-verbose: Same as `cm`, but echo add & commit commands to the console.
+  #$> git cmv "I did a thing"
+  cmv = "!f() { msg=$1; git sh && git adv --all && git st && git commitv -m \"$msg\"; git ss; }; f"
 
   # Quicksave: Quick-commit your current changes with a default message.
   # NOTE: `git save` can be used in place of `git stash`, with the advantage of
@@ -214,7 +214,7 @@
   # to push the quicksave as-is, you can use the other macros here to change it
   # later (see `amend`, `reword`, and `uncommit`).
   #$> git save
-  save = "!f() { msg=${1}; git comv \"Save point $1\"; }; f"
+  save = "!f() { msg=${1}; git cmv \"Save point $1\"; }; f"
 
   # Dump all changes and go back to previous commit. If there are no changes,
   # undo the last commit.
