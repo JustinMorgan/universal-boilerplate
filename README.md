@@ -13,29 +13,28 @@ Some basic necessities for any project, featuring convenient shell shortcuts and
 	- [Turning back the clock](#turning-back-the-clock)
 	- [Fixing mistakes](#fixing-mistakes)
 - [Using the boilerplate shell profile](#using-the-boilerplate-shell-profile)
-- [Using the boilerplate shell prompt settings](#using-the-boilerplate-shell-prompt-setting)
+- [Using the boilerplate shell prompt settings](#using-the-boilerplate-shell-prompt-settings)
 - [Using the gitignore suite](#using-the-gitignore-suite)
 
 # Quick Setup
 
 All steps after the first are optional. Pick and choose as you like.
 
-**1. Clone this repo** to a local folder, e.g. C:/code/universal-boilerplate.
+1. Clone this repo to a local folder.
+2. Import .gitconfig: Add the following to the top of your personal .gitconfig in your home folder (if you don't have this file, create one):
 
-**2. Import .gitconfig:** Add the following to the top of your personal .gitconfig in your home folder (if you don't have this file, create one):
+        [include]
+            path = "<path/to/universal-boilerplate>/.gitconfig"
 
-    [include]
-        path = "<path/to/universal-boilerplate>/.gitconfig"
+3. Import .bash_profile: As above, add the following to the top of your personal ~/.bash_profile in your home folder. If you use ZSH as your shell, you should be able to do the exact same thing in ~/.zshrc:
 
-**3. Import .bash_profile:** As above, add the following to the top of your personal ~/.bash_profile in your home folder. If you use ZSH as your shell, you should be able to do the exact same thing in ~/.zshrc:
+        source <path/to/universal-boilerplate>/.bash_profile
 
-    source <path/to/universal-boilerplate>/.bash_profile
+4. Import git-prompt.sh: If you use Git for Windows, add the following to your personal shell config file as above. May not work well in ZSH:
 
-**4. Import git-prompt.sh:** If you use Git for Windows, add the following to your personal shell config file as above. May not work well in ZSH:
+        source <path/to/universal-boilerplate>/git-prompt.sh
 
-    source <path/to/universal-boilerplate>/git-prompt.sh
-
-**5. Create a .gitignore:** You will probably want to manually create a .gitignore file whenever you start a new project, but you can get the code from the **gitignore** folder. See below for more info.
+5. Create a .gitignore: You will probably want to manually create a .gitignore file whenever you start a new project, but you can get the code from the **gitignore** folder. See below for more info.
 
 # Using the boilerplate gitconfig
 
