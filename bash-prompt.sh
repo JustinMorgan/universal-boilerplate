@@ -2,7 +2,7 @@
 
 # color selectors
 MAGENTA="\e[35m"
-BROWN_YELLOW="\033[33m"
+BROWN_YELLOW="\e[33m"
 CYAN="\e[36m"
 RESET_COLOR="\e[0m"
 
@@ -10,7 +10,7 @@ RESET_COLOR="\e[0m"
 NODE_VERSION=$(\node -v)
 echo -e "${MAGENTA}Node $NODE_VERSION${RESET_COLOR}"
 
-PS1='\[\033]0;$PWD\007\]'  # set window title
+PS1='\[\e]0;$PWD\007\]'    # set window title
 PS1="$PS1"'\n'             # new line
 PS1="$PS1${BROWN_YELLOW}"  # set color
 PS1="$PS1"'\w'             # current working directory
