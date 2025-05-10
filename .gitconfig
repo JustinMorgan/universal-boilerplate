@@ -122,6 +122,14 @@
   #$> git last
   last = log -1 HEAD
 
+  # Set the URL for origin
+  #$> git seturl https://url/of/your/git/repo
+  seturl = remote set-url origin 
+
+  # Show existing remotes
+  #$> git showurl
+  showurl = remote -v
+
 
   ###################### Helper utilities ######################
   # These are subroutines primarily meant to be used by other macros.
