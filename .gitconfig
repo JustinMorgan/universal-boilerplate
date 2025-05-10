@@ -208,10 +208,8 @@
   #$> git cm "I did a thing"
   cm = "!sh -c 'git add --all && git sts && git ci -m \"$0\" && git newline && git ss;'"
 
-  # Commit-quiet: Same as `cm`, but do not show before/after state. Only output will
-  # be a one-line summary.
+  # Commit-quiet: Same as `cm`, but show no output.
   #$> git cmq "I did a thing"
-  # cmq = "!sh -c 'git add --all; git ci -qm \"$0\"; git sh;'"
   cmq = !git add --all && git ci -qm
 
   # Commit-verbose: Same as `cm`, but with verbose output
