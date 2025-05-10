@@ -100,11 +100,11 @@
   #$> git sr
   sr = show -s --format="%C(auto)%d"
 
-  # Show condensed commit history.
+  # Show a compact commit history.
   #$> git lg
   lg = log --oneline --decorate=short
 
-  # Re-enter last commit message
+  # Re-enter last commit message. See also `amend`.
   # THIS MODIFIES THE LAST COMMIT. DO NOT USE IF YOU ALREADY PUSHED THE COMMIT.
   #$> git reword "What I should've said"
   reword = commit --amend -m
@@ -130,7 +130,7 @@
   #$> git branch-name
   branch-name = rev-parse --abbrev-ref HEAD
 
-  # Print to the screen. Used to provide reader-friendly console output.
+  # Print to the screen. Used for reader-friendly console output.
   print-yellow = !printf '\\033[33m%s\\033[0m'
   print-magenta = !printf '\\033[35m%s\\033[0m'
   newline = !printf '\\n'
@@ -184,7 +184,7 @@
   #$> git uncomr
   uncomr = !git before && git ss && git resetv --soft HEAD^ && git reset && git after && git ss
 
-  # Add all untracked files, then add current changes to most recent commit.
+  # Add all untracked files, then add current changes to the last commit. See also `reword`.
   # THIS MODIFIES THE LAST COMMIT. DO NOT USE IF YOU ALREADY PUSHED THE COMMIT.
   #$> git amend
   amend = !git before && git sts && git newline && git adv --all && git commitv --amend --no-edit && git after && git st

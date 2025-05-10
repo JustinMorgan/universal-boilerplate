@@ -48,7 +48,7 @@ There's extensive documentation inside the file, so read it for more information
 
     #$> git ss
 
-This shows current Git status, current branch name, and a summary of the last commit all at once. It's a good way to get your bearings.
+This shows your current Git status, current branch, and a one-line summary of the last commit. It's a good way to get your bearings.
 
 ### Branching
 
