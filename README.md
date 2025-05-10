@@ -6,6 +6,12 @@ Some basic necessities for any project, featuring convenient shell shortcuts and
 
 - [Quick setup](#quick-setup)
 - [Using the boilerplate gitconfig](#using-the-boilerplate-gitconfig)
+	- [Checking current Git state](#checking-current-git-state)
+	- [Branching](#branching)
+	- [Syncing changes](#syncing-changes)
+	- [Committing](#committing)
+	- [Turning back the clock](#turning-back-the-clock)
+	- [Fixing mistakes](#fixing-mistakes)
 - [Using the boilerplate shell profile](#using-the-boilerplate-shell-profile)
 - [Using the boilerplate shell prompt settings](#using-the-boilerplate-shell-prompt-setting)
 - [Using the gitignore suite](#using-the-gitignore-suite)
@@ -39,7 +45,7 @@ Intended usage is to include this file in your personal .gitconfig as described 
 
 There's extensive documentation inside the file, so read it for more information. Here are some examples you'll probably use a lot:
 
-### Checking the current state
+### Checking current Git state
 
     #$> git ss 
     
