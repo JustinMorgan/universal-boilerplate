@@ -1,22 +1,9 @@
 ####################################
-# Personal info and preferences
+# USING THIS FILE
 ####################################
-
-# Fill in your info here so your commits will be tagged correctly
-# [user]
-#   name = <enter name here>
-#   email = <enter email here>
-
-####################################
-# Include other config files
-####################################
-
-# Optional: This allows you to include an external configuration file.
-# Typical use case is to pull in a shared/generic .gitconfig (like this one), 
-# while keeping personal settings like username and email in a personal
-# .gitconfig in your user folder.
+# Simply include this file at the top of your personal .gitconfig in your home folder (~/ or $HOME/):
 # [include]
-#   path = "C:/code/universal-boilerplate/.gitconfig"
+#   path = "<path/to/universal-boilerplate>/.gitconfig"
 
 ####################################
 # Git preferences
@@ -113,7 +100,7 @@
   #$> git sr
   sr = show -s --format="%C(auto)%d"
 
-  # Show simple commit history.
+  # Show condensed commit history.
   #$> git lg
   lg = log --oneline --decorate=short
 
@@ -319,7 +306,7 @@
   # finish = !git upd && git reb master && git mrgd --no-ff
 
   # Delete a branch locally and remotely.
-  # By design, throws an exception if you don't specify a branch name.
+  # By design, this throws an exception if you don't provide a branch name.
   #$> git killall some-branch-name
   killall = "!f() { \
     if [ $# -lt 1 ]; then \
