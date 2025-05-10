@@ -2,6 +2,14 @@
 
 Some basic necessities for any project, featuring convenient shell shortcuts and extensive Git macros for convenience and safety.
 
+# Table of contents:
+
+- [Quick setup](#quick-setup)
+- [Using the boilerplate gitconfig](#using-the-boilerplate-gitconfig)
+- [Using the boilerplate shell profile](#using-the-boilerplate-shell-profile)
+- [Using the boilerplate shell prompt settings](#using-the-boilerplate-shell-prompt-setting)
+- [Using the gitignore suite](#using-the-gitignore-suite)
+
 # Quick Setup
 
 All steps after the first are optional. Pick and choose as you like.
@@ -23,7 +31,7 @@ All steps after the first are optional. Pick and choose as you like.
 
 **5. Create a .gitignore:** You will probably want to manually create a .gitignore file whenever you start a new project, but you can get the code from the **gitignore** folder. See below for more info.
 
-# Using the boilerplate .gitconfig file
+# Using the boilerplate gitconfig
 
 The **.gitconfig** file in the root is the primary feature here. It sets up extensive macros designed to make Git more convenient, organize typical commands into workflows, provide constant visibility for your Git state, and protect you from easy mistakes like using the wrong flag or forgetting to run `git add` before committing.
 
@@ -75,11 +83,11 @@ This simply lets you change the commit message for the previous commit. **Do not
     
 Forgot a piece of code? Committed and then realized you didn't save a file? This will add all current changes to the previous commit. Like `cm` and `save`, it automatically runs `add` first so you know all your changes will be included. **Do not use if you've already pushed the commit!**
 
-# Using the boilerplate .bash_profile
+# Using the boilerplate shell profile
 
 Like .gitconfig, this file is all about convenience macros. Just import it into your personal shell config file as described above. It should work fine in Bash or ZSH.
 
-# Using the boilerplate git-prompt.sh
+# Using the boilerplate shell prompt settings
 
 This will give you nice, compact shell prompt with syntax-highlighted info about your current Git branch and the active Node version. Setup is described above. It's intended for Git Bash and may not work well in ZSH on a Mac.
 
