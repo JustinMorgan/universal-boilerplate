@@ -98,7 +98,7 @@
 
   ############################### Convenience shortcuts #################################
   # These are git commands with common arguments already filled in. Designed to promote
-  # consistency and reduce the need to memorize a ton of Git flags.
+  # consistency and reduce the need to memorize a ton of command flags.
 
   # Create a new branch
   #$> git new new-feature-branch-name
@@ -117,7 +117,8 @@
   #$> git lg
   lg = log --oneline --decorate=short
 
-  # Re-enter last commit message (DO NOT USE IF YOU ALREADY PUSHED THE COMMIT)
+  # Re-enter last commit message
+  # THIS MODIFIES THE LAST COMMIT. DO NOT USE IF YOU ALREADY PUSHED THE COMMIT.
   #$> git reword "What I should've said"
   reword = commit --amend -m
 
@@ -126,20 +127,40 @@
   #$> git plr
   plr = pull --rebase --prune
 
-  # Get current branch name. This is primarily used by other macros below.
+  # Show current status in short form
+  #$> git sts
+  sts = status -s
+
+  # Show most recent commit with metadata and commit message
+  #$> git last
+  last = log -1 HEAD
+
+
+  ###################### Helper utilities ######################
+  # These are subroutines primarily meant to be used by other macros.
+
+  # Get current branch name
   #$> git branch-name
   branch-name = rev-parse --abbrev-ref HEAD
 
-  ######### Simple echoing commands: Show commands in the console as they happen #########
+  # Print to the screen. Used to provide reader-friendly console output.
+  print-yellow = !printf '\\033[33m%s\\033[0m'
+  print-magenta = !printf '\\033[35m%s\\033[0m'
+  newline = !printf '\\n'
+  before = print-magenta '\nBefore\n'
+  after = print-magenta '\nAfter\n'
+
+
+  ######### Echoing (verbose) commands #########
   # These show commands in the console as they run. Mostly used by other macros to provide
   # verbose output.
 
-  mrgv = !echo git merge $@ && git merge
-  commitv = !echo git commit $@ && git commit
-  plv = !echo git pull $@ && git pull
-  brv = !echo git branch $@ && git branch
-  adv = !echo git add $@ && git add
-  resetv = !echo git reset $@ && git reset
+  mrgv =    !printf 'merge '  && git print-yellow \"$*\n\" && git merge
+  commitv = !printf 'commit ' && git print-yellow \"$*\n\" && git commit
+  plv =     !printf 'pull '   && git print-yellow \"$*\n\" && git pull
+  brv =     !printf 'branch ' && git print-yellow \"$*\n\" && git branch
+  adv =     !printf 'add '    && git print-yellow \"$*\n\" && git add
+  resetv =  !printf 'reset '  && git print-yellow \"$*\n\" && git reset
 
 
   ###################### Echoing convenience shortcuts ######################
@@ -159,57 +180,61 @@
   mff = !git mrgv --ff-only
 
 
-  ###################### Macros: Combinations of other shortcuts #####################
+  ########################## Macros #########################
+  # These combine multiple other shortcuts into a workflow.
 
   # See current uncommitted changes, current branch/head position, and the last commit before where you are.
-  # A good way to get your bearings.
+  # This is a good way to get your bearings.
   #$> git ss
-  ss = !git sh && git st
+  ss = !git st && git sh 
 
-  # Reopen the last commit, but keep the changes. You'll be more or less back to the moment before you committed.
-  # All changes will remain staged.
+  # Reopen the last commit, but keep the changes. You'll be back to the moment before you committed, except that
+  # all changes will remain staged.
   #$> git uncommit
-  uncommit = !echo BEFORE && git ss && git resetv --soft HEAD^ && echo AFTER && git ss
+  uncommit = !git before && git ss && git resetv --soft HEAD^ && git after && git ss
 
-  # As uncommit, but including a soft reset. The changes will still be there, but none of them will be staged.
+  # As uncommit, but also unstage all changes.
   #$> git uncomr
-  uncomr = !echo BEFORE && git ss && git resetv --soft HEAD^ && git reset && echo AFTER && git ss
-
-  # # Auto-save current changes (see `save`), go to master and pull latest, then return to this branch.
-  # # Useful when you're preparing to merge the latest from master into this branch.
-  # #$> git upd
-  # upd = !git save && git co master && git plff && git co -
+  uncomr = !git before && git ss && git resetv --soft HEAD^ && git reset && git after && git ss
 
   # Add all untracked files, then add current changes to most recent commit.
-  # As with `reword`, DO NOT USE IF YOU ALREADY PUSHED THE COMMIT.
+  # THIS MODIFIES THE LAST COMMIT. DO NOT USE IF YOU ALREADY PUSHED THE COMMIT.
   #$> git amend
-  amend = !git adv --all && git commitv --amend --no-edit && git ss
+  amend = !git before && git sts && git newline && git adv --all && git commitv --amend --no-edit && git after && git st
 
-  # Push to origin while automatically setting the current branch's upstream to a remote branch with the same name.
+  # Push to origin while automatically setting the current branch's upstream to a
+  # remote branch with the same name.
   #$> git psu
-  psu = !git ps --set-upstream origin $(git branch-name) && git ss
+  psu = !git ps --set-upstream origin $(git branch-name) && git newline && git ss
 
   # Go to the specified brach and pull latest, then return to this branch and merge 
-  # that branch into this one.
-  # Useful for merging the latest from the main branch into this branch.
+  # that branch into this one. You must specify a branch (`-` is fine).
+  # Useful for merging the latest from the main branch into this one.
   #$> git upd master
-  upd = !git co $@ && git plff && git co - && git mrgv
+  #$> git upd -
+  upd = !git co $* && git plff && git co - && git mrgv
 
-
-  ############################### One-liner functions ################################
+  ############# Commit workflow ###########
 
   # Standard commit workflow: Add all changes and commit everything with the given
   # message. Displays status, branch, and latest commit before and after committing.
   #$> git cm "I did a thing"
-  cm = "!f() { msg=$1; git sh && git add --all && git st && git ci -m \"$msg\"; git ss; }; f"
+  cm = "!sh -c 'git add --all && git sts && git ci -m \"$0\" && git newline && git ss;'"
 
-  # Commit-quiet: Same as `cm`, but do not show before/after state.
+  # Commit-quiet: Same as `cm`, but do not show before/after state. Only output will
+  # be a one-line summary.
   #$> git cmq "I did a thing"
-  cmq = "!f() { msg=$1; git add --all && git ci -m \"$msg\"; }; f"
+  cmq = "!sh -c 'git add --all; git ci -qm \"$0\"; git sh;'"
 
-  # Commit-verbose: Same as `cm`, but echo add & commit commands to the console.
+  # Commit-verbose: Same as `cm`, but with verbose output
   #$> git cmv "I did a thing"
-  cmv = "!f() { msg=$1; git sh && git adv --all && git st && git commitv -m \"$msg\"; git ss; }; f"
+  cmv = "!sh -c '\
+   git before \
+   && git sts && git newline \
+   && git adv --all && git sts && git newline \
+   && git commitv -m \"$0\" \
+   && git after \
+   && git ss;'"
 
   # Quicksave: Quick-commit your current changes with a default message.
   # NOTE: `git save` can be used in place of `git stash`, with the advantage of
@@ -218,19 +243,35 @@
   # to push the quicksave as-is, you can use the other macros here to change it
   # later (see `amend`, `reword`, and `uncommit`).
   #$> git save
-  save = "!f() { msg=${1}; git cmv \"Save point $1\"; }; f"
+  save = !git cm 'Save point'
+
+  # Quicksave-quiet: Quicksave with minimal output.
+  saveq = !git cmq 'Save point'
+
+  ######################## Complex functions (experimental) ############################
+  # NOTE: Everything in this section is experimental, and may be dangerous if used in the
+  # wrong way. Make sure you understand them before you use them.
 
   # Dump all changes and go back to previous commit. If there are no changes,
   # undo the last commit.
-  # NOTE: `git undo` automatically creates a quicksave (see the `save` macro),
+  # NOTE: This macro automatically creates a quicksave (see the `save` macro),
   # so you can always get your changes back. The save won't show up in the main
   # tree, but you can reach it directly via the hash or by examining the reflog.
+  # This allows you to discard your current changes while leaving a safety hatch 
+  # open just in case.
   #$> git undo
-  undo = "!f() { git save \"Unstage last commit\" && git resetv --hard HEAD~1 && git ss; }; f"
-
-  ######################## Complex functions (experimental) ############################
-  # NOTE: Everything in this section is experimental. Make sure you understand these
-  # before using them. The most dangerous/destructive ones are commented out by default.
+  undo = ! "f() { \
+    git before; \
+    git sh && git sts; \
+    if [[ `git status --porcelain` ]]; then \
+      git print-yellow '\nCreating a save point\n'; \
+      git saveq; \
+    fi; \
+    git print-yellow '\nDiscarding most recent changes\n'; \
+    git reset --hard HEAD~1; \
+    git after; \
+    git ss; \
+  }; f #"
 
   # Create a save point with all current changes, but instead of committing it to this branch,
   # spin off a new branch in the "backup/" folder. The new branch will have the same name as
@@ -238,10 +279,8 @@
   # your local branch list will get messy if you don't come back and delete them.
   # Unlike simply creating a new branch and then committing your changes (or vice versa), any
   # changes you're working on will end up uncommitted but intact in the starting branch.
-  # Useful as a quick & dirty snapshotter if you've hit a dead end and want to back out your
+  # Useful as a quick & dirty snapshotter if you've hit a dead end and want to discard your
   # changes, but you aren't ready to burn bridges yet.
-  # NOTE: Since this finishes with a soft reset, everything will be unstaged when you get back
-  # to the starting branch. The changes themselves won't be lost.
   #
   # How it works:
   #   [[ -z $(git status -s) ]]; changes=$?          # Set variable $changes to 1 if there are uncommitted changes, else 0
@@ -252,13 +291,16 @@
   # If you're still unclear what this does, just run it while you have uncommitted changes, then run
   # `git br` and `git st`. You'll see a new branch called backup/your-branch-name-<timestamp> with a
   # snapshot of your current uncommitted changes.
+  #
+  # NOTE: Since this finishes with a soft reset, everything will be unstaged when you get back
+  # to the starting branch. The changes themselves won't be lost.
   #$> git backup
   backup = "!f() { \
     [[ -z $(git status -s) ]]; changes=$?; \
     [ $changes -eq 1 ] && git save; \
     git new backup/$(git branch-name)-$(date +%s) && git co -; \
     [ $changes -eq 1 ] && git uncomr; \
-  }; f"
+  }; f #"
 
   # # Go back to master, get latest from origin, merge this branch into master,
   # # then delete this branch. Stops executing if any command fails.
@@ -266,10 +308,10 @@
   # mrgd = "!f() {            \
   #   bn=$(git branch-name);  \
   #   git co master           \
-  #       && git mrgv - $@    \
+  #       && git mrgv - $*    \
   #       && git brv -d $bn;  \
   #   git ss;                 \
-  # }; f"
+  # }; f #"
 
   # # Quicksave if there are changes, update master and rebase this branch onto it,
   # # merge this branch into master, and delete this branch.
@@ -278,7 +320,7 @@
 
   # Delete a branch locally and remotely.
   # By design, throws an exception if you don't specify a branch name.
-  #$> git killall my-branch-name
+  #$> git killall some-branch-name
   killall = "!f() { \
     if [ $# -lt 1 ]; then \
       echo 'ERROR: Wrong number of arguments'; \
@@ -287,10 +329,10 @@
     bn=$1 \
       && git ps origin --delete $bn \
       && git br -d $bn; \
-  }; f"
+  }; f #"
 
   # Switch to previous branch, pull latest, and delete the branch we started on.
   # Typically used when you've finished a feature, pushed the feature branch, and merged your pull 
   # request into the remote master branch.
   #$> git done
-  done = "!f() { br=$(git branch-name); git co - && git pl && git br -d $br; }; f"
+  done = "!f() { br=$(git branch-name); git co - && git pl && git br -d $br; }; f #"

@@ -1,74 +1,90 @@
 # Universal Boilerplate
-Some basic necessities for any project, including my go-to .gitconfig and a collection of .gitignore files for various platforms. 
 
-# Setup
+Some basic necessities for any project, featuring convenient shell shortcuts and extensive Git macros for convenience and safety.
 
-## Quick setup (Node.js only)
+# Quick Setup
 
-Simply clone this repo, delete the `.git/` folder and everything but `.gitconfig` and `.gitignore`, and use the root `universal-boilerplate` folder as the root of your new development project.
+All steps after the first are optional. Pick and choose as you like.
 
-## Manual setup (but still very quick)
+**1. Clone this repo** to a local folder, e.g. C:/code/universal-boilerplate.
 
-1. Find the `.gitconfig` file in the root of this project. If you're on Linux/UNIX, you'll have to view hidden files to find it.
-2. Find the appropriate `.gitignore` file for your platform and/or IDE. 
-    * **If you're using Node.js:** You're all set, the one for Node.js (with Cloud9 IDE) is already in the project root. 
-    * **If you're using something else:** Look in the `gitignore/` and `gitignore/global/` folders for the `.gitignore` for your environment. Rename it `.gitignore` and replace the one in the root of this project.
-3. Copy `.gitconfig` and `.gitignore` into the appropriate folder. 
-    * **If you want the settings to apply to one project:** Copy the files into the root of your development project (the folder that has the `.git/` subfolder in it).
-    * **If you want to change your global Git settings:** Copy them into your home directory (this is `~` on Linux or `%HOMEPATH%` on Windows).
+**2. Import .gitconfig:** Add the following to the top of your personal .gitconfig in your home folder (if you don't have this file, create one):
+
+    [include]
+        path = "<path/to/universal-boilerplate>/.gitconfig"
+
+**3. Import .bash_profile:** As above, add the following to the top of your personal ~/.bash_profile in your home folder. If you use ZSH as your shell, you should be able to do the exact same thing in ~/.zshrc:
+
+    source <path/to/universal-boilerplate>/.bash_profile
+
+**4. Import git-prompt.sh:** If you use Git for Windows, add the following to your personal shell config file as above. May not work well in ZSH:
+
+    source <path/to/universal-boilerplate>/git-prompt.sh
+
+**5. Create a .gitignore:** You will probably want to manually create a .gitignore file whenever you start a new project, but you can get the code from the **gitignore** folder. See below for more info.
+
+# Using the boilerplate .gitconfig file
+
+The **.gitconfig** file in the root is the primary feature here. It sets up extensive macros designed to make Git more convenient, organize typical commands into workflows, provide constant visibility for your Git state, and protect you from easy mistakes like using the wrong flag or forgetting to run `git add` before committing.
+
+Intended usage is to include this file in your personal .gitconfig as described above, then add any further personalization or overrides you want to that file.
+
+There's extensive documentation inside the file, so read it for more information. Here are some examples you'll probably use a lot:
+
+### Checking the current state
+
+    #$> git ss 
     
-Note: I typically put `.gitconfig` in my home folder and `.gitignore` in one project root at a time. That way I can have project-specific gitignore settings while using the same command shortcuts everywhere.
-
-# Usage
-
-The most important part of this repo is the `.gitconfig`, file which contains a bunch of macros to make Git more convenient and safer. 
-Apart from being shorter to type, they're designed to encapsulate parts of your workflow so you don't have to worry about forgetting a 
-step or breaking a team convention. All are documented in the `[alias]` section of the `.gitconfig` file, but here are the most common 
-and useful ones:
-
-### Status checks
-
-    #$> git ss  # See current commit status, current branch, and last commit (good way to generally get your bearings)
+This shows current Git status, current branch name, and a summary of the last commit all at once. It's a good way to get your bearings.
     
 ### Branching
 
-    #$> git new new_branch   # Create a new branch and switch to it
-    #$> git go other_branch  # Switch to an existing branch
+    #$> git new new_branch_name      # Create a new branch and switch to it
+    #$> git co existing_branch_name  # Switch to an existing branch
     
-### Syncing and merging
+### Syncing changes
 
-    #$> git pl                # Pull latest from origin (simple alias for `git pull`)
-    #$> git ps                # Push changes to origin (simple alias for `git push`)
-    #$> git mnf other_branch  # Merge, but create a merge commit even if fast-forwarding is possible
+    #$> git pl   # Simple alias for `git pull`
+    #$> git ps   # Simple alias for `git push`
+    #$> git psu  # Push, but also set the upstream branch automatically (equivalent to `git push --set-upstream <current_branch_name>`)
     
-### Committing changes
+### Committing
 
-    #$> git com "I did a thing"  # Add all untracked files, commit everything with the given message (echoing mode)
-    #$> git save                 # Quicksave: Create a commit with a default message (you can also specify one)
+    #$> git cm "I did a thing"   # Add all untracked files, commit everything with the given message, and display the resulting state
+    #$> git save                 # Quicksave: Create a commit with a default message. You can always change it later.
                                     
-Both `com` and `save` automatically run `git add --all`, so you don't have to worry about forgetting to add your changes. `save` can be used 
-in place of `git stash`, but it has the advantage of preserving a trail in the Git log. This is especially useful for the `uncommit` and 
-`undo` macros below.
+Both of these automatically run `git add --all`, so you don't ever have to push a commit and then realize you still have unstaged changes or untracked files.
     
 ### Turning back the clock
 
-    #$> git uncommit  # Reopen the last commit, but don't undo the changes
+    #$> git uncommit
     
-This won't erase any of your file changes, but it will make it as though you never committed them. You can rewrite the commit message, add
-changes, or move to a different branch and redo the commit.
+This keeps your changes, but it will be as if you never committed them. You can rewrite the commit message, add more changes, or move to a different branch and redo the commit.
 
-    #$> git undo      # If there are uncommitted changes: Dump all uncommitted changes.
-                      # If there are no uncommitted changes: Dump the last commit and roll back to the previous one.
+    #$> git undo      
     
-Both `uncommit` and `undo` automatically create a quicksave with the `save` macro, so it's safe to make mistakes with them. Even though it 
-looks like you threw away all uncommitted changes or erased the last commit, they're still reachable as a "detached" commit. If you change 
-your mind, all you have to do is find the hash of the quicksave commit (there are ways of doing this).
+If there are uncommitted changes, this will drop them. If there are no uncommitted changes, it rolls back to the previous commit. The key here is that it automatically quicksaves to a "detached" commit, so unlike `git reset --hard`, you have an emergency parachute if you make a mistake. Even though it looks like you threw out your changes or erased the last commit, they're still reachable. You can locate and restore them via the reflog.
 
-### Amending un-pushed commits (potentially risky, see below)
+### Fixing mistakes
 
-    #$> git reword "New message"  # Enter a new commit message for the most recent commit
-    #$> git amend                 # Add all changes (including untracked files), then add current changes to last commit
+    #$> git reword "New message"  
     
-NOTE: Both of these macros use the `git commit --amend` command to alter an existing commit. Do **NOT** `amend` or `reword` commits you've 
-already pushed to a remote! This will cause your Git histories to diverge, which will inevitably lead to problems.
+This simply lets you change the commit message for the previous commit. **Do not use if you've already pushed the commit!**
 
+    #$> git amend
+    
+Forgot a piece of code? Committed and then realized you didn't save a file? This will add all current changes to the previous commit. Like `cm` and `save`, it automatically runs `add` first so you know all your changes will be included. **Do not use if you've already pushed the commit!**
+
+# Using the boilerplate .bash_profile
+
+Like .gitconfig, this file is all about convenience macros. Just import it into your personal shell config file as described above. It should work fine in Bash or ZSH.
+
+# Using the boilerplate git-prompt.sh
+
+This will give you nice, compact shell prompt with syntax-highlighted info about your current Git branch and the active Node version. Setup is described above. It's intended for Git Bash and may not work well in ZSH on a Mac.
+
+# Using the gitignore suite
+
+The **gitignore** folder (forked from https://github.com/github/gitignore) has a suite of .gitignore templates for different platforms, languages, IDEs, etc. Use these as a guide to combine all the rules that match your situation into one file that covers all your bases. For example, if you have a TypeScript/Angular app that runs on Node and you work in Visual Studio Code, combine Typescript.gitignore, Angular.gitignore, Node.gitignore, and VisualStudioCode.gitignore into one .gitignore file on the root of your project. 
+
+.gitignore doesn't support `include` statements like .gitconfig, so you'll want to build one manually whenever you create a new project. Certainly you could script it or use [gitattribute filter drivers](https://git-scm.com/docs/gitattributes#_filter), but that's probably overkill. Just look through the gitignore folder for the file(s) that match your platform, language, development environment, etc. and combine their contents. You can clean up duplicates if you want, but it shouldn't matter.
