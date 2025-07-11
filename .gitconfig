@@ -192,10 +192,6 @@
     && git after \
     && git ss
 
-  # As uncommit, but also unstage all changes.
-  #$> git uncomr
-  uncomr = !git before && git ss && git resetv --soft HEAD^ && git reset && git after && git ss
-
   # Add all untracked files, then add current changes to the last commit. See also `reword`.
   # THIS MODIFIES THE LAST COMMIT. DO NOT USE IF YOU ALREADY PUSHED THE COMMIT.
   #$> git amend
