@@ -141,21 +141,20 @@
   # Print to the screen. Used for reader-friendly console output.
   print-yellow = !printf '\\033[33m%s\\033[0m'
   print-magenta = !printf '\\033[35m%s\\033[0m'
-  newline = !printf '\\n'
-  before = print-magenta '\nBefore\n'
-  after = print-magenta '\nAfter\n'
+  before = print-magenta '\nBefore:\n'
+  after = print-magenta '\nAfter:\n'
 
 
   ######### Echoing (verbose) commands #########
   # These show commands in the console as they run. Mostly used by other macros to provide
   # verbose output.
 
-  mrgv =    !printf 'merge '  && git print-yellow \"$*\n\" && git merge
-  commitv = !printf 'commit ' && git print-yellow \"$*\n\" && git commit
-  plv =     !printf 'pull '   && git print-yellow \"$*\n\" && git pull
-  brv =     !printf 'branch ' && git print-yellow \"$*\n\" && git branch
-  adv =     !printf 'add '    && git print-yellow \"$*\n\" && git add
-  resetv =  !printf 'reset '  && git print-yellow \"$*\n\" && git reset
+  mrgv =    !set -x && git merge
+  commitv = !set -x && git commit
+  plv =     !set -x && git pull
+  brv =     !set -x && git branch
+  adv =     !set -x && git add 
+  resetv =  !set -x && git reset
 
 
   ###################### Echoing convenience shortcuts ######################
@@ -178,10 +177,10 @@
   ########################## Macros #########################
   # These combine multiple other shortcuts into a workflow.
 
-  # See current uncommitted changes, current branch/head position, and the last commit before where you are.
+  # See current uncommitted changes, current branch/head position, and the most recent commit message.
   # This is a good way to get your bearings.
   #$> git ss
-  ss = !git st && git sh 
+  ss = !git sh && printf '\\n' && git st
 
   # Reopen the last commit, but keep the changes. You'll be back to the moment before you committed, except that
   # all changes will remain staged.
@@ -195,12 +194,18 @@
   # Add all untracked files, then add current changes to the last commit. See also `reword`.
   # THIS MODIFIES THE LAST COMMIT. DO NOT USE IF YOU ALREADY PUSHED THE COMMIT.
   #$> git amend
-  amend = !git before && git sts && git newline && git adv --all && git commitv --amend --no-edit && git after && git st
+  amend = !git before \
+    && git sts \
+    && printf '\\n' \
+    && git adv --all \
+    && git commitv --amend --no-edit \
+    && git after \
+    && git st
 
   # Push to origin while automatically setting the current branch's upstream to a
   # remote branch with the same name.
   #$> git psu
-  psu = !git ps --set-upstream origin $(git branch-name) && git newline && git ss
+  psu = !git ps --set-upstream origin $(git branch-name) && printf '\\n' && git ss
 
   # Go to the specified brach and pull latest, then return to this branch and merge 
   # that branch into this one. You must specify a branch (`-` is fine).
@@ -214,21 +219,22 @@
   # Standard commit workflow: Add all changes and commit everything with the given
   # message. Displays status, branch, and latest commit before and after committing.
   #$> git cm "I did a thing"
-  cm = "!sh -c 'git add --all && git sts && git ci -m \"$0\" && git newline && git ss;'"
+  cm = !git add --all && git sts && git ci -m \"$1\" && printf '\\n' && git ss
 
-  # Commit-quiet: Same as `cm`, but show no output.
+  # Commit-quiet: Same as `cm`, but with no console output.
   #$> git cmq "I did a thing"
-  cmq = !git add --all && git ci -qm
+  cmq = !git add --all && git ci -qm 
 
   # Commit-verbose: Same as `cm`, but with verbose output
   #$> git cmv "I did a thing"
-  cmv = "!sh -c '\
-   git before \
-   && git sts && git newline \
-   && git adv --all && git sts && git newline \
-   && git commitv -m \"$0\" \
+  cmv = !git before \
+   && git sts && printf '\\n' \
+   && git print-magenta 'Add and commit all:' && printf '\\n' \
+   && git adv --all \
+   && git sts && printf '\\n' \
+   && git commitv -m \"$1\" \
    && git after \
-   && git ss;'"
+   && git ss
 
   # Quicksave: Quick-commit your current changes with a default message.
   # NOTE: `git save` can be used in place of `git stash`, with the advantage of
@@ -240,7 +246,7 @@
   save = !git cm 'Save point'
 
   # Quicksave-quiet: Quicksave with minimal output.
-  saveq = !git cmq 'Save point'
+  saveq = !git cmq 'Save point' && git sh
 
   ######################## Complex functions (experimental) ############################
   # NOTE: Everything in this section is experimental, and may be dangerous if used in the
@@ -258,10 +264,10 @@
     git before; \
     git sh && git sts; \
     if [[ `git status --porcelain` ]]; then \
-      git print-yellow '\nCreating a save point\n'; \
+      git print-magenta '\nCreating a save point:\n'; \
       git saveq; \
     fi; \
-    git print-yellow '\nDiscarding most recent changes\n'; \
+    git print-magenta '\nDiscarding most recent changes:\n'; \
     git reset --hard HEAD~1; \
     git after; \
     git ss; \

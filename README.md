@@ -2,7 +2,7 @@
 
 Some basic necessities for any project, featuring convenient shell shortcuts and extensive Git macros for convenience and safety.
 
-# Table of contents:
+# Table of contents
 
 - [Quick setup](#quick-setup)
 - [Using the boilerplate gitconfig](#using-the-boilerplate-gitconfig)

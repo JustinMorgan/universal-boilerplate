@@ -1,23 +1,17 @@
-######## WORK IN PROGRESS ########
-
-NODE_VERSION=$(\node -v)
-
-echo "\033[36mNode $NODE_VERSION\033[0m"
-
-# GIT_PROMPT_LOCATION=${GIT_PROMPT_LOCATION:-"~/git-prompt.sh"}
-
-# if [[ -e $GIT_PROMPT_LOCATION ]]; then
-#   echo $GIT_PROMPT_LOCATION
-#   source $GIT_PROMPT_LOCATION
-# fi
-source ~/.git-prompt.sh
+# Show current Node version upon opening the terminal
+echo "\033[36mNode $(\node -v)\033[0m"
 
 setopt PROMPT_SUBST
 PS1=$'\n'
+PS1="$PS1"'%F{33}%~%f'
+
+# You may need to source git-prompt.sh to get access to the __git_ps1 function.
+# See https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh.
+# source ~/.git-prompt.sh
 
 if typeset -f __git_ps1 >/dev/null 2>&1; then
   PS1="$PS1"'%F{90}`__git_ps1`%f '
 fi
 
-PS1="$PS1"'%F{33}%~%f $ '
+PS1="$PS1"$'\n$ '
 RPROMPT="%F{111}[%D{%f/%m}|%@]"
