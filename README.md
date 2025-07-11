@@ -26,7 +26,7 @@ All steps after the first are optional. Pick and choose as you like.
         [include]
             path = "<path/to/universal-boilerplate>/.gitconfig"
 
-3.  Import shell macros: Import shell-macros.sh into your personal shell profile. For Bash, this will be `~/.bash_profile`. For ZSH, it will be `~/.zshrc`.
+3.  Import shell macros: Import shell-macros.sh into your personal shell profile. This will be `~/.bash_profile` for Bash and `~/.zshrc` for ZSH.
 
         source <path/to/universal-boilerplate>/shell-macros.sh
 
@@ -91,11 +91,11 @@ Forgot a piece of code? Committed and then realized you didn't save a file? This
 
 # Using the boilerplate shell macros
 
-Like .gitconfig, shell-macros.sh is all about convenience macros. Just import it into your personal shell config file as described above. It should work fine in Bash or ZSH.
+Like .gitconfig, shell-macros.sh is all about convenience macros. Just source it in your personal shell profile as described above. It should work fine in Bash or ZSH.
 
 # Using the boilerplate shell prompt
 
-This will give you nice, compact shell prompt with syntax-highlighted info about your current Git branch and the active Node version. Setup is described above. Import bash-prompt.sh for Bash or zsh-prompt.sh for ZSH.
+This will give you nice, compact shell prompt with syntax-highlighted info about your current Git branch and the active Node version. Setup is described above. Source bash-prompt.sh for Bash or zsh-prompt.sh for ZSH.
 
 # Using the gitignore suite
 

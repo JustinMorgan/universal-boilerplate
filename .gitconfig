@@ -185,7 +185,12 @@
   # Reopen the last commit, but keep the changes. You'll be back to the moment before you committed, except that
   # all changes will remain staged.
   #$> git uncommit
-  uncommit = !git before && git ss && git resetv --soft HEAD^ && git after && git ss
+  uncommit = !git before \
+    && git ss \
+    && git print-magenta '\nReopen last commit:' && printf '\\n' \
+    && git resetv --soft HEAD^ \
+    && git after \
+    && git ss
 
   # As uncommit, but also unstage all changes.
   #$> git uncomr
