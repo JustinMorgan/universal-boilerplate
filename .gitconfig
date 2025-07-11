@@ -49,6 +49,11 @@
   #$> git st
   st = status
 
+  # Create commit
+  # Note: For the typical commit workflow, use the `cm` macro instead
+  #$> git ci -m "I did a thing"
+  ci = commit
+
   # Switch to branch
   #$> git co some-branch-name
   co = checkout
@@ -76,11 +81,6 @@
   # Rebase: See https://git-scm.com/docs/git-rebase
   #$> git reb -i master
   reb = rebase
-
-  # Create commit
-  # Note: For the typical commit workflow, use the `cm` macro instead
-  #$> git ci -m "I did a thing"
-  ci = commit
 
 
   ############################### Convenience shortcuts #################################
