@@ -43,43 +43,17 @@
 
 [alias]  
 
-  ####################### Plain aliases for standard commands ########################
+  ####################### Simple shorthand commands ########################
+  # These just save you some typing.
 
-  # See current (uncommitted) changes
-  #$> git st
   st = status
-
-  # Create commit
-  # Note: For the typical commit workflow, use the `cm` macro instead
-  #$> git ci -m "I did a thing"
   ci = commit
-
-  # Switch to branch
-  #$> git co some-branch-name
   co = checkout
-
-  # Pull latest from origin
-  #$> git pl
   pl = pull
-
-  # Push changes to origin
-  #$> git ps
   ps = push
-
-  # Merge a branch into this one
-  #$> git mrg --no-ff incoming-branch-name
   mrg = merge
-
-  # Go to or manipulate a branch
-  #$> git br -d branch-to-delete
   br = branch
-
-  # Pull in a specific commit from another branch
-  #$> git cp 1a2b3c4d5
   cp = cherry-pick
-
-  # Rebase: See https://git-scm.com/docs/git-rebase
-  #$> git reb -i master
   reb = rebase
 
 
@@ -88,54 +62,55 @@
   # consistency and reduce the need to memorize a ton of command flags.
 
   # Create a new branch
-  #$> git new new-feature-branch-name
+  # $> git new new-feature-branch-name
   new = checkout -b
 
   # Peek at where you are in the tree. Shows last commit hash, current head/ref location,
   # and last commit message..
-  #$> git sh
+  # $> git sh
   sh = show --oneline --decorate=short -s
 
   # As "sh", but show only current head/ref location
-  #$> git sr
+  # $> git sr
   sr = show -s --format="%C(auto)%d"
 
   # Show a compact commit history.
-  #$> git lg
+  # $> git lg
   lg = log --oneline --decorate=short
 
-  # Re-enter last commit message. See also `amend`.
+  # Rewrite your last commit message. The commit will be unchanged except for the different
+  # message. A good way to fix typos.
   # THIS MODIFIES THE LAST COMMIT. DO NOT USE IF YOU ALREADY PUSHED THE COMMIT.
-  #$> git reword "What I should've said"
+  # $> git reword "What I should've said"
   reword = commit --amend -m
 
   # Pull with rebase and prune
   # See https://adamcod.es/2014/12/10/git-pull-correct-workflow.html
-  #$> git plr
+  # $> git plr
   plr = pull --rebase --prune
 
   # Show current status in short form
-  #$> git sts
+  # $> git sts
   sts = status -s
 
   # Show most recent commit with metadata and commit message
-  #$> git last
+  # $> git last
   last = log -1 HEAD
 
   # Set the URL for origin
-  #$> git seturl https://url/of/your/git/repo
+  # $> git seturl https://url/of/your/git/repo
   seturl = remote set-url origin 
 
   # Show existing remotes
-  #$> git showurl
+  # $> git showurl
   showurl = remote -v
 
 
   ###################### Helper utilities ######################
-  # These are subroutines primarily meant to be used by other macros.
+  # These are primarily meant to be used by other macros.
 
-  # Get current branch name
-  #$> git branch-name
+  # Get the current branch name
+  # $> git branch-name
   branch-name = rev-parse --abbrev-ref HEAD
 
   # Print to the screen. Used for reader-friendly console output.
@@ -146,8 +121,10 @@
 
 
   ######### Echoing (verbose) commands #########
-  # These show commands in the console as they run. Mostly used by other macros to provide
-  # verbose output.
+  # These work the same as normal commands, but they echo the full command into
+  # the console, including arguments. They're mainly used by other macros to let
+  # you see what they're doing. You can pass arguments to them as normal.
+  # $> git adv --all
 
   mrgv =    !set -x && git merge
   commitv = !set -x && git commit
@@ -162,15 +139,15 @@
   # what your shortcuts are doing
 
   # Pull if the tree can be fast-forwarded, otherwise fail (and require manual merging)
-  #$> git plff
+  # $> git plff
   plff = !git plv --ff-only
 
   # Merge a branch into this one, but always create a merge commit even if fast-forwarding is possible
-  #$> git mnf other-branch-name
+  # $> git mnf other-branch-name
   mnf = !git mrgv --no-ff
 
   # Merge if the tree can be fast-forwarded, otherwise fail (and require manual merging)
-  #$> git mff other-branch-name
+  # $> git mff other-branch-name
   mff = !git mrgv --ff-only
 
 
@@ -179,12 +156,13 @@
 
   # See current uncommitted changes, current branch/head position, and the most recent commit message.
   # This is a good way to get your bearings.
-  #$> git ss
+  # $> git ss
   ss = !git sh && printf '\\n' && git st
 
   # Reopen the last commit, but keep the changes. You'll be back to the moment before you committed, except that
   # all changes will remain staged.
-  #$> git uncommit
+  # DO NOT USE THIS IF YOU ALREADY PUSHED THE COMMIT.
+  # $> git uncommit
   uncommit = !git before \
     && git ss \
     && git print-magenta '\nReopen last commit:' && printf '\\n' \
@@ -194,7 +172,7 @@
 
   # Add all untracked files, then add current changes to the last commit. See also `reword`.
   # THIS MODIFIES THE LAST COMMIT. DO NOT USE IF YOU ALREADY PUSHED THE COMMIT.
-  #$> git amend
+  # $> git amend
   amend = !git before \
     && git sts \
     && printf '\\n' \
@@ -205,29 +183,31 @@
 
   # Push to origin while automatically setting the current branch's upstream to a
   # remote branch with the same name.
-  #$> git psu
+  # $> git psu
   psu = !git ps --set-upstream origin $(git branch-name) && printf '\\n' && git ss
 
-  # Go to the specified brach and pull latest, then return to this branch and merge 
-  # that branch into this one. You must specify a branch (`-` is fine).
-  # Useful for merging the latest from the main branch into this one.
-  #$> git upd master
-  #$> git upd -
+  # Move to the given branch, pull the latest changes, then return to this branch
+  # and merge that branch into this one. This is useful when you're on a feature
+  # branch and you want to keep it up to date with the main branch.
+  # You must specify a branch (`-` is fine).
+  # By design, this will fail if you need to manually merge anything.
+  # $> git upd master
+  # $> git upd -
   upd = !git co $* && git plff && git co - && git mrgv
 
   ############# Commit workflow ###########
 
   # Standard commit workflow: Add all changes and commit everything with the given
   # message. Displays status, branch, and latest commit before and after committing.
-  #$> git cm "I did a thing"
+  # $> git cm "I did a thing"
   cm = !git add --all && git sts && git ci -m \"$1\" && printf '\\n' && git ss
 
   # Commit-quiet: Same as `cm`, but with no console output.
-  #$> git cmq "I did a thing"
+  # $> git cmq "I did a thing"
   cmq = !git add --all && git ci -qm 
 
   # Commit-verbose: Same as `cm`, but with verbose output
-  #$> git cmv "I did a thing"
+  # $> git cmv "I did a thing"
   cmv = !git before \
    && git sts && printf '\\n' \
    && git print-magenta 'Add and commit all:' && printf '\\n' \
@@ -243,7 +223,7 @@
   # your saves easily and have as many as you want at a time. If you don't want
   # to push the quicksave as-is, you can use the other macros here to change it
   # later (see `amend`, `reword`, and `uncommit`).
-  #$> git save
+  # $> git save
   save = !git cm 'Save point'
 
   # Quicksave-quiet: Quicksave with minimal output.
@@ -260,7 +240,7 @@
   # tree, but you can reach it directly via the hash or by examining the reflog.
   # This allows you to discard your current changes while leaving a safety hatch 
   # open just in case.
-  #$> git undo
+  # $> git undo
   undo = ! "f() { \
     git before; \
     git sh && git sts; \
@@ -295,7 +275,7 @@
   #
   # NOTE: Since this finishes with a soft reset, everything will be unstaged when you get back
   # to the starting branch. The changes themselves won't be lost.
-  #$> git backup
+  # $> git backup
   backup = "!f() { \
     [[ -z $(git status -s) ]]; changes=$?; \
     [ $changes -eq 1 ] && git save; \
@@ -305,7 +285,7 @@
 
   # # Go back to master, get latest from origin, merge this branch into master,
   # # then delete this branch. Stops executing if any command fails.
-  # #$> git mrgd --no-ff
+  # # $> git mrgd --no-ff
   # mrgd = "!f() {            \
   #   bn=$(git branch-name);  \
   #   git co master           \
@@ -314,14 +294,13 @@
   #   git ss;                 \
   # }; f #"
 
-  # # Quicksave if there are changes, update master and rebase this branch onto it,
-  # # merge this branch into master, and delete this branch.
-  # #$> git finish
+  # # Update master, rebase this branch onto it, merge this branch into master, and delete this branch.
+  # # $> git finish
   # finish = !git upd && git reb master && git mrgd --no-ff
 
   # Delete a branch locally and remotely.
   # By design, this throws an exception if you don't provide a branch name.
-  #$> git killall some-branch-name
+  # $> git killall some-branch-name
   killall = "!f() { \
     if [ $# -lt 1 ]; then \
       echo 'ERROR: Wrong number of arguments'; \
@@ -335,5 +314,5 @@
   # Switch to previous branch, pull latest, and delete the branch we started on.
   # Typically used when you've finished a feature, pushed the feature branch, and merged your pull 
   # request into the remote master branch.
-  #$> git done
+  # $> git done
   done = "!f() { br=$(git branch-name); git co - && git pl && git br -d $br; }; f #"
