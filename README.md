@@ -38,11 +38,16 @@ All steps after the first are optional. Pick and choose as you like.
 
 # Using the boilerplate gitconfig
 
-The **.gitconfig** file in the root is the primary feature here. It sets up extensive macros designed to make Git more convenient, organize typical commands into workflows, provide constant visibility for your Git state, and protect you from easy mistakes like using the wrong flag or forgetting to run `git add` before committing.
+The **.gitconfig** file in the root is the primary feature here. Have you ever created a Git commit, pushed it to origin, maybe even deployed it, and then realized it was missing some of your changes because you forgot to run `git add` first? How many times have you had to google a command because you couldn't remember which flags you're supposed to use? Well, I got tired of doing that.
 
-Intended usage is to include this at the top of your personal .gitconfig, followed by any more personalization or overrides you want.
+This is an extensive set of macros/aliases designed to make Git more convenient, organize typical commands into workflows, provide constant visibility for your Git state, and protect you from easy mistakes. Typical usage is to include this file at the top of your personal .gitconfig. If you don't like any of the macros here, you can override them after the include.
 
 There's extensive documentation inside the file, so read it for more information. Here are some examples you'll probably use a lot:
+
+### Committing
+
+    #$> git cm "I did a thing"   # Add all untracked files, commit everything with the given message, and display the resulting state
+    #$> git save                 # Quicksave: Create a commit with a default message. You can always change it later.
 
 ### Checking current Git state
 
@@ -61,11 +66,6 @@ This shows your current Git status, current branch, and a one-line summary of th
     #$> git ps   # Simple alias for `git push`
     #$> git psu  # Push, but also set the upstream branch automatically
                  # (equivalent to `git push --set-upstream <current_branch_name>`)
-
-### Committing
-
-    #$> git cm "I did a thing"   # Add all untracked files, commit everything with the given message, and display the resulting state
-    #$> git save                 # Quicksave: Create a commit with a default message. You can always change it later.
 
 Both of these automatically run `git add --all`, so you don't ever have to push a commit and then realize you still have unstaged changes or untracked files.
 
