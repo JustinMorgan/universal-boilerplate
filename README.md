@@ -1,6 +1,6 @@
 # Universal Boilerplate
 
-Some basic necessities for any project, featuring convenient shell shortcuts and extensive Git macros for convenience and safety.
+Have you ever created a Git commit, pushed it to origin, maybe even deployed it, and then realized it was missing some of your changes because you forgot to run `git add` first? How many times have you had to google a command because you couldn't remember which flags you're supposed to use? Well, I got tired of doing that. This repo contains tools and boilerplate designed to be useful on any project, featuring convenient shell shortcuts and extensive Git macros for convenience and safety.
 
 # Table of contents
 
@@ -38,9 +38,7 @@ All steps after the first are optional. Pick and choose as you like.
 
 # Using the boilerplate gitconfig
 
-The **.gitconfig** file in the root is the primary feature here. Have you ever created a Git commit, pushed it to origin, maybe even deployed it, and then realized it was missing some of your changes because you forgot to run `git add` first? How many times have you had to google a command because you couldn't remember which flags you're supposed to use? Well, I got tired of doing that.
-
-This is an extensive set of macros/aliases designed to make Git more convenient, organize typical commands into workflows, provide constant visibility for your Git state, and protect you from easy mistakes. Typical usage is to include this file at the top of your personal .gitconfig. If you don't like any of the macros here, you can override them after the include.
+The **.gitconfig** file in the root is the primary feature here. It has an extensive set of macros/aliases designed to make Git more convenient, organize typical commands into workflows, provide constant visibility for your Git state, and protect you from easy mistakes. Typical usage is to include this file at the top of your personal .gitconfig. If you don't like any of the macros here, you can override them after the include.
 
 There's extensive documentation inside the file, so read it for more information. Here are some examples you'll probably use a lot:
 
