@@ -138,17 +138,20 @@
   # Command/parameter shortcuts combined with echoing macros so you can see
   # what your shortcuts are doing
 
+  # Pull, fast-forward only
   # Pull if the tree can be fast-forwarded, otherwise fail (and require manual merging)
   # $> git plff
   plff = !git plv --ff-only
 
-  # Merge a branch into this one, but always create a merge commit even if fast-forwarding is possible
-  # $> git mnf other-branch-name
-  mnf = !git mrgv --no-ff
-
+  # Merge, fast-forward only
   # Merge if the tree can be fast-forwarded, otherwise fail (and require manual merging)
   # $> git mff other-branch-name
   mff = !git mrgv --ff-only
+
+  # Merge, no fast-forwarding allowed
+  # Merge a branch into this one, but always create a merge commit even if fast-forwarding is possible.
+  # $> git mnf other-branch-name
+  mnf = !git mrgv --no-ff
 
 
   ########################## Macros #########################
