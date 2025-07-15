@@ -22,7 +22,7 @@ This repo contains tools and boilerplate designed to be useful on any project, f
 
 All steps after the first are optional. Pick and choose as you like.
 
-1.  **Clone this repo** to a local folder.
+1.  **Clone this repo** to your machine.
 2.  **Import .gitconfig:** Add the following to the top of your personal `.gitconfig` in your home folder (`~/.gitconfig` or `$HOME/.gitconfig`). If you don't have this file, create it.
 
         [include]
