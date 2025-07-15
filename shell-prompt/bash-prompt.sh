@@ -7,8 +7,10 @@ CYAN="\e[36m"
 RESET_COLOR="\e[0m"
 
 # Whenever a new shell opens, show the current Node version in purple
-NODE_VERSION=$(\node -v)
-echo -e "${MAGENTA}Node $NODE_VERSION${RESET_COLOR}"
+if which node > /dev/null
+then
+    echo -e "${MAGENTA}Node $(\node -v)${RESET_COLOR}"
+fi
 
 PS1='\[\e]0;$PWD\007\]'    # set window title
 PS1="$PS1"'\n'             # new line

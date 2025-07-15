@@ -1,6 +1,8 @@
 # Universal Boilerplate
 
-Have you ever created a Git commit, pushed it to origin, maybe even deployed it, and then realized it was missing some of your changes because you forgot to run `git add` first? How many times have you had to google a command because you couldn't remember which flags you're supposed to use? Well, I got tired of doing that. This repo contains tools and boilerplate designed to be useful on any project, featuring convenient shell shortcuts and extensive Git macros for convenience and safety.
+Have you ever created a Git commit, pushed it, maybe even deployed it, and then realized it was missing some changes because you forgot to run `git add` first? How many times have you had to google a command because you couldn't remember which flags you're supposed to use? Well, I got tired of doing that. 
+
+This repo contains tools and boilerplate designed to be useful on any project, featuring convenient shell shortcuts and extensive Git macros for convenience and safety.
 
 # Table of contents
 
@@ -21,82 +23,57 @@ Have you ever created a Git commit, pushed it to origin, maybe even deployed it,
 All steps after the first are optional. Pick and choose as you like.
 
 1.  Clone this repo to a local folder.
-2.  Import .gitconfig: Add the following to the top of your personal .gitconfig in your home folder (~/ or $HOME/). If you don't have this file, create it.
+2.  Import .gitconfig: Add the following to the top of your personal `.gitconfig` in your home folder (`~/.gitconfig` or `$HOME/.gitconfig`). If you don't have this file, create it.
 
         [include]
-            path = "<path/to/universal-boilerplate>/.gitconfig"
+            path = "<path/to/universal-boilerplate>/git-tools/.gitconfig"
 
-3.  Import shell macros: Import shell-macros.sh into your personal shell profile. This will be `~/.bash_profile` for Bash and `~/.zshrc` for ZSH.
+3.  Set up the command-line shortcuts: For Unix-style shells like Bash, source `alias.sh` in your personal shell profile (`~/.bash_profile` or `~/.zshrc`).
 
-        source <path/to/universal-boilerplate>/shell-macros.sh
+        source <path/to/universal-boilerplate>/terminal-shortcuts/alias.sh
 
-4.  Import bash-prompt.sh or zsh-prompt.sh into your personal shell profile as described above:
+Customizing your Windows terminal (CMD or PowerShell) is tricky. The easiest way is to find the Windows shortcut that runs CMD from your Start menu, click "Open File Location," right-click the actual shortcut file, and open its properties. On the Shortcut tab is a field called Target with the actual Windows command that runs your terminal. You'll want to change that command so it runs `alias.cmd` on startup.
 
-        source <path/to/universal-boilerplate>/bash-prompt.sh
+        C:\Windows\System32\cmd.exe /k "<path\to\universal-boilerplate>\terminal-shortcuts\alias.cmd"
 
-5.  Create a .gitignore: You'll probably want to manually create a .gitignore file whenever you start a new project, but you can get the code from the **gitignore** folder. See below for more info.
+4.  Improve your shell prompt: Source `bash-prompt.sh` or `zsh-prompt.sh` in your personal shell profile as described above:
 
-# Using the boilerplate gitconfig
+        source <path/to/universal-boilerplate>/shell-prompt/bash-prompt.sh
 
-The **.gitconfig** file in the root is the primary feature here. It has an extensive set of macros/aliases designed to make Git more convenient, organize typical commands into workflows, provide constant visibility for your Git state, and protect you from easy mistakes. Typical usage is to include this file at the top of your personal .gitconfig. If you don't like any of the macros here, you can override them after the include.
+5.  Create a .gitignore: This one is different in that it's not already built for you. You'll want to manually create a .gitignore file according to your own setup, but you can get the code from the **git-tools/gitignore** folder. See below for more info.
 
-There's extensive documentation inside the file, so read it for more information. Here are some examples you'll probably use a lot:
+# Using the boilerplate gitconfig (git-tools/.gitconfig)
 
-### Committing
+The **.gitconfig** file is the primary feature here. It has an extensive set of aliases/macros designed to make Git more convenient, organize typical commands into workflows, provide constant visibility for your Git state, and protect you from easy mistakes. Typical usage is to include this file at the top of your personal .gitconfig. If you don't like any of the macros here, you can override them after the include.
 
-    #$> git cm "I did a thing"   # Add all untracked files, commit everything with the given message, and display the resulting state
-    #$> git save                 # Quicksave: Create a commit with a default message. You can always change it later.
+The `cm`, `cmv`, and related commands deserve special attention. They include `add`, `commit`, and displaying the result into a convenient, safer workflow. They'll save typing, but most of all they'll keep you aware of your repo's state and make sure you never forget to add your changes. You shouldn't ever need to use `commit` (or its shortcut `ci`) unless you're doing something specific.
 
-### Checking current Git state
+There's extensive documentation inside the file, so read it for more information.
 
-    #$> git ss
+### A few common macros you'll use a lot:
 
-This shows your current Git status, current branch, and a one-line summary of the last commit. It's a good way to get your bearings.
-
-### Branching
-
+    #$> git ss                       # Show your current branch, the last commit, and current status
+    #$> git cm "I did a thing"       # Add all changes, create a commit, and display the resulting state
+    #$> git save                     # Quicksave: Instantly make a commit with a default message
     #$> git new new_branch_name      # Create a new branch and switch to it
     #$> git co existing_branch_name  # Switch to an existing branch
+    #$> git pl                       # Simple alias for `git pull`
+    #$> git ps                       # Simple alias for `git push`
+    #$> git psu                      # Push, but also set the upstream branch automatically (use this
+                                     # whenever you first push a new branch to origin)
 
-### Syncing changes
+# Using the command-line shortcuts (terminal-shortcuts/ folder)
 
-    #$> git pl   # Simple alias for `git pull`
-    #$> git ps   # Simple alias for `git push`
-    #$> git psu  # Push, but also set the upstream branch automatically
-                 # (equivalent to `git push --set-upstream <current_branch_name>`)
+Like .gitconfig, the two alias scripts are all about convenience. They set up shortcuts for common commands. Setup is described above. `alias.sh` should work fine in Bash or ZSH. `alias.cmd` should work for CMD, but it's untested in PowerShell.
 
-Both of these automatically run `git add --all`, so you don't ever have to push a commit and then realize you still have unstaged changes or untracked files.
+# Improving your shell prompt (shell-prompt/ folder)
 
-### Turning back the clock
+This will give you a nice, compact shell prompt with syntax-highlighted info about your current Git branch and the active Node version. Setup is described above. Source bash-prompt.sh for Bash or zsh-prompt.sh for ZSH.
 
-    #$> git uncommit
+For now, this isn't implemented for the Windows command line.
 
-This keeps your changes, but it will be as if you never committed them. You can rewrite the commit message, add more changes, or move to a different branch and redo the commit.
+# Using the gitignore suite (git-tools/gitignore/ folder)
 
-    #$> git undo
+The **gitignore** folder (forked from https://github.com/github/gitignore) has a suite of .gitignore templates for different platforms, languages, IDEs, etc. You should find the ones that match your setup and combine them. For example, if you have an Angular app written in TypeScript that runs on Node and you work in Visual Studio Code, merge `Typescript.gitignore`, `Angular.gitignore`, `Node.gitignore`, and `VisualStudioCode.gitignore` into one .gitignore file on the root of your project. This is simpler than it sounds. You can clean up duplicate rules if you want, but it shouldn't matter.
 
-If there are uncommitted changes, this will drop them. If there are no uncommitted changes, it rolls back to the previous commit. The key here is that it automatically quicksaves to a "detached" commit, so unlike `git reset --hard`, you have an emergency parachute if you make a mistake. Even though it looks like you threw out your changes or erased the last commit, they're still reachable. You can locate and restore them via the reflog.
-
-### Fixing mistakes
-
-    #$> git reword "New message"
-
-This simply lets you change the commit message for the previous commit. **Do not use if you've already pushed the commit!**
-
-    #$> git amend
-
-Forgot a piece of code? Committed and then realized you didn't save a file? This will add all current changes to the previous commit. Like `cm` and `save`, it automatically runs `add` first so you know all your changes will be included. **Do not use if you've already pushed the commit!**
-
-# Using the boilerplate shell macros
-
-Like .gitconfig, shell-macros.sh is all about convenience macros. Just source it in your personal shell profile as described above. It should work fine in Bash or ZSH.
-
-# Using the boilerplate shell prompt
-
-This will give you nice, compact shell prompt with syntax-highlighted info about your current Git branch and the active Node version. Setup is described above. Source bash-prompt.sh for Bash or zsh-prompt.sh for ZSH.
-
-# Using the gitignore suite
-
-The **gitignore** folder (forked from https://github.com/github/gitignore) has a suite of .gitignore templates for different platforms, languages, IDEs, etc. Use these as a guide to combine all the rules that match your situation into one file that covers all your bases. For example, if you have a TypeScript/Angular app that runs on Node and you work in Visual Studio Code, combine Typescript.gitignore, Angular.gitignore, Node.gitignore, and VisualStudioCode.gitignore into one .gitignore file on the root of your project.
-
-.gitignore doesn't support `include` statements like .gitconfig, so you'll want to build one manually whenever you create a new project. Certainly you could script it or use [gitattribute filter drivers](https://git-scm.com/docs/gitattributes#_filter), but that's probably overkill. Just look through the gitignore folder for the file(s) that match your platform, language, development environment, etc. and combine their contents. You can clean up duplicate rules if you want, but it shouldn't matter.
+.gitignore doesn't support `include` statements like .gitconfig, so you'll want to build one manually whenever you create a new project. Of course, you could script it or use [gitattribute filter drivers](https://git-scm.com/docs/gitattributes#_filter), but that's definitely overkill for most people. 

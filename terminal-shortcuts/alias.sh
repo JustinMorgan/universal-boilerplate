@@ -1,3 +1,6 @@
+####### CONVENIENCE SHORTCUTS FOR BASH-STYLE SHELLS #########
+# Usage: Source this in your shell profile (~/.bash_profile or ~/.zshrc)
+
 # system
 alias l='ls -laghFG'
 alias rmd='rm -rf'

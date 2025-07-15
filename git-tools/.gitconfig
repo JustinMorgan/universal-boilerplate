@@ -3,7 +3,7 @@
 ####################################
 # Simply include this file at the top of your personal .gitconfig in your home folder (~/ or $HOME/):
 # [include]
-#   path = "<path/to/universal-boilerplate>/.gitconfig"
+#   path = "<path/to/universal-boilerplate>/git-tools/.gitconfig"
 
 ####################################
 # Git preferences
@@ -78,12 +78,6 @@
   # $> git lg
   lg = log --oneline --decorate=short
 
-  # Rewrite your last commit message. The commit will be unchanged except for the different
-  # message. A good way to fix typos.
-  # THIS MODIFIES THE LAST COMMIT. DO NOT USE IF YOU ALREADY PUSHED THE COMMIT.
-  # $> git reword "What I should've said"
-  reword = commit --amend -m
-
   # Pull with rebase and prune
   # See https://adamcod.es/2014/12/10/git-pull-correct-workflow.html
   # $> git plr
@@ -139,17 +133,20 @@
   # what your shortcuts are doing
 
   # Pull, fast-forward only
-  # Pull if the tree can be fast-forwarded, otherwise fail (and require manual merging)
+  # Pull if the tree can be fast-forwarded, otherwise fail (and require manual
+  # merging)
   # $> git plff
   plff = !git plv --ff-only
 
   # Merge, fast-forward only
-  # Merge if the tree can be fast-forwarded, otherwise fail (and require manual merging)
+  # Merge if the tree can be fast-forwarded, otherwise fail (and require manual
+  # merging)
   # $> git mff other-branch-name
   mff = !git mrgv --ff-only
 
   # Merge, no fast-forwarding allowed
-  # Merge a branch into this one, but always create a merge commit even if fast-forwarding is possible.
+  # Merge a branch into this one, but always create a merge commit even if
+  # fast-forwarding is possible.
   # $> git mnf other-branch-name
   mnf = !git mrgv --no-ff
 
@@ -157,35 +154,14 @@
   ########################## Macros #########################
   # These combine multiple other shortcuts into a workflow.
 
-  # See current uncommitted changes, current branch/head position, and the most recent commit message.
-  # This is a good way to get your bearings.
+  # Show your current branch, the last commit, and all current changes.
+  # This is a good way to get your bearings. You'll want to use it often.
   # $> git ss
   ss = !git sh && printf '\\n' && git st
 
-  # Reopen the last commit, but keep the changes. You'll be back to the moment before you committed, except that
-  # all changes will remain staged.
-  # DO NOT USE THIS IF YOU ALREADY PUSHED THE COMMIT.
-  # $> git uncommit
-  uncommit = !git before \
-    && git ss \
-    && git print-magenta '\nReopen last commit:' && printf '\\n' \
-    && git resetv --soft HEAD^ \
-    && git after \
-    && git ss
-
-  # Add all untracked files, then add current changes to the last commit. See also `reword`.
-  # THIS MODIFIES THE LAST COMMIT. DO NOT USE IF YOU ALREADY PUSHED THE COMMIT.
-  # $> git amend
-  amend = !git before \
-    && git sts \
-    && printf '\\n' \
-    && git adv --all \
-    && git commitv --amend --no-edit \
-    && git after \
-    && git st
-
   # Push to origin while automatically setting the current branch's upstream to a
   # remote branch with the same name.
+  # Run this instead of `ps` when you're pushing a new branch to origin.
   # $> git psu
   psu = !git ps --set-upstream origin $(git branch-name) && printf '\\n' && git ss
 
@@ -198,16 +174,17 @@
   # $> git upd -
   upd = !git co $* && git plff && git co - && git mrgv
 
-  ############# Commit workflow ###########
+  ######################## Commit workflow ########################
+  # These are designed to replace the standard Git `commit` command. You should
+  # only need to use that when you want to do something unusual.
+  # The important thing is that all of these run `git add` first, so you'll never
+  # forget to add your changes to a commit.
 
   # Standard commit workflow: Add all changes and commit everything with the given
-  # message. Displays status, branch, and latest commit before and after committing.
+  # message. Displays status, branch, and latest commit before and after
+  # committing.
   # $> git cm "I did a thing"
   cm = !git add --all && git sts && git ci -m \"$1\" && printf '\\n' && git ss
-
-  # Commit-quiet: Same as `cm`, but with no console output.
-  # $> git cmq "I did a thing"
-  cmq = !git add --all && git ci -qm 
 
   # Commit-verbose: Same as `cm`, but with verbose output
   # $> git cmv "I did a thing"
@@ -220,29 +197,65 @@
    && git after \
    && git ss
 
-  # Quicksave: Quick-commit your current changes with a default message.
-  # NOTE: `git save` can be used in place of `git stash`, with the advantage of
+  # Commit-quiet: Same as `cm`, but with no console output
+  # $> git cmq "I did a thing"
+  cmq = !git add --all && git ci -qm 
+
+  # Amend: Add all untracked files, then add current changes to the last commit.
+  # This doesn't change the commit message. Use `reword` for that, or just 
+  # `uncommit` and try again.
+  # THIS MODIFIES THE LAST COMMIT. DO NOT USE IF YOU ALREADY PUSHED THE COMMIT.
+  # $> git amend
+  amend = !git before \
+    && git sts \
+    && printf '\\n' \
+    && git adv --all \
+    && git commitv --amend --no-edit \
+    && git after \
+    && git st
+
+  # Rewrite your last commit message. The commit will be exactly the same except
+  # for the different message. A good way to fix typos.
+  # This doesn't change what's in the commit. Use `amend` for that, or just 
+  # `uncommit` and try again.
+  # THIS MODIFIES THE LAST COMMIT. DO NOT USE IF YOU ALREADY PUSHED THE COMMIT.
+  # $> git reword "What I should've said"
+  reword = commit --amend -m
+
+  # Quicksave: Quick-commit all current changes with a default message.
+  # NOTE: This can be used instead of `git stash`, with the advantage of
   # preserving a trail in the history. Since it's a normal commit, you can find
-  # your saves easily and have as many as you want at a time. If you don't want
-  # to push the quicksave as-is, you can use the other macros here to change it
-  # later (see `amend`, `reword`, and `uncommit`).
+  # it easily and have as many as you want.
+  # If you don't want to push the quicksave as-is, you can always squash it or
+  # change the message later.
   # $> git save
   save = !git cm 'Save point'
 
   # Quicksave-quiet: Quicksave with minimal output.
   saveq = !git cmq 'Save point' && git sh
 
+  # Reopen the last commit, but keep the changes. You'll be back to the moment
+  # before you committed, except that all changes will remain staged.
+  # DO NOT USE THIS IF YOU ALREADY PUSHED THE COMMIT.
+  # $> git uncommit
+  uncommit = !git before \
+    && git ss \
+    && git print-magenta '\nReopen last commit:' && printf '\\n' \
+    && git resetv --soft HEAD^ \
+    && git after \
+    && git ss
+
   ######################## Complex functions (experimental) ############################
   # NOTE: Everything in this section is experimental, and may be dangerous if used in the
   # wrong way. Make sure you understand them before you use them.
 
-  # Dump all changes and go back to previous commit. If there are no changes,
-  # undo the last commit.
-  # NOTE: This macro automatically creates a quicksave (see the `save` macro),
-  # so you can always get your changes back. The save won't show up in the main
-  # tree, but you can reach it directly via the hash or by examining the reflog.
-  # This allows you to discard your current changes while leaving a safety hatch 
-  # open just in case.
+  # Dump all changes and go back to the last commit. If there are no changes, dump the
+  # last commit.
+  # NOTE: This macro automatically creates a quicksave (see the `save` macro), so you
+  # can always get your changes back. The save won't show up in the main tree, but you
+  # can find it in the reflog or run commands on it by referencing its hash ID.
+  # This allows you to discard your current changes, but still leave a safety hatch open
+  # just in case.
   # $> git undo
   undo = ! "f() { \
     git before; \
