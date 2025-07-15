@@ -32,7 +32,7 @@ All steps after the first are optional. Pick and choose as you like.
 
         source <path/to/universal-boilerplate>/terminal-shortcuts/alias.sh
 
-Customizing your Windows terminal (CMD or PowerShell) is tricky. The easiest way is to find the Windows shortcut that runs CMD from your Start menu, click "Open File Location," right-click the actual shortcut file, and open its properties. On the Shortcut tab is a field called Target with the actual Windows command that runs your terminal. You'll want to change that command so it runs `alias.cmd` on startup.
+Customizing a Windows terminal (CMD or PowerShell) is tricky. The easiest way is to find the Windows shortcut that runs CMD from your Start menu, click "Open File Location," and copy the actual shortcut file. Right click your copy and open its properties. On the Shortcut tab is a field called Target with the actual Windows command that runs your terminal. You'll want to change that command so it runs `alias.cmd` on startup.
 
         C:\Windows\System32\cmd.exe /k "<path\to\universal-boilerplate>\terminal-shortcuts\alias.cmd"
 
