@@ -22,25 +22,25 @@ This repo contains tools and boilerplate designed to be useful on any project, f
 
 All steps after the first are optional. Pick and choose as you like.
 
-1.  Clone this repo to a local folder.
-2.  Import .gitconfig: Add the following to the top of your personal `.gitconfig` in your home folder (`~/.gitconfig` or `$HOME/.gitconfig`). If you don't have this file, create it.
+1.  **Clone this repo** to a local folder.
+2.  **Import .gitconfig:** Add the following to the top of your personal `.gitconfig` in your home folder (`~/.gitconfig` or `$HOME/.gitconfig`). If you don't have this file, create it.
 
         [include]
             path = "<path/to/universal-boilerplate>/git-tools/.gitconfig"
 
-3.  Set up the command-line shortcuts: For Unix-style shells like Bash, source `alias.sh` in your personal shell profile (`~/.bash_profile` or `~/.zshrc`).
+3.  **Set up the command-line shortcuts:** For Unix-style shells like Bash, source `alias.sh` in your personal shell profile (`~/.bash_profile` or `~/.zshrc`).
 
         source <path/to/universal-boilerplate>/terminal-shortcuts/alias.sh
 
-Customizing a Windows terminal (CMD or PowerShell) is tricky. The easiest way is to find the Windows shortcut that runs CMD from your Start menu, click "Open File Location," and copy the actual shortcut file. Right click your copy and open its properties. On the Shortcut tab is a field called Target with the actual Windows command that runs your terminal. You'll want to change that command so it runs `alias.cmd` on startup.
+    Customizing a Windows terminal (CMD or PowerShell) is tricky. The easiest way is to find the Windows shortcut that runs CMD from your Start menu, click "Open File Location," and copy the actual shortcut file. Right click your copy and open its properties. On the Shortcut tab is a field called Target with the actual Windows command that runs your terminal. You'll want to change that command so it runs `alias.cmd` on startup.
 
         C:\Windows\System32\cmd.exe /k "<path\to\universal-boilerplate>\terminal-shortcuts\alias.cmd"
 
-4.  Improve your shell prompt: Source `bash-prompt.sh` or `zsh-prompt.sh` in your personal shell profile as described above:
+4.  **Improve your shell prompt:** Source `bash-prompt.sh` or `zsh-prompt.sh` in your personal shell profile as described above:
 
         source <path/to/universal-boilerplate>/shell-prompt/bash-prompt.sh
 
-5.  Create a .gitignore: This one is different in that it's not already built for you. You'll want to manually create a .gitignore file according to your own setup, but you can get the code from the **git-tools/gitignore** folder. See below for more info.
+5.  **Create a .gitignore:** This one is different in that it's not already built for you. You'll want to manually create a .gitignore file according to your own setup, but you can get the code from the **git-tools/gitignore** folder. See below for more info.
 
 # Using the boilerplate gitconfig (git-tools/.gitconfig)
 
