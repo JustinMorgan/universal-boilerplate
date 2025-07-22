@@ -10,7 +10,7 @@ PS1="$PS1"'%F{33}%~%f'
 # source ~/.git-prompt.sh
 
 if typeset -f __git_ps1 >/dev/null 2>&1; then
-  PS1="$PS1"'%F{90}`__git_ps1`%f '
+    PS1="$PS1"'%F{90}`__git_ps1`%f '
 fi
 
 PS1="$PS1"$'\n$ '
