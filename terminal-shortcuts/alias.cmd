@@ -8,10 +8,13 @@ DOSKEY l=dir $*
 DOSKEY rmd=rd /s /q $1
 
 @REM git
-DOSKEY pl=git pl $*
-DOSKEY st=git st $*
 DOSKEY br=git br $*
+DOSKEY pl=git pl $*
+DOSKEY ps=git ps $*
+DOSKEY psu=git psu
 DOSKEY sh=git sh
+DOSKEY st=git st
+DOSKEY sts=git sts
 
 @REM node
 if exist "C:\Program Files\nodejs\nodevars.bat" (
