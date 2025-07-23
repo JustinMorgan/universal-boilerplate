@@ -7,7 +7,7 @@
 DOSKEY l=dir $*
 DOSKEY rmd=rd /s /q $1
 
-@REM git
+@REM git (requires the boilerplate .gitconfig)
 DOSKEY br=git br $*
 DOSKEY pl=git pl $*
 DOSKEY ps=git ps $*
@@ -16,7 +16,7 @@ DOSKEY sh=git sh
 DOSKEY st=git st
 DOSKEY sts=git sts
 
-@REM node
+@REM node (requires node.js)
 if exist "C:\Program Files\nodejs\nodevars.bat" (
     call "C:\Program Files\nodejs\nodevars.bat"
     DOSKEY ni=npm install $*

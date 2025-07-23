@@ -32,7 +32,7 @@ All steps after the first are optional. Pick and choose as you like.
 
         source <path/to/universal-boilerplate>/terminal-shortcuts/alias.sh
 
-    Customizing a Windows terminal (CMD or PowerShell) is tricky. The easiest way is to duplicate the existing Windows shortcut that opens your terminal program. Open its properties and change the command it runs:
+    Customizing a Windows terminal (CMD or PowerShell) is tricky. The easiest way is to duplicate the existing Windows shortcut that opens your terminal program. Open the copy's properties and change the command it runs:
 
         C:\Windows\System32\cmd.exe /k "<path\to\universal-boilerplate>\terminal-shortcuts\alias.cmd"
 
