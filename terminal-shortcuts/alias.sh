@@ -5,13 +5,13 @@
 alias l='ls -laghFG'
 alias rmd='rm -rf'
 
-# git
-alias pl='git pull'
-alias st='git status'
-alias sh='git show --oneline --decorate=short -s'
-alias br='git branch'
+# git (requires the boilerplate .gitconfig)
+alias pl='git pl'
+alias st='git st'
+alias sh='git sh'
+alias br='git br'
 
-# node
+# node (requires node.js)
 alias ni='npm install'
 alias nu='npm uninstall'
 alias ns='npm start'
