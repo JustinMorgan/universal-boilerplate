@@ -66,9 +66,9 @@ There's extensive documentation inside the file, so read it for more information
 
     #$> git ss                       # Show your current branch, the last commit, and current status
     #$> git cm "I did a thing"       # Add all changes, create a commit, and display the resulting state
-    #$> git save                     # Quicksave: Instantly make a commit with a default message
+    #$> git save                     # Quicksave: Instantly add and commit with a default message
     #$> git new new_branch_name      # Create a new branch and switch to it
-    #$> git co existing_branch_name  # Switch to an existing branch
+    #$> git co existing_branch_name  # Checkout an existing branch
     #$> git pl                       # Simple alias for `git pull`
     #$> git ps                       # Simple alias for `git push`
     #$> git psu                      # Push, but also set the upstream branch automatically (use this
