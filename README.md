@@ -7,6 +7,11 @@ This repo contains tools and boilerplate designed to be useful on any project, f
 # Table of contents
 
 - [Quick setup](#quick-setup)
+  - [1. Clone this repo to your machine](#1-clone-this-repo-to-your-machine)
+  - [2. Import .gitconfig](#2-import-gitconfig)
+  - [3. Set up the command-line shortcuts](#3-set-up-the-command-line-shortcuts)
+  - [4. Improve your shell prompt](#4-improve-your-shell-prompt)
+  - [5. Create a .gitignore file](#5-create-a-gitignore-file)
 - [Using the boilerplate gitconfig](#using-the-boilerplate-gitconfig)
   - [A few common macros you'll use a lot](#a-few-common-macros-youll-use-a-lot)
 - [Using the command-line shortcuts](#using-the-command-line-shortcuts)
@@ -17,25 +22,35 @@ This repo contains tools and boilerplate designed to be useful on any project, f
 
 All steps after the first are optional. Pick and choose as you like.
 
-1.  **Clone this repo** to your machine.
-2.  **Import .gitconfig:** Add the following to the top of your personal global `.gitconfig` (`~/.gitconfig` or `$HOME/.gitconfig`). If you don't have this file, create it.
+### 1. Clone this repo to your machine
+### 2. Import .gitconfig
 
-        [include]
-            path = "<path/to/universal-boilerplate>/git-tools/.gitconfig"
+Add the following to the top of your personal global `.gitconfig` (`~/.gitconfig` or `$HOME/.gitconfig`). If you don't have this file, create it.
 
-3.  **Set up the command-line shortcuts:** For Unix-style shells like Bash, source `shortcuts.sh` in your personal shell profile (`~/.bash_profile` or `~/.zshrc`).
+    [include]
+        path = "<path/to/universal-boilerplate>/git-tools/.gitconfig"
 
-        source <path/to/universal-boilerplate>/shortcuts/shortcuts.sh
+### 3. Set up the command-line shortcuts
 
-    Customizing a Windows command line (CMD or PowerShell) is trickier. If you open the Windows Terminal app and press `Ctrl-,`, it should open the settings. Find your preferred terminal program under Profiles and edit the command line that runs it. For CMD, the profile is named "Command Prompt" and the command should be something like:
+For Unix-style shells like Bash, source `shortcuts.sh` in your personal shell profile (`~/.bash_profile` or `~/.zshrc`).
 
-        %SystemRoot%\System32\cmd.exe /k "<path\to\universal-boilerplate>\shortcuts\shortcuts.cmd"
+    source <path/to/universal-boilerplate>/shortcuts/shortcuts.sh
 
-4.  **Improve your shell prompt:** Source `bash-prompt.sh` or `zsh-prompt.sh` in your personal shell profile as described above:
+Customizing a Windows command line (CMD or PowerShell) is trickier. If you open the Windows Terminal app and press `Ctrl-,`, it should open the settings. Find your preferred terminal program under Profiles and edit the command line that runs it. For CMD, the profile is named "Command Prompt" and the command should be something like:
 
-        source <path/to/universal-boilerplate>/prompt/bash-prompt.sh
+    %SystemRoot%\System32\cmd.exe /k "<path\to\universal-boilerplate>\shortcuts\shortcuts.cmd"
 
-5.  **Create a .gitignore:** This one is different in that it's not pre-built. You'll want to manually create a .gitignore file according to your own setup, but you can get the code from the `git-tools/gitignore` folder. See below for more info.
+### 4. Improve your shell prompt
+
+Source `bash-prompt.sh` or `zsh-prompt.sh` in your personal shell profile as described above:
+
+    source <path/to/universal-boilerplate>/prompt/bash-prompt.sh
+
+For now, this isn't implemented for the Windows terminal.
+
+### 5. Create a .gitignore file
+
+This one is different in that it's not pre-built. You'll want to manually create a .gitignore file according to your own setup, but you can get the code from the `git-tools/gitignore` folder. See below for more info.
 
 # Using the boilerplate gitconfig
 
