@@ -26,3 +26,5 @@ if exist "C:\Program Files\nodejs\nodevars.bat" (
     DOSKEY nri=rd /s /q node_modules $t npm install
     DOSKEY nrs=rd /s /q node_modules $t npm install $t npm start
 )
+
+echo Boilerplate command-line shortcuts added.
