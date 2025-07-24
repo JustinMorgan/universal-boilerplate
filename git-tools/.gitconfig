@@ -104,11 +104,10 @@
   showurl = remote -v
 
 
-  ###################### Helper utilities ######################
+  ###################### Helper macros ######################
   # These are primarily meant to be used by other macros.
 
   # Get the current branch name
-  # $> git branch-name
   branch-name = rev-parse --abbrev-ref HEAD
 
   # Print to the screen. Used for reader-friendly console output.
@@ -121,7 +120,7 @@
   ######### Echoing (verbose) commands #########
   # These work the same as normal commands, but they echo the full command into
   # the console, including arguments. They're mainly used by other macros to let
-  # you see what they're doing. You can pass arguments to them as normal.
+  # you see what they're doing. You can pass arguments as normal.
   # $> git adv --all
 
   mrgv =    !set -x && git merge
