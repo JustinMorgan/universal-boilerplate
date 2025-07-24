@@ -39,7 +39,7 @@
 # Shortcuts and convenience macros
 ####################################
 # Most of these accept added parameters and flags just like the base commands.
-# My most commonly used shortcuts are: new, co, pl, ps, st, mrg, cm, save, reword, amend, uncommit, undo
+# My most-used shortcuts: new, co, pl, ps, st, mrg, cm, save, reword, amend, uncommit, undo
 
 [alias]  
 
@@ -47,7 +47,6 @@
   # These just save you some typing.
 
   st = status
-  ci = commit
   co = checkout
   pl = pull
   ps = push
@@ -55,6 +54,11 @@
   br = branch
   cp = cherry-pick
   reb = rebase
+
+  # NOTE: It's recommended that you use the `cm` or `cmv` workflow instead of directly calling
+  # this shortcut. The workflow covers almost everything you'll typically use `commit` for,
+  # but with improved safety and better feedback.
+  ci = commit
 
 
   ############################### Convenience shortcuts #################################

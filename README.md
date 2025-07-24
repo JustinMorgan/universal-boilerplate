@@ -56,7 +56,7 @@ This one is different in that it's not pre-built. You'll want to manually create
 
 The `git-tools/.gitconfig` file is the primary feature here. It has an extensive set of aliases/macros designed to make Git more convenient, organize typical commands into workflows, provide constant visibility for your Git state, and protect you from easy mistakes. Typical usage is to include this file at the top of your personal .gitconfig. If you don't like any of the macros here, you can override them after the include.
 
-The `cm`, `cmv`, and related commands deserve special attention. They include `add`, `commit`, and displaying the result into a convenient, safer workflow. They'll save typing, but most of all they'll keep you aware of your repo's state and make sure you never forget to add your changes. You shouldn't ever need to use `commit` (or its shortcut `ci`) unless you're doing something specific.
+The `cm`, `cmv`, and related commands deserve special attention. They encapsulate adding your changes, committing them, and displaying the result into a convenient, safer workflow. They'll save typing, but most of all they'll keep you aware of your repo's current state and make sure you never forget to add your changes. You shouldn't ever need to use `commit` (or its shortcut `ci`) unless you're doing something specific.
 
 There's extensive documentation inside the file, so read it for more information.
 
@@ -74,11 +74,13 @@ There's extensive documentation inside the file, so read it for more information
 
 # Using the command-line shortcuts
 
-Like .gitconfig, the two scripts in the `shortcuts/` folder are all about convenience. They set up shortcuts for common commands. [Setup is described above.](#quick-setup) `shortcuts.sh` should work fine in Bash or ZSH. `shortcuts.cmd` should work for CMD. A Powershell version is coming.
+Like .gitconfig, the two scripts in the `shortcuts/` folder are all about convenience. They set up shortcuts for common commands. [Setup is described above.](#3-set-up-the-command-line-shortcuts) 
+
+Source `shortcuts.sh` if you use Bash or ZSH. For CMD on Windows, use `shortcuts.cmd`. A Powershell version is coming.
 
 # Improving your shell prompt
 
-This will give you a nice, compact shell prompt with syntax-highlighted info about your current Git branch and the active Node version. [Setup for Bash and ZSH is described above.](#quick-setup) For now, this isn't implemented for the Windows terminal.
+This will give you a nice, compact shell prompt with syntax-highlighted info about your current Git branch and the active Node version. [Setup for Bash and ZSH is described above.](#4-improve-your-shell-prompt) For now, this isn't implemented for the Windows terminal.
 
 # Using the gitignore suite
 
