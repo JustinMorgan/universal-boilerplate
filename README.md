@@ -25,10 +25,10 @@ All steps after the first are optional. Pick and choose as you like.
 ### 1. Clone this repo to your machine
 
     git clone https://github.com/JustinMorgan/universal-boilerplate.git
-    
+
 ### 2. Import .gitconfig
 
-Add the following to the top of your personal global `.gitconfig` (`~/.gitconfig` or `$HOME/.gitconfig`). If you don't have this file, create it.
+Add the following to the top of your personal global gitconfig file (`~/.gitconfig` or `%UserProfile%\.gitconfig`). If you don't have this file, create it.
 
     [include]
         path = "<path/to/universal-boilerplate>/git-tools/.gitconfig"
