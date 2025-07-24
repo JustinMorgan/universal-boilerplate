@@ -8,14 +8,9 @@ This repo contains tools and boilerplate designed to be useful on any project, f
 
 - [Quick setup](#quick-setup)
 - [Using the boilerplate gitconfig](#using-the-boilerplate-gitconfig)
-  - [Checking current Git state](#checking-current-git-state)
-  - [Branching](#branching)
-  - [Syncing changes](#syncing-changes)
-  - [Committing](#committing)
-  - [Turning back the clock](#turning-back-the-clock)
-  - [Fixing mistakes](#fixing-mistakes)
-- [Using the boilerplate shell profile](#using-the-boilerplate-shell-profile)
-- [Using the boilerplate shell prompt](#using-the-boilerplate-shell-prompt)
+  - [A few common macros you'll use a lot](#a-few-common-macros-youll-use-a-lot)
+- [Using the command-line shortcuts](#using-the-command-line-shortcuts)
+- [Improving your shell prompt](#improving-your-shell-prompt)
 - [Using the gitignore suite](#using-the-gitignore-suite)
 
 # Quick Setup
@@ -23,28 +18,28 @@ This repo contains tools and boilerplate designed to be useful on any project, f
 All steps after the first are optional. Pick and choose as you like.
 
 1.  **Clone this repo** to your machine.
-2.  **Import .gitconfig:** Add the following to the top of your personal `.gitconfig` in your home folder (`~/.gitconfig` or `$HOME/.gitconfig`). If you don't have this file, create it.
+2.  **Import .gitconfig:** Add the following to the top of your personal global `.gitconfig` (`~/.gitconfig` or `$HOME/.gitconfig`). If you don't have this file, create it.
 
         [include]
             path = "<path/to/universal-boilerplate>/git-tools/.gitconfig"
 
-3.  **Set up the command-line shortcuts:** For Unix-style shells like Bash, source `alias.sh` in your personal shell profile (`~/.bash_profile` or `~/.zshrc`).
+3.  **Set up the command-line shortcuts:** For Unix-style shells like Bash, source `shortcuts.sh` in your personal shell profile (`~/.bash_profile` or `~/.zshrc`).
 
-        source <path/to/universal-boilerplate>/terminal-shortcuts/alias.sh
+        source <path/to/universal-boilerplate>/shortcuts/shortcuts.sh
 
     Customizing a Windows command line (CMD or PowerShell) is trickier. If you open the Windows Terminal app and press `Ctrl-,`, it should open the settings. Find your preferred terminal program under Profiles and edit the command line that runs it. For CMD, the profile is named "Command Prompt" and the command should be something like:
 
-        C:\Windows\System32\cmd.exe /k "<path\to\universal-boilerplate>\terminal-shortcuts\alias.cmd"
+        %SystemRoot%\System32\cmd.exe /k "<path\to\universal-boilerplate>\shortcuts\shortcuts.cmd"
 
 4.  **Improve your shell prompt:** Source `bash-prompt.sh` or `zsh-prompt.sh` in your personal shell profile as described above:
 
-        source <path/to/universal-boilerplate>/shell-prompt/bash-prompt.sh
+        source <path/to/universal-boilerplate>/prompt/bash-prompt.sh
 
-5.  **Create a .gitignore:** This one is different in that it's not already built for you. You'll want to manually create a .gitignore file according to your own setup, but you can get the code from the **git-tools/gitignore** folder. See below for more info.
+5.  **Create a .gitignore:** This one is different in that it's not pre-built. You'll want to manually create a .gitignore file according to your own setup, but you can get the code from the `git-tools/gitignore` folder. See below for more info.
 
-# Using the boilerplate gitconfig (git-tools/.gitconfig)
+# Using the boilerplate gitconfig
 
-The **.gitconfig** file is the primary feature here. It has an extensive set of aliases/macros designed to make Git more convenient, organize typical commands into workflows, provide constant visibility for your Git state, and protect you from easy mistakes. Typical usage is to include this file at the top of your personal .gitconfig. If you don't like any of the macros here, you can override them after the include.
+The `git-tools/.gitconfig` file is the primary feature here. It has an extensive set of aliases/macros designed to make Git more convenient, organize typical commands into workflows, provide constant visibility for your Git state, and protect you from easy mistakes. Typical usage is to include this file at the top of your personal .gitconfig. If you don't like any of the macros here, you can override them after the include.
 
 The `cm`, `cmv`, and related commands deserve special attention. They include `add`, `commit`, and displaying the result into a convenient, safer workflow. They'll save typing, but most of all they'll keep you aware of your repo's state and make sure you never forget to add your changes. You shouldn't ever need to use `commit` (or its shortcut `ci`) unless you're doing something specific.
 
@@ -62,18 +57,16 @@ There's extensive documentation inside the file, so read it for more information
     #$> git psu                      # Push, but also set the upstream branch automatically (use this
                                      # whenever you first push a new branch to origin)
 
-# Using the command-line shortcuts (terminal-shortcuts/ folder)
+# Using the command-line shortcuts
 
-Like .gitconfig, the two alias scripts are all about convenience. They set up shortcuts for common commands. Setup is described above. `alias.sh` should work fine in Bash or ZSH. `alias.cmd` should work for CMD, but it's untested in PowerShell.
+Like .gitconfig, the two scripts in the `shortcuts/` folder are all about convenience. They set up shortcuts for common commands. [Setup is described above.](#quick-setup) `shortcuts.sh` should work fine in Bash or ZSH. `shortcuts.cmd` should work for CMD. A Powershell version is coming.
 
-# Improving your shell prompt (shell-prompt/ folder)
+# Improving your shell prompt
 
-This will give you a nice, compact shell prompt with syntax-highlighted info about your current Git branch and the active Node version. Setup is described above. Source bash-prompt.sh for Bash or zsh-prompt.sh for ZSH.
+This will give you a nice, compact shell prompt with syntax-highlighted info about your current Git branch and the active Node version. [Setup for Bash and ZSH is described above.](#quick-setup) For now, this isn't implemented for the Windows terminal.
 
-For now, this isn't implemented for the Windows command line.
-
-# Using the gitignore suite (git-tools/gitignore/ folder)
+# Using the gitignore suite
 
 The **gitignore** folder (forked from https://github.com/github/gitignore) has a suite of .gitignore templates for different platforms, languages, IDEs, etc. You should find the ones that match your setup and combine them. For example, if you have an Angular app written in TypeScript that runs on Node and you work in Visual Studio Code, merge `Typescript.gitignore`, `Angular.gitignore`, `Node.gitignore`, and `VisualStudioCode.gitignore` into one .gitignore file on the root of your project. This is simpler than it sounds. You can clean up duplicate rules if you want, but it shouldn't matter.
 
-.gitignore doesn't support `include` statements like .gitconfig, so you'll want to build one manually whenever you create a new project. Of course, you could script it or use [gitattribute filter drivers](https://git-scm.com/docs/gitattributes#_filter), but that's definitely overkill for most people. 
+.gitignore syntax doesn't support `include` statements like .gitconfig, so you'll want to build one manually whenever you create a new project. Of course, you could script it or use [gitattribute filter drivers](https://git-scm.com/docs/gitattributes#_filter), but that's overkill for most people. 
