@@ -132,6 +132,7 @@
   brv =     !set -x && git branch
   adv =     !set -x && git add 
   resetv =  !set -x && git reset
+  cov =     !set -x && git checkout
 
 
   ###################### Echoing convenience shortcuts ######################
@@ -179,7 +180,10 @@
   # $> git upd
   # $> git upd master
   # $> git upd -
-  upd = !git co ${1:-$(git trunk-name)} && git plff && git co - && git mrgv -
+  upd = !git cov ${1:-$(git trunk-name)} && printf '\\n' \
+    && git plff && printf '\\n' \
+    && git cov - && printf '\\n' \
+    && git mrgv -
 
   ######################## Commit workflow ########################
   # These are designed to replace the standard Git `commit` command. You should
@@ -196,13 +200,13 @@
   # Commit-verbose: Same as `cm`, but with verbose output
   # $> git cmv "I did a thing"
   cmv = !git before \
-   && git sts && printf '\\n' \
-   && git print-magenta 'Add and commit all:' && printf '\\n' \
-   && git adv --all \
-   && git sts && printf '\\n' \
-   && git commitv -m \"$1\" \
-   && git after \
-   && git ss
+    && git sts && printf '\\n' \
+    && git print-magenta 'Add and commit all:' && printf '\\n' \
+    && git adv --all \
+    && git sts && printf '\\n' \
+    && git commitv -m \"$1\" \
+    && git after \
+    && git ss
 
   # Commit-quiet: Same as `cm`, but with no console output
   # $> git cmq "I did a thing"
