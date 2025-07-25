@@ -16,7 +16,7 @@ This repo contains tools and boilerplate designed to be useful on any project, f
   - [A few common macros you'll use a lot](#a-few-common-macros-youll-use-a-lot)
 - [Using the command-line shortcuts](#using-the-command-line-shortcuts)
   - [Linux/MacOS/Git Bash/Other Unix-style shells](#linuxmacosgit-bashother-unix-style-shells)
-  - [Windows basic command line (CMD)](#windows-basic-command-line-cmd)
+  - [Windows command line (CMD)](#windows-command-line-cmd)
   - [PowerShell](#powershell)
 - [Improving your shell prompt](#improving-your-shell-prompt)
 - [Using the gitignore suite](#using-the-gitignore-suite)
@@ -38,32 +38,32 @@ Add the following to the top of your personal global gitconfig file (`~/.gitconf
 
 ### 3. Set up the command-line shortcuts
 
-#### Linux/MacOS/Git Bash/Other Unix-style shells: 
+- #### Linux/MacOS/Git Bash/Other Unix-style shells: 
 
-Source `shortcuts.sh` in your personal shell profile (`~/.bash_profile` or `~/.zshrc`):
+    Source `shortcuts.sh` in your personal shell profile (`~/.bash_profile` or `~/.zshrc`):
 
-    source <path/to/universal-boilerplate>/shortcuts/shortcuts.sh
+        source <path/to/universal-boilerplate>/shortcuts/shortcuts.sh
 
-#### Windows basic command line (CMD):
+- #### Windows command line (CMD):
 
-Customizing the Windows Terminal is trickier. Open a terminal and find the settings in the dropdown. Find the "Command Prompt" profile and edit the command line that starts CMD. The command you want is something like:
+    Customizing CMD is trickier. Open a Windows Terminal and find the settings in the dropdown. Find the "Command Prompt" profile and edit the command line that starts CMD. The command you want is something like:
 
-    %SystemRoot%\System32\cmd.exe /k "<path\to\universal-boilerplate>\shortcuts\shortcuts.cmd"
+        %SystemRoot%\System32\cmd.exe /k "<path\to\universal-boilerplate>\shortcuts\shortcuts.cmd"
 
-#### PowerShell:
+- #### PowerShell:
 
-Add the following line to your PowerShell profile. You'll need to create this file if it doesn't exist.
+    Add the following line to your PowerShell profile. You'll need to create this file if it doesn't exist.
 
-    . <path\to\universal-boilerplate>\shortcuts\shortcuts.ps1
+        . <path\to\universal-boilerplate>\shortcuts\shortcuts.ps1
 
-You can do it all at once with the following (make sure you swap in the correct file path):
+    You can do it all at once with the following (make sure you swap in the correct file path):
 
-    if (!(Test-Path -Path $PROFILE)) { New-Item -ItemType File -Path $PROFILE -Force }
-    echo ". <path\to\universal-boilerplate>\shortcuts\shortcuts.ps1" >> $PROFILE
+        if (!(Test-Path -Path $PROFILE)) { New-Item -ItemType File -Path $PROFILE -Force }
+        Add-Content -Path $PROFILE -Value ". <path\to\universal-boilerplate>\shortcuts\shortcuts.ps1"
 
-You may also need to enable local script execution:
+    You may also need to enable local script execution:
 
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ### 4. Improve your shell prompt
 
