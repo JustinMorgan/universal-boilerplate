@@ -20,11 +20,11 @@ This repo contains tools and boilerplate designed to be useful on any project, f
 
 # Quick Setup
 
+All steps after the first are optional. 
+
 ### 1. Clone this repo to your machine
 
     git clone https://github.com/JustinMorgan/universal-boilerplate.git
-
-All steps after this one are optional. 
 
 ### 2. Import .gitconfig
 
@@ -61,7 +61,7 @@ This one is different in that it's not pre-built. You'll want to manually create
 
 The `git-tools/.gitconfig` file is the main feature here. It has an extensive set of aliases/macros designed to make Git more convenient, organize typical commands into workflows, provide constant visibility for your Git state, and protect you from easy mistakes. Typical usage is to include this file at the top of your personal .gitconfig. If you don't like any of the macros here, you can override them after the include.
 
-The `cm`, `cmv`, and related commands deserve special attention. They encapsulate adding your changes, committing them, and displaying the result into a convenient, safer workflow. They'll save typing, but most of all they'll keep you aware of your repo's current state and make sure you never forget to add your changes. You shouldn't ever need to use `commit` (or its shortcut `ci`) unless you're doing something specific.
+The `cm`, `cmv`, and related commands deserve special attention. They encapsulate the process of adding your changes, committing them, and showing the result into a convenient, safer workflow you run in a single step. They'll save typing, but most of all they'll keep you aware of your repo's current state and make sure you never forget to add your changes. You shouldn't ever need the standard Git `commit` command (or its shortcut `ci`) unless you're doing something unusual.
 
 There's extensive documentation inside the file, so read it for more information.
 
