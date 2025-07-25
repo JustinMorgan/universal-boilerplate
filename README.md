@@ -20,11 +20,11 @@ This repo contains tools and boilerplate designed to be useful on any project, f
 
 # Quick Setup
 
-All steps after the first are optional. Pick and choose as you like.
-
 ### 1. Clone this repo to your machine
 
     git clone https://github.com/JustinMorgan/universal-boilerplate.git
+
+All steps after this one are optional. 
 
 ### 2. Import .gitconfig
 
