@@ -15,6 +15,9 @@ This repo contains tools and boilerplate designed to be useful on any project, f
 - [Using the boilerplate gitconfig](#using-the-boilerplate-gitconfig)
   - [A few common macros you'll use a lot](#a-few-common-macros-youll-use-a-lot)
 - [Using the command-line shortcuts](#using-the-command-line-shortcuts)
+  - [Linux/MacOS/Git Bash/Other Unix-style shells](#linuxmacosgit-bashother-unix-style-shells)
+  - [Windows basic command line (CMD)](#windows-basic-command-line-cmd)
+  - [PowerShell](#powershell)
 - [Improving your shell prompt](#improving-your-shell-prompt)
 - [Using the gitignore suite](#using-the-gitignore-suite)
 
@@ -35,13 +38,32 @@ Add the following to the top of your personal global gitconfig file (`~/.gitconf
 
 ### 3. Set up the command-line shortcuts
 
-For Unix-style shells like Bash, source `shortcuts.sh` in your personal shell profile (`~/.bash_profile` or `~/.zshrc`).
+#### Linux/MacOS/Git Bash/Other Unix-style shells: 
+
+Source `shortcuts.sh` in your personal shell profile (`~/.bash_profile` or `~/.zshrc`):
 
     source <path/to/universal-boilerplate>/shortcuts/shortcuts.sh
 
-Customizing a Windows command line (CMD or PowerShell) is trickier. If you open the Windows Terminal app and press `Ctrl-,`, it should open the settings. Find your preferred terminal program under Profiles and edit the command line that runs it. For CMD, the profile is named "Command Prompt" and the command should be something like:
+#### Windows basic command line (CMD):
+
+Customizing the Windows Terminal is trickier. Open a terminal and find the settings in the dropdown. Find the "Command Prompt" profile and edit the command line that starts CMD. The command you want is something like:
 
     %SystemRoot%\System32\cmd.exe /k "<path\to\universal-boilerplate>\shortcuts\shortcuts.cmd"
+
+#### PowerShell:
+
+Add the following line to your PowerShell profile. You'll need to create this file if it doesn't exist.
+
+    . <path\to\universal-boilerplate>\shortcuts\shortcuts.ps1
+
+You can do it all at once with the following (make sure you swap in the correct file path):
+
+    if (!(Test-Path -Path $PROFILE)) { New-Item -ItemType File -Path $PROFILE -Force }
+    echo ". <path\to\universal-boilerplate>\shortcuts\shortcuts.ps1" >> $PROFILE
+
+You may also need to enable local script execution:
+
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ### 4. Improve your shell prompt
 
@@ -59,16 +81,16 @@ This one is different in that it's not pre-built. You'll want to manually create
 
 <img width="560" height="398" alt="image" src="https://github.com/user-attachments/assets/501889b6-bd02-4cc9-b954-9f99f8cb900d" />
 
-The `git-tools/.gitconfig` file is the main feature here. It has an extensive set of aliases/macros designed to make Git more convenient, organize typical commands into workflows, provide constant visibility for your Git state, and protect you from easy mistakes. Typical usage is to include this file at the top of your personal .gitconfig. If you don't like any of the macros here, you can override them after the include.
+The `git-tools/.gitconfig` file is the main feature here. It has an extensive set of aliases/macros designed to make Git more convenient, organize common tasks into workflows, provide constant visibility for your Git state, and protect you from easy mistakes. Typical usage is to include this file at the top of your global .gitconfig. If you don't like any of the macros here, you can override them yourself.
 
 The `cm`, `cmv`, and related commands deserve special attention. They encapsulate the process of adding your changes, committing them, and showing the result into a convenient, safer workflow you run in a single step. They'll save typing, but most of all they'll keep you aware of your repo's current state and make sure you never forget to add your changes. You shouldn't ever need the standard Git `commit` command (or its shortcut `ci`) unless you're doing something unusual.
 
-There's extensive documentation inside the file, so read it for more information.
+There's extensive documentation in the file, so read it for more information.
 
 ### A few common macros you'll use a lot:
 
     #$> git ss                       # Show your current branch, the last commit, and current status
-    #$> git cm "I did a thing"       # Add all changes, create a commit, and display the resulting state
+    #$> git cm "I did a thing"       # Add all changes, commit them, and display the resulting state
     #$> git save                     # Quicksave: Instantly add and commit with a default message
     #$> git new new_branch_name      # Create a new branch and switch to it
     #$> git co existing_branch_name  # Checkout an existing branch
@@ -81,9 +103,9 @@ There's extensive documentation inside the file, so read it for more information
 
 <img width="511" height="267" alt="image" src="https://github.com/user-attachments/assets/6c2e2b8c-fcfc-4627-81ba-c05ec7e6ebd1" />
 
-Like .gitconfig, the shortcut scripts are all about convenience. They set up aliases for common commands and workflows. 
+Like .gitconfig, the shortcut scripts are all about making the command line easy and convenient. They set up aliases for common commands and workflows. There's some extra functionality for Node developers, but anyone who uses Git should benefit. Other platforms are coming.
 
-[Setup for Bash, ZSH, and Windows/CMD is described above.](#3-set-up-the-command-line-shortcuts) A PowerShell version is coming.
+[Setup is described above.](#3-set-up-the-command-line-shortcuts)
 
 # Improving your shell prompt
 
@@ -91,7 +113,7 @@ Like .gitconfig, the shortcut scripts are all about convenience. They set up ali
 
 This will give you a nice, compact shell prompt with syntax-highlighted info about your current Git branch and the active Node version, if any.
 
-[Setup for Bash and ZSH is described above.](#4-improve-your-shell-prompt) For now, this isn't implemented for CMD or PowerShell.
+[Setup for Bash and ZSH is described above.](#4-improve-your-shell-prompt) For now, custom prompts aren't implemented for CMD or PowerShell.
 
 # Using the gitignore suite
 
