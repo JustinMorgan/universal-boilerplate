@@ -110,6 +110,9 @@
   # Get the current branch name
   branch-name = rev-parse --abbrev-ref HEAD
 
+  # Name of the main branch or trunk (default is "master")
+  trunk-name = config --get init.defaultBranch
+
   # Print to the screen. Used for reader-friendly console output.
   print-yellow = !printf '\\033[33m%s\\033[0m'
   print-magenta = !printf '\\033[35m%s\\033[0m'
@@ -171,11 +174,12 @@
   # Move to the given branch, pull the latest changes, then return to this branch
   # and merge that branch into this one. This is useful when you're on a feature
   # branch and you want to keep it up to date with the main branch.
-  # You must specify a branch (`-` is fine).
+  # If you don't specify a branch, it defaults to the main (`-` is fine).
   # By design, this will fail if you need to manually merge anything.
+  # $> git upd
   # $> git upd master
   # $> git upd -
-  upd = !git co $* && git plff && git co - && git mrgv
+  upd = !git co ${1:-$(git trunk-name)} && git plff && git co - && git mrgv -
 
   ######################## Commit workflow ########################
   # These are designed to replace the standard Git `commit` command. You should
@@ -275,47 +279,55 @@
 
   # Create a save point with all current changes, but instead of committing it to this branch,
   # spin off a new branch in the "backup/" folder. The new branch will have the same name as
-  # this one, plus a timestamp so you can backup as often as you want. Bear in mind that
-  # your local branch list will get messy if you don't come back and delete them.
+  # this one, plus a timestamp so you can backup as often as you want. Bear in mind that your
+  # local branch list will get messy if you don't come back and delete them.
   # Unlike simply creating a new branch and then committing your changes (or vice versa), any
   # changes you're working on will end up uncommitted but intact in the starting branch.
-  # Useful as a quick & dirty snapshotter if you've hit a dead end and want to discard your
+  # Useful as a quick & dirty backup tool if you've hit a dead end and want to discard your
   # changes, but you aren't ready to burn bridges yet.
   #
   # How it works:
-  #   [[ -z $(git status -s) ]]; changes=$?          # Set variable $changes to 1 if there are uncommitted changes, else 0
-  #   [ $changes -eq 1 ] && git save                 # If there were uncommitted changes, create a save point
-  #   git new backup/$(git branch-name)-$(date +%s)  # Spin off a backup branch with a timestamp
-  #   [ $changes -eq 1 ] && git uncomr               # If we created a save point earlier, uncommit it
+  #   [[ -z $(git status -s) ]]; changes=$?            # Set $changes = 1 if there are any
+  #                                                    # uncommitted changes, else 0
+  #   [ $changes -eq 1 ] && git save                   # If any changes, make a save point
+  #   git new backup/$(git branch-name)-$(date +%s)    # Spin off a snapshot of this branch
+  #   git co -                                         # Return to the initial branch
+  #   [ $changes -eq 1 ] && git uncommit && git reset  # If we made a save point, undo it 
+  #                                                    # in the initial branch
   #
-  # If you're still unclear what this does, just run it while you have uncommitted changes, then run
-  # `git br` and `git st`. You'll see a new branch called backup/your-branch-name-<timestamp> with a
-  # snapshot of your current uncommitted changes.
+  # If you're still unclear on what this does, just run it while you have uncommitted
+  # changes, then run `git br` and `git st`. Your changes will still be there, still
+  # uncommitted, but now there's a new branch called backup/your_branch_name-<timestamp>
+  # with a snapshot of your current changes.
   #
-  # NOTE: Since this finishes with a soft reset, everything will be unstaged when you get back
-  # to the starting branch. The changes themselves won't be lost.
-  # $> git backup
-  backup = "!f() { \
+  # The only real danger here is cluttering up your local repo with lots of these backup
+  # snapshots. Make sure you clear them out from time to time.
+  #
+  # NOTE: Since this finishes with a soft reset, everything will be unstaged when you get
+  # back to the starting branch. The changes themselves won't be lost.
+  # $> git snapshot
+  snapshot = "!f() { \
     [[ -z $(git status -s) ]]; changes=$?; \
     [ $changes -eq 1 ] && git save; \
     git new backup/$(git branch-name)-$(date +%s) && git co -; \
-    [ $changes -eq 1 ] && git uncomr; \
+    [ $changes -eq 1 ] && git uncommit && git reset; \
   }; f #"
 
-  # # Go back to master, get latest from origin, merge this branch into master,
+  # # Go back to the main branch, get latest from origin, merge this branch into the main,
   # # then delete this branch. Stops executing if any command fails.
   # # $> git mrgd --no-ff
-  # mrgd = "!f() {            \
-  #   bn=$(git branch-name);  \
-  #   git co master           \
-  #       && git mrgv - $*    \
-  #       && git brv -d $bn;  \
-  #   git ss;                 \
+  # mrgd = "!f() {              \
+  #   bn=$(git branch-name);    \
+  #   git co $(git trunk-name)  \
+  #       && git mrgv - $*      \
+  #       && git brv -d $bn;    \
+  #   git ss;                   \
   # }; f #"
 
-  # # Update master, rebase this branch onto it, merge this branch into master, and delete this branch.
+  # # Update the main branch, rebase this branch onto it, merge this branch into the main,
+  # # then delete this branch.
   # # $> git finish
-  # finish = !git upd && git reb master && git mrgd --no-ff
+  # finish = !git upd && git reb $(git trunk-name) && git mrgd --no-ff
 
   # Delete a branch locally and remotely.
   # By design, this throws an exception if you don't provide a branch name.
