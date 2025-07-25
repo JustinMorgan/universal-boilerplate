@@ -81,7 +81,7 @@ There's extensive documentation inside the file, so read it for more information
 
 <img width="511" height="267" alt="image" src="https://github.com/user-attachments/assets/6c2e2b8c-fcfc-4627-81ba-c05ec7e6ebd1" />
 
-Like .gitconfig, the two scripts in the `shortcuts/` folder are all about convenience. They set up shortcuts for common commands. 
+Like .gitconfig, the shortcut scripts are all about convenience. They set up aliases for common commands and workflows. 
 
 [Setup for Bash, ZSH, and Windows/CMD is described above.](#3-set-up-the-command-line-shortcuts) A PowerShell version is coming.
 
@@ -89,7 +89,7 @@ Like .gitconfig, the two scripts in the `shortcuts/` folder are all about conven
 
 <img width="504" height="216" alt="image" src="https://github.com/user-attachments/assets/8d311afd-9526-431c-947e-cb4d8599d105" />
 
-This will give you a nice, compact shell prompt with syntax-highlighted info about your current Git branch and the active Node version. 
+This will give you a nice, compact shell prompt with syntax-highlighted info about your current Git branch and the active Node version, if any.
 
 [Setup for Bash and ZSH is described above.](#4-improve-your-shell-prompt) For now, this isn't implemented for CMD or PowerShell.
 
