@@ -71,7 +71,7 @@ For now, custom prompts aren't implemented for CMD or PowerShell.
 
 ### 5. Create a .gitignore file
 
-This one is different in that it's not pre-built. You'll want to manually create a .gitignore file according to your own setup, but you can get the code from the `git-tools/gitignore` folder. See below for more info.
+This one is different in that it's not pre-built. You'll want to manually create a .gitignore file according to your own setup, but you can get the code from the `git-tools/gitignore/` folder. [See below for details.](#using-the-gitignore-suite)
 
 # Using the boilerplate gitconfig
 
