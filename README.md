@@ -52,7 +52,7 @@ Add the following to the top of your personal global gitconfig file (`~/.gitconf
 
 - #### PowerShell:
 
-    Source `shortcuts.ps1` in your PowerShell profile. The quickest way to do this is the following (make sure you swap in the correct file path):
+    Source `shortcuts.ps1` in your PowerShell profile. The simplest way to do this is the following (make sure you swap in the correct file path):
 
         if (!(Test-Path -Path $PROFILE)) { New-Item -ItemType File -Path $PROFILE -Force }
         Add-Content -Path $PROFILE -Value ". <path\to\universal-boilerplate>\shortcuts\shortcuts.ps1"
