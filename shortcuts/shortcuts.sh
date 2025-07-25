@@ -16,6 +16,12 @@ alias sts='git sts'
 alias ni='npm install'
 alias nu='npm uninstall'
 alias ns='npm start'
+
+# delete the node_modules folder in the current location
 alias nr='rm -rf node_modules'
+
+# wipe out node_modules, then run a fresh npm install
 nri() { nr && ni; }
+
+# wipe out node_modules, run npm install, then start your app
 nrs() { nr && ni && ns; }

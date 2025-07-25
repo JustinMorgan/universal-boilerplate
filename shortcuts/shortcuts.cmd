@@ -22,8 +22,14 @@ if exist "C:\Program Files\nodejs\nodevars.bat" (
     DOSKEY ni=npm install $*
     DOSKEY nu=npm uninstall $*
     DOSKEY ns=npm start
+
+    @REM delete the node_modules folder in the current location
     DOSKEY nr=rd /s /q node_modules
+
+    @REM wipe out node_modules, then run a fresh npm install
     DOSKEY nri=rd /s /q node_modules $t npm install
+
+    @REM wipe out node_modules, run npm install, then start your app
     DOSKEY nrs=rd /s /q node_modules $t npm install $t npm start
 )
 
