@@ -11,12 +11,10 @@ Function rmd {
 # git (requires Git)
 Function br { git branch }
 Function pl { git pull }
-Function ps { git push }
 Function st { git status }
 Function sts { git status -s }
 Function sh { git show --oneline --decorate=short -s }
 Function ss { git ss }    # requires the boilerplate .gitconfig
-Function psu { git psu }  # requires the boilerplate .gitconfig
 
 # node (requires node.js)
 if ($null -ne (Get-Command node -ErrorAction SilentlyContinue)) {

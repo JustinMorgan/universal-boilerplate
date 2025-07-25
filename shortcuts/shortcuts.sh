@@ -8,12 +8,10 @@ alias rmd='rm -rf'
 # git (requires Git)
 alias br='git branch'
 alias pl='git pull'
-alias ps='git push'
 alias st='git status'
 alias sts='git status -s'
 alias sh='git show --oneline --decorate=short -s'
 alias ss='git ss'    # requires the boilerplate .gitconfig
-alias psu='git psu'  # requires the boilerplate .gitconfig
 
 # node (requires node.js)
 if which node > /dev/null

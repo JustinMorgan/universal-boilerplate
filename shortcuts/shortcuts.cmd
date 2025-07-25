@@ -10,12 +10,10 @@ DOSKEY rmd=rd /s /q $1
 @REM git (requires Git)
 DOSKEY br=git branch $*
 DOSKEY pl=git pull $*
-DOSKEY ps=git push $*
 DOSKEY st=git status
 DOSKEY sts=git status -s
 DOSKEY sh=git show --oneline --decorate=short -s
 DOSKEY ss=git ss     @REM requires the boilerplate .gitconfig
-DOSKEY psu=git psu   @REM requires the boilerplate .gitconfig
 
 @REM node (requires node.js)
 if exist "C:\Program Files\nodejs\nodevars.bat" (
