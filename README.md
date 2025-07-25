@@ -71,7 +71,7 @@ Source `bash-prompt.sh` or `zsh-prompt.sh` in your personal shell profile as des
 
     source <path/to/universal-boilerplate>/prompt/bash-prompt.sh
 
-For now, this isn't implemented for the Windows terminal.
+For now, custom prompts aren't implemented for CMD or PowerShell.
 
 ### 5. Create a .gitignore file
 
