@@ -158,8 +158,9 @@
   mnf = !git mrgv --no-ff
 
 
-  ########################## Macros #########################
-  # These combine multiple other shortcuts into a workflow.
+  ########################## Workflow macros #########################
+  # These combine multiple Git commands into workflows. They're designed to
+  # encapsulate common tasks for convenience, safety, and visibility.
 
   # Show your current branch, the last commit, and all current changes.
   # This is a good way to get your bearings. You'll want to use it often.
