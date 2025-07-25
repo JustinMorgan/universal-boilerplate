@@ -61,9 +61,9 @@
   ci = commit
 
 
-  ############################### Convenience shortcuts #################################
-  # These are git commands with common arguments already filled in. Designed to promote
-  # consistency and reduce the need to memorize a ton of command flags.
+  ############################### Preset arguments #################################
+  # These are Git commands with typical arguments already filled in. Designed to promote
+  # consistency and reduce the need to memorize a ton of arguments.
 
   # Create a new branch
   # $> git new new-feature-branch-name
@@ -107,7 +107,7 @@
   ###################### Helper macros ######################
   # These are primarily meant to be used by other macros.
 
-  # Get the current branch name
+  # Get the current branch name (and store it for later)
   branch-name = rev-parse --abbrev-ref HEAD
 
   # Name of the main branch or trunk (default is "master")
@@ -135,9 +135,9 @@
   cov =     !set -x && git checkout
 
 
-  ###################### Echoing convenience shortcuts ######################
-  # Command/parameter shortcuts combined with echoing macros so you can see
-  # what your shortcuts are doing
+  ############## Echoing commands with preset arguments ##############
+  # These combine the convenience of pre-filled arguments with the "echoing" 
+  # behavior described above.
 
   # Pull, fast-forward only
   # Pull if the tree can be fast-forwarded, otherwise fail (and require manual
@@ -175,15 +175,15 @@
   # Move to the given branch, pull the latest changes, then return to this branch
   # and merge that branch into this one. This is useful when you're on a feature
   # branch and you want to keep it up to date with the main branch.
-  # If you don't specify a branch, it defaults to the main (`-` is fine).
   # By design, this will fail if you need to manually merge anything.
+  # If you don't specify a branch, it defaults to the main (`-` is fine).
   # $> git upd
   # $> git upd master
   # $> git upd -
-  upd = !git cov ${1:-$(git trunk-name)} && printf '\\n' \
-    && git plff && printf '\\n' \
-    && git cov - && printf '\\n' \
-    && git mrgv -
+  upd = !git cov ${1:-$(git trunk-name)} \
+    && printf '\\n' && git plff \
+    && printf '\\n' && git cov - \
+    && printf '\\n' && git mrgv -
 
   ######################## Commit workflow ########################
   # These are designed to replace the standard Git `commit` command. You should
