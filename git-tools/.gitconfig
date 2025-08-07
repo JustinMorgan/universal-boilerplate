@@ -104,6 +104,13 @@
   branch-name = rev-parse --abbrev-ref HEAD
 
   # Name of the main branch or trunk (default is "master")
+  #
+  # IMPORTANT: If your main branch is something other than `master` and you want 
+  # to use any alias that references this, you MUST add the following to either
+  # your global ~/.gitconfig or a .gitconfig file on the project root:
+  # [init]
+  #     defaultBranch = <your main branch>
+  #
   trunk-name = config --get init.defaultBranch
 
   # Print to the screen. Used for reader-friendly console output.
@@ -171,9 +178,16 @@
   # branch and you want to keep it up to date with the main branch.
   # By design, this will fail if you need to manually merge anything.
   # If you don't specify a branch, it defaults to the main (`-` is fine).
-  # $> git upd
+  #
+  # IMPORTANT: If your main branch is something other than `master` and you want 
+  # to use this without specifying a branch name, you MUST add the following to
+  # either your global ~/.gitconfig or a .gitconfig file on the project root:
+  # [init]
+  #     defaultBranch = <your main branch>
+  # 
   # $> git upd master
   # $> git upd -
+  # $> git upd
   upd = !"git cov ${1:-$(git trunk-name)} \
     && printf '\\n' && git plff \
     && printf '\\n' && git cov - \
@@ -311,21 +325,37 @@
     [ $changes -eq 1 ] && git uncommit && git reset; \
   }; f #"
 
-  # # Go back to the main branch, get latest from origin, merge this branch into the main,
-  # # then delete this branch. Stops executing if any command fails.
-  # # $> git mrgd --no-ff
-  # mrgd = "!f() {              \
-  #   bn=$(git branch-name);    \
-  #   git co $(git trunk-name)  \
-  #       && git mrgv - $*      \
-  #       && git brv -d $bn;    \
-  #   git ss;                   \
+  # Go back to the main branch, get latest from origin, merge this branch into the
+  # main, then delete this branch. Stops executing if any command fails.
+  #
+  # IMPORTANT: If your main branch is something other than `master` and you want 
+  # to use this without specifying a branch name, you MUST add the following to
+  # either your global ~/.gitconfig or a .gitconfig file on the project root:
+  # [init]
+  #     defaultBranch = <your main branch>
+  # 
+  # $> git mrgd master
+  # $> git mrgd
+  # mrgd = "!f() {                   \
+  #   bn=$(git branch-name);         \
+  #   git co ${1:-$(git trunk-name)} \
+  #       && git mrgv -              \
+  #       && git brv -d $bn;         \
+  #   git ss;                        \
   # }; f #"
 
-  # # Update the main branch, rebase this branch onto it, merge this branch into the main,
-  # # then delete this branch.
-  # # $> git finish
-  # finish = !git upd && git reb $(git trunk-name) && git mrgd --no-ff
+  # Update the main branch, rebase this branch onto it, merge this branch into the
+  # main, then delete this branch.
+  #
+  # IMPORTANT: If your main branch is something other than `master` and you want 
+  # to use this without specifying a branch name, you MUST add the following to
+  # either your global ~/.gitconfig or a .gitconfig file on the project root:
+  # [init]
+  #     defaultBranch = <your main branch>
+  # 
+  # $> git finish master
+  # $> git finish
+  # finish = !"git upd && git reb ${1:-$(git trunk-name)} && git mrgd --no-ff #"
 
   # Delete a branch locally and remotely.
   # By design, this throws an exception if you don't provide a branch name.
