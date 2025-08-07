@@ -97,11 +97,11 @@
 
   # Set the URL for origin
   # $> git seturl https://url/of/your/git/repo
-  seturl = remote set-url origin 
+  set-url = remote set-url origin 
 
   # Show existing remotes
   # $> git showurl
-  showurl = remote -v
+  show-url = remote -v
 
 
   ###################### Helper macros ######################
@@ -181,10 +181,10 @@
   # $> git upd
   # $> git upd master
   # $> git upd -
-  upd = !git cov ${1:-$(git trunk-name)} \
+  upd = !"git cov ${1:-$(git trunk-name)} \
     && printf '\\n' && git plff \
     && printf '\\n' && git cov - \
-    && printf '\\n' && git mrgv -
+    && printf '\\n' && git mrgv - #"
 
   ######################## Commit workflow ########################
   # These are designed to replace the standard Git `commit` command. You should
