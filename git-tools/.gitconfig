@@ -28,13 +28,6 @@
 [diff]
   renamelimit = 5000
 
-# Set up your preferred merging tool
-# [merge]
-#   tool = vscode
-#
-# [mergetool "vscode"]
-#   cmd = code --wait $MERGED
-
 ####################################
 # Shortcuts and convenience macros
 ####################################
