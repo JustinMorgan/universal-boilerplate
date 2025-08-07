@@ -14,7 +14,7 @@ This repo contains tools and boilerplate designed to be useful on any project, f
   - [5. Create a .gitignore file](#5-create-a-gitignore-file)
 - [Using the boilerplate gitconfig](#using-the-boilerplate-gitconfig)
   - [A few common macros you'll use a lot](#a-few-common-macros-youll-use-a-lot)
-  - [Setting defaultBranch](#setting-defaultbranch)
+  - [Setting defaultBranch (optional)](#setting-defaultbranch-optional)
 - [Using the command-line shortcuts](#using-the-command-line-shortcuts)
   - [Linux/MacOS/Git Bash/Other Unix-style shells](#linuxmacosgit-bashother-unix-style-shells)
   - [Windows command line (CMD)](#windows-command-line-cmd)
@@ -96,7 +96,7 @@ There's extensive documentation in the file, so read it for more information.
     #$> git psu                      # Push, but also set the upstream branch automatically (use this
                                      # whenever you first push a new branch to origin)
 
-### Setting defaultBranch
+### Setting defaultBranch (optional)
 
 A few of the more advanced macros reference your main/master branch; for example, `git upd` pulls the latest updates for the main branch, then merges those changes into your current working branch. By default, the main branch is called `master`, but not everyone uses that. 
 
