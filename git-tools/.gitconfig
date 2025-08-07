@@ -336,12 +336,12 @@
   # 
   # $> git mrgd master
   # $> git mrgd
-  # mrgd = "!f() {                   \
-  #   bn=$(git branch-name);         \
-  #   git co ${1:-$(git trunk-name)} \
-  #       && git mrgv -              \
-  #       && git brv -d $bn;         \
-  #   git ss;                        \
+  # mrgd = "!f() {                       \
+  #   bn=$(git branch-name);             \
+  #   git co \"${1:-$(git trunk-name)}\" \
+  #       && git mrgv -                  \
+  #       && git brv -d $bn;             \
+  #   git ss;                            \
   # }; f #"
 
   # Update the main branch, rebase this branch onto it, merge this branch into the
@@ -373,5 +373,19 @@
   # Switch to previous branch, pull latest, and delete the branch we started on.
   # Typically used when you've finished a feature, pushed the feature branch, and merged your pull 
   # request into the remote master branch.
+  #
+  # IMPORTANT: If your main branch is something other than `master` and you want 
+  # to use this without specifying a branch name, you MUST add the following to
+  # either your global ~/.gitconfig or a .gitconfig file on the project root:
+  # [init]
+  #     defaultBranch = <your main branch>
+  # 
+  # $> git done master
   # $> git done
-  done = "!f() { br=$(git branch-name); git co - && git pl && git br -d $br; }; f #"
+  done = "!f() { \
+    br=$(git branch-name); \
+    trunk=\"${1:-$(git trunk-name)}\" \
+    git co $trunk && \
+    git pl && \
+    git br -d $br; \
+  }; f #"
