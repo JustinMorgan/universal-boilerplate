@@ -106,10 +106,8 @@
   # Name of the main branch or trunk (default is "master")
   #
   # IMPORTANT: If your main branch is something other than `master` and you want 
-  # to use any alias that references this, you MUST add the following to either
-  # your global ~/.gitconfig or a .gitconfig file on the project root:
-  # [init]
-  #     defaultBranch = <your main branch>
+  # to use this without specifying a branch name, you MUST configure the Git
+  # `defaultBranch` setting. See README for instructions.
   #
   trunk-name = config --get init.defaultBranch
 
@@ -180,10 +178,8 @@
   # If you don't specify a branch, it defaults to the main (`-` is fine).
   #
   # IMPORTANT: If your main branch is something other than `master` and you want 
-  # to use this without specifying a branch name, you MUST add the following to
-  # either your global ~/.gitconfig or a .gitconfig file on the project root:
-  # [init]
-  #     defaultBranch = <your main branch>
+  # to use this without specifying a branch name, you MUST configure the Git
+  # `defaultBranch` setting. See README for instructions.
   # 
   # $> git upd master
   # $> git upd -
@@ -329,10 +325,8 @@
   # main, then delete this branch. Stops executing if any command fails.
   #
   # IMPORTANT: If your main branch is something other than `master` and you want 
-  # to use this without specifying a branch name, you MUST add the following to
-  # either your global ~/.gitconfig or a .gitconfig file on the project root:
-  # [init]
-  #     defaultBranch = <your main branch>
+  # to use this without specifying a branch name, you MUST configure the Git
+  # `defaultBranch` setting. See README for instructions.
   # 
   # $> git mrgd master
   # $> git mrgd
@@ -348,10 +342,8 @@
   # main, then delete this branch.
   #
   # IMPORTANT: If your main branch is something other than `master` and you want 
-  # to use this without specifying a branch name, you MUST add the following to
-  # either your global ~/.gitconfig or a .gitconfig file on the project root:
-  # [init]
-  #     defaultBranch = <your main branch>
+  # to use this without specifying a branch name, you MUST configure the Git
+  # `defaultBranch` setting. See README for instructions.
   # 
   # $> git finish master
   # $> git finish
@@ -371,15 +363,13 @@
   }; f #"
 
   # Switch to previous branch, pull latest, and delete the branch we started on.
-  # Typically used when you've finished a feature, pushed the feature branch, and merged your pull 
-  # request into the remote master branch.
+  # Typically used when you've finished a feature, pushed the feature branch,
+  # and merged your pull request into the remote master branch.
   #
   # IMPORTANT: If your main branch is something other than `master` and you want 
-  # to use this without specifying a branch name, you MUST add the following to
-  # either your global ~/.gitconfig or a .gitconfig file on the project root:
-  # [init]
-  #     defaultBranch = <your main branch>
-  # 
+  # to use this without specifying a branch name, you MUST configure the Git
+  # `defaultBranch` setting. See README for instructions.
+  #
   # $> git done master
   # $> git done
   done = "!f() { \
