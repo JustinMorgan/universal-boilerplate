@@ -14,6 +14,7 @@ This repo contains tools and boilerplate designed to be useful on any project, f
   - [5. Create a .gitignore file](#5-create-a-gitignore-file)
 - [Using the boilerplate gitconfig](#using-the-boilerplate-gitconfig)
   - [A few common macros you'll use a lot](#a-few-common-macros-youll-use-a-lot)
+  - [Setting defaultBranch](#setting-defaultbranch)
 - [Using the command-line shortcuts](#using-the-command-line-shortcuts)
   - [Linux/MacOS/Git Bash/Other Unix-style shells](#linuxmacosgit-bashother-unix-style-shells)
   - [Windows command line (CMD)](#windows-command-line-cmd)
@@ -94,6 +95,17 @@ There's extensive documentation in the file, so read it for more information.
     #$> git ps                       # Simple alias for `git push`
     #$> git psu                      # Push, but also set the upstream branch automatically (use this
                                      # whenever you first push a new branch to origin)
+
+### Setting defaultBranch
+
+A few of the more advanced macros reference your main/master branch; for example, `git upd` pulls the latest updates for the main branch, then merges those changes into your current working branch. By default, the main branch is called `master`, but not everyone uses that. 
+
+All such macros allow you to specify a main branch name; for example, `git upd int` will pull the latest from `int` instead of `master`. If `int` is your main branch, `git upd int` will work fine. 
+
+If you want to save even more typing and just type `git upd`, then you need to configure Git to use `int` instead of `master`. This can be done in your global `~/.gitconfig` file or a local `.gitconfig` inside your project. Just add the following lines:
+
+    [init]
+        defaultBranch = <your main branch name>
 
 # Using the command-line shortcuts
 
