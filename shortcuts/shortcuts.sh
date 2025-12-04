@@ -14,8 +14,7 @@ alias sh='git show --oneline --decorate=short -s'
 alias ss='git ss'    # requires the boilerplate .gitconfig
 
 # node (requires node.js)
-if which node > /dev/null
-then
+if command -v node &> /dev/null; then
     alias ni='npm install'
     alias nu='npm uninstall'
     alias ns='npm start'    

@@ -1,5 +1,7 @@
 # Show current Node version upon opening the terminal
-echo "\033[36mNode $(\node -v)\033[0m"
+if command -v node &> /dev/null; then
+    echo "\033[36mNode $(\node -v)\033[0m"
+fi
 
 setopt PROMPT_SUBST
 PS1=$'\n'

@@ -7,8 +7,7 @@ CYAN="\e[36m"
 RESET_COLOR="\e[0m"
 
 # Whenever a new shell opens, show the current Node version in purple
-if which node > /dev/null
-then
+if command -v node &> /dev/null; then
     echo -e "${MAGENTA}Node $(\node -v)${RESET_COLOR}"
 fi
 

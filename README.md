@@ -47,9 +47,13 @@ Add the following to the top of your personal global gitconfig file (`~/.gitconf
 
 - #### Windows command line (CMD):
 
-    Customizing CMD is trickier. Open a Windows Terminal and find the settings in the dropdown. Find the "Command Prompt" profile and edit the command line that starts CMD. The command you want is something like:
+    Customizing CMD is trickier: 
+    1. Open a Windows Terminal. 
+    2. At the top, where the tabs are, there should be a dropdown next to the "+" button that opens a new tab. Open it and click Settings. 
+    3. On the left side of the settings window, you should see a "Profiles" section. Find the "Command Prompt" profile.
+    4. Edit the "Command Line" string so you can start CMD with a custom command. The line you want is something like:
 
-        %SystemRoot%\System32\cmd.exe /k "<path\to\universal-boilerplate>\shortcuts\shortcuts.cmd"
+            %SystemRoot%\System32\cmd.exe /k "<path\to\universal-boilerplate>\shortcuts\shortcuts.cmd"
 
 - #### PowerShell:
 
